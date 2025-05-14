@@ -1,0 +1,184 @@
+@use 'sass:map';
+// ========================
+// 全局变量定义
+// ========================
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+) !default;
+$shadow-color: rgba(0, 0, 0, 0.1) !default;
+
+// ========================
+// 响应式媒体查询
+// ========================
+/// 响应式断点查询
+/// @param {String} $breakpoint - 断点名称 (sm, md, lg, xl)
+@mixin respond-to($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "Undefined breakpoint `#{$breakpoint}`";
+  }
+}
+
+// ========================
+// 布局工具
+// ========================
+/// Flex 居中布局 (水平和垂直)
+/// @param {String} $direction - 主轴方向 (row|column)
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: center;
+  align-items: center;
+}
+
+/// 绝对定位居中
+/// @param {String} $axis - 居中轴 (both|horizontal|vertical)
+@mixin absolute-center($axis: both) {
+  position: absolute;
+  @if $axis == 'horizontal' {
+    left: 50%;
+    transform: translateX(-50%);
+  } @else if $axis == 'vertical' {
+    top: 50%;
+    transform: translateY(-50%);
+  } @else {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+// ========================
+// 文本处理
+// ========================
+/// 多行文本溢出隐藏
+/// @param {Number} $line - 显示行数 (默认2行)
+@mixin text-ellipsis($line: 2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+  line-clamp: $line;
+}
+
+/// 字体平滑处理 (MacOS 优化)
+@mixin font-smoothing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ========================
+// 视觉效果
+// ========================
+/// 现代阴影效果
+/// @param {Number} $level - 阴影层级 (1-5)
+@mixin elevation($level: 1) {
+  @if $level == 1 {
+    box-shadow: 0 1px 3px $shadow-color;
+  } @else if $level == 2 {
+    box-shadow: 0 3px 6px $shadow-color;
+  } @else if $level == 3 {
+    box-shadow: 0 10px 20px $shadow-color;
+  } @else if $level == 4 {
+    box-shadow: 0 14px 28px $shadow-color;
+  } @else {
+    box-shadow: 0 19px 38px $shadow-color;
+  }
+}
+
+/// 渐变背景动画
+/// @param {Color} $start-color - 起始颜色
+/// @param {Color} $end-color - 结束颜色
+/// @param {String} $direction - 渐变方向 (to right|to bottom...)
+@mixin gradient-animation($start-color, $end-color, $direction: to right) {
+  background: linear-gradient($direction, $start-color, $end-color);
+  background-size: 200% auto;
+  transition: background-position 0.5s ease;
+
+  &:hover {
+    background-position: right center;
+  }
+}
+
+// ========================
+// 高级工具类
+// ========================
+/// 伪元素生成器
+/// @param {String} $content - 伪元素内容
+/// @param {String} $pos - 定位方式 (absolute|fixed)
+@mixin pseudo-element($content: '', $pos: absolute) {
+  content: $content;
+  position: $pos;
+  display: block;
+}
+
+/// CSS变量支持的回退方案
+/// @param {String} $property - CSS属性
+/// @param {String} $var-name - CSS变量名称
+/// @param {Mixed} $fallback - 回退值
+@mixin css-var($property, $var-name, $fallback) {
+  #{$property}: $fallback;
+  #{$property}: var(--#{$var-name}, $fallback);
+}
+
+// ========================
+// 组件级 Mixins
+// ========================
+/// 按钮基础样式
+/// @param {Color} $bg-color - 背景色
+/// @param {Color} $text-color - 文字颜色
+@mixin button-base($bg-color: #007bff, $text-color: white) {
+  @include css-var(background-color, primary-color, $bg-color);
+  @include css-var(color, button-text-color, $text-color);
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+/// 卡片容器样式
+@mixin card-container {
+  background: white;
+  border-radius: 8px;
+  @include elevation(2);
+  padding: 1.5rem;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    @include elevation(3);
+  }
+}
+
+// ========================
+// 实用工具
+// ========================
+/// 清除浮动
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+/// 隐藏滚动条 (保留滚动功能)
+@mixin hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Webkit */
+  }
+}
