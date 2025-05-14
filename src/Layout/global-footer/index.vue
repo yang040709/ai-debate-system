@@ -8,7 +8,8 @@
 
 <style lang="scss" scoped>
 .footer-container {
-  height: 80px;
+  padding: 20px;
+  height: 60px;
   font-size: 12px;
   color: #b7b6b6;
 }

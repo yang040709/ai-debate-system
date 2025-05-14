@@ -1,12 +1,24 @@
 <script setup>
 import logo from '@/assets/logo.png'
 import Menu from './menu.vue'
+import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 
 const isLogin = ref(true)
-// const isLogin = ref(false)
+
 const handleSelect = (e) => {
   console.log(e)
+}
+
+const handleLoginOut = () => {
+  isLogin.value = false
+}
+
+const router = useRouter()
+const toLoginPage = () => {
+  router.push({
+    path: '/login',
+  })
 }
 </script>
 
@@ -20,7 +32,7 @@ const handleSelect = (e) => {
     <Menu></Menu>
 
     <div class="user">
-      <div class="login no-login" v-if="!isLogin">
+      <div class="login no-login" v-if="!isLogin" @click="toLoginPage">
         <a-avatar :size="32">A</a-avatar>
         <span>未登录</span>
       </div>
@@ -47,7 +59,7 @@ const handleSelect = (e) => {
               </template>
               <template #default>Option 1</template>
             </a-doption>
-            <a-doption :value="{ value: 'Option3' }">
+            <a-doption :value="{ value: 'Option3' }" @click="handleLoginOut">
               <template #icon>
                 <icon-poweroff />
               </template>
@@ -81,15 +93,16 @@ const handleSelect = (e) => {
     // padding-left: 50px;
     display: flex;
     align-items: center;
+    width: 150px;
+    color: $color-text-primary;
     .logo-img {
       width: 32px;
       height: 32px;
     }
     .title-text {
+      font-weight: 500;
       padding-left: 10px;
       font-size: 16px;
-      font-weight: 600;
-      // margin-left: 10px;
       line-height: 24px;
     }
   }

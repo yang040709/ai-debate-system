@@ -1,3 +1,4 @@
+@use 'sass:map';
 // ========================
 // 全局变量定义
 // ========================
@@ -15,8 +16,8 @@ $shadow-color: rgba(0, 0, 0, 0.1) !default;
 /// 响应式断点查询
 /// @param {String} $breakpoint - 断点名称 (sm, md, lg, xl)
 @mixin respond-to($breakpoint) {
-  @if map-has-key($breakpoints, $breakpoint) {
-    @media (min-width: map-get($breakpoints, $breakpoint)) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media (min-width: map.get($breakpoints, $breakpoint)) {
       @content;
     }
   } @else {

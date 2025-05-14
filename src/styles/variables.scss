@@ -1,6 +1,10 @@
+@use 'sass:map';
 // ========================
 // 颜色体系（包含语义化命名）
 // ========================
+
+$color-text-primary: rgba(0, 0, 0, 0.87); // 主文字（WCAG AA 标准对比度[9](@ref)）
+$color-text-secondary: rgba(0, 0, 0, 0.6); // 辅助文字
 /* header的高度 */
 $navbar-height: 55px;
 
@@ -94,9 +98,6 @@ $font-weight-map: (
   bold: 700,
 );
 
-$color-text-primary: rgba(0, 0, 0, 0.87); // 主文字（WCAG AA 标准对比度[9](@ref)）
-$color-text-secondary: rgba(0, 0, 0, 0.6); // 辅助文字
-
 // ========================
 // 交互与动效
 // ========================
@@ -120,7 +121,7 @@ $box-shadow-map: (
 $button-config: (
   height: 40px,
   padding: 0 20px,
-  border-radius: map-get($border-radius-map, base),
+  border-radius: map.get($border-radius-map, base),
   disabled-opacity: 0.6,
 );
 
