@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import logo from '@/assets/logo.png'
 import Menu from './menu.vue'
 import { useRouter } from 'vue-router'
@@ -6,7 +6,7 @@ import { ref } from 'vue'
 
 const isLogin = ref(true)
 
-const handleSelect = (e) => {
+const handleSelect = (e: any) => {
   console.log(e)
 }
 

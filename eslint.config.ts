@@ -19,4 +19,11 @@ export default defineConfigWithVueTs(
   pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
   skipFormatting,
+  {
+    rules: {
+      'vue/multi-word-component-names': 'off', // 关闭组件名多单词限制[4](@ref)
+      '@typescript-eslint/no-unused-vars': 'warn', // 未使用变量警告
+      'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    },
+  },
 )
