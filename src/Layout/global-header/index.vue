@@ -13,14 +13,14 @@ import logo from '@/assets/logo.png'
       <router-link to="/about">About</router-link>
     </div>
     <div class="user">
-      <router-link to="/login">Login</router-link>
+      <router-link to="/login">登录</router-link>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .header-container {
-  height: 55px;
+  height: $navbar-height;
   padding-left: 16px;
   // background-color: #f0f0f0;
   display: flex;

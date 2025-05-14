@@ -24,10 +24,19 @@ import GlobalFooter from './global-footer/index.vue'
   display: flex;
   flex-direction: column;
 
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    // background-color: $test;
+  }
+
   .main {
+    margin-top: $navbar-height;
     flex: 1;
     padding: 28px;
-    background: linear-gradient(to right, #fcfcfc, #f9f8f8);
+    background: linear-gradient(to right, $bg-1, $bg-2);
     // margin-bottom: 28px;
   }
   .footer {

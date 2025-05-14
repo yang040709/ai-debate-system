@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-interface LoginForm {
-  loginId: string
-  loginPwd: string
-}
-const loginForm: LoginForm = ref({ loginId: '', loginPwd: '' })
+import type { LoginForm } from '@/types/login.ts'
+
+const loginForm = ref<LoginForm>({ loginId: '', loginPwd: '' })
 loginForm.value.loginId = 'admin'
 loginForm.value.loginPwd = '123456'
 </script>
