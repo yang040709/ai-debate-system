@@ -1,0 +1,134 @@
+// ========================
+// 颜色体系（包含语义化命名）
+// ========================
+/* header的高度 */
+$navbar-height: 55px;
+
+/* 主品牌色 */
+$color-primary: #409eff; // 品牌主色调（类似 Element Plus 蓝）
+$color-success: #67c23a; // 成功状态（表单验证/操作反馈）
+$color-warning: #e6a23c; // 警告状态（非阻断性提示）
+$color-danger: #f56c6c; // 危险操作（删除/错误提示）
+$color-info: #909399; // 辅助信息（描述性文字）
+
+/* 中性色（WCAG 标准对比度） */
+$color-text-primary: #303133; // 主要文字
+$color-text-regular: #606266; // 常规文字
+$color-text-secondary: #909399; // 次要文字
+$color-text-placeholder: #c0c4cc; // 占位符
+
+/* 背景与边框 */
+$color-background: #f5f7fa; // 页面背景
+$color-border-base: #dcdfe6; // 基础边框
+$color-border-light: #e4e7ed; // 浅色边框
+$footer-bg: #b7b6b6;
+$body-bg-1: #fcfcfc;
+$body-bg-2: #f9f8f8;
+// ========================
+// 布局与间距（8px基准系统）
+// ========================
+/* 断点系统（响应式设计） */
+$breakpoints: (
+  xs: 0,
+  // 超小屏
+  sm: 576px,
+  // 移动端
+  md: 768px,
+  // 平板
+  lg: 992px,
+  // 桌面
+  xl: 1200px, // 大屏
+);
+
+/* 间距阶梯 */
+$spacing-base: 8px;
+$spacing-map: (
+  xs: $spacing-base * 0.5,
+  // 4px
+  sm: $spacing-base,
+  // 8px
+  md: $spacing-base * 2,
+  // 16px
+  lg: $spacing-base * 3,
+  // 24px
+  xl: $spacing-base * 4, // 32px
+);
+
+/* 圆角规范 */
+$border-radius-map: (
+  base: 4px,
+  // 按钮/输入框
+  medium: 8px,
+  // 卡片
+  round: 20px,
+  // 圆形元素
+  circle: 50%, // 头像
+);
+
+// ========================
+// 字体与排版（兼容中英文）
+// ========================
+/* 字体堆栈 */
+$font-family:
+  'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial,
+  sans-serif;
+
+/* 字号阶梯（rem基准） */
+$font-size-map: (
+  xs: 0.75rem,
+  // 12px
+  sm: 0.875rem,
+  // 14px
+  base: 1rem,
+  // 16px
+  lg: 1.125rem,
+  // 18px
+  xl: 1.25rem, // 20px
+);
+
+/* 字重 */
+$font-weight-map: (
+  light: 300,
+  normal: 400,
+  medium: 500,
+  bold: 700,
+);
+
+$color-text-primary: rgba(0, 0, 0, 0.87); // 主文字（WCAG AA 标准对比度[9](@ref)）
+$color-text-secondary: rgba(0, 0, 0, 0.6); // 辅助文字
+
+// ========================
+// 交互与动效
+// ========================
+/* 过渡动画 */
+$transition-duration: 0.3s;
+$transition-function: cubic-bezier(0.4, 0, 0.2, 1); // Material Design 标准曲线
+
+/* 阴影层级 */
+$box-shadow-map: (
+  base: 0 2px 4px rgba(0, 0, 0, 0.12),
+  // 卡片投影
+  hover: 0 4px 8px rgba(0, 0, 0, 0.15),
+  // 悬浮效果
+  popup: 0 8px 16px rgba(0, 0, 0, 0.18), // 弹窗层叠
+);
+
+// ========================
+// 组件级变量（示例：按钮）
+// ========================
+/* 按钮规范 */
+$button-config: (
+  height: 40px,
+  padding: 0 20px,
+  border-radius: map-get($border-radius-map, base),
+  disabled-opacity: 0.6,
+);
+
+// ========================
+// CSS 变量声明（支持动态主题）
+// ========================
+:root {
+  --color-primary: #{$color-primary};
+  --color-background: #{$color-background};
+  --font-family: #{$font-family};
+}

@@ -10,12 +10,12 @@
       <a-button>Secondary</a-button>
       <a-button type="dashed">Dashed</a-button>
       <a-button type="outline">Outline</a-button>
-      <a-button type="text">Text</a-button>
+      <!-- <a-button type="text">Text</a-button> -->
     </div>
     <div class="demo">
       121212
-      <icon-user />
-      <icon-tiktok-color />
+      <!-- <icon-user /> -->
+      <!-- <icon-tiktok-color /> -->
     </div>
     <!-- <TheWelcome /> -->
   </main>

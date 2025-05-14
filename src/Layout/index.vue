@@ -36,7 +36,7 @@ import GlobalFooter from './global-footer/index.vue'
     margin-top: $navbar-height;
     flex: 1;
     padding: 28px;
-    background: linear-gradient(to right, $bg-1, $bg-2);
+    background: linear-gradient(to right, $body-bg-1, $body-bg-2);
     // margin-bottom: 28px;
   }
   .footer {
