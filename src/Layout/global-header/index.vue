@@ -77,12 +77,10 @@ const toLoginPage = () => {
   background-color: #fff;
   height: $navbar-height;
   padding-left: 16px;
-  // background-color: #f0f0f0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // router-link-active router-link-exact-active
-  border-bottom: 1px solid rgba(5, 5, 5, 0.06);
+  border-bottom: 1px solid $color-border-light;
   a {
     margin: 0 30px;
     &.router-link-exact-active {
@@ -90,7 +88,6 @@ const toLoginPage = () => {
     }
   }
   .title {
-    // padding-left: 50px;
     display: flex;
     align-items: center;
     width: 150px;
@@ -113,7 +110,6 @@ const toLoginPage = () => {
       height: 100%;
       cursor: pointer;
       line-height: $navbar-height;
-
       padding: 0 10px;
       border-radius: 8px;
       span {

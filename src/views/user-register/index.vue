@@ -86,7 +86,6 @@ const handleSubmit = (e: any) => {
 .user-login-container {
   width: 100%;
   height: 100vh;
-  // background: #000;
   display: flex;
   align-items: center;
   justify-content: center;

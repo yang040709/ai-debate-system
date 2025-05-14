@@ -1,8 +1,14 @@
 <script setup lang="ts">
-// import { useRouter } from 'vue-router'
-// import TheWelcome from '../components/TheWelcome.vue'
-// const router = useRouter()
-// console.log(router.getRoutes())
+import MdEditor from '@/components/MdEditor/index.vue'
+import MdViewer from '@/components/MdViewer/index.vue'
+import { ref } from 'vue'
+
+const content = ref<string>('')
+
+const handleChange = (value: string) => {
+  console.log(value)
+  content.value = value
+}
 </script>
 
 <template>
@@ -13,19 +19,11 @@
       <a-button>Secondary</a-button>
       <a-button type="dashed">Dashed</a-button>
       <a-button type="outline">Outline</a-button>
-      <!-- <a-button type="text">Text</a-button> -->
     </div>
     <div class="demo">
-      121212
-      <!-- <icon-user /> -->
-      <!-- <icon-tiktok-color /> -->
+      <MdEditor :content="content" :handle-change="handleChange" />
+      <MdViewer :content="content" />
     </div>
-    <!-- <TheWelcome /> -->
   </main>
 </template>
-<style scoped lang="scss">
-.demo {
-  font-size: 50px;
-  color: var(--primary-6);
-}
-</style>
+<style scoped lang="scss"></style>

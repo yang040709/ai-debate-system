@@ -18,6 +18,7 @@ import GlobalFooter from './global-footer/index.vue'
 </template>
 
 <style lang="scss" scoped>
+@use 'sass:map';
 .layout-container {
   width: 100%;
   min-height: 100vh;
@@ -29,6 +30,7 @@ import GlobalFooter from './global-footer/index.vue'
     top: 0;
     left: 0;
     right: 0;
+    z-index: map.get($z-index-map, navbar);
     // background-color: $test;
   }
 
@@ -47,7 +49,8 @@ import GlobalFooter from './global-footer/index.vue'
     left: 0;
     right: 0;
     text-align: center;
-    border-top: 1px solid rgba(5, 5, 5, 0.06);
+    // border-top: 1px solid rgba(5, 5, 5, 0.06);
+    border-top: 1px solid $color-border-light;
   }
 }
 </style>

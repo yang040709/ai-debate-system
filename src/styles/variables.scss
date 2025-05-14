@@ -1,13 +1,13 @@
 @use 'sass:map';
-// ========================
-// 颜色体系（包含语义化命名）
-// ========================
 
 $color-text-primary: rgba(0, 0, 0, 0.87); // 主文字（WCAG AA 标准对比度[9](@ref)）
 $color-text-secondary: rgba(0, 0, 0, 0.6); // 辅助文字
 /* header的高度 */
 $navbar-height: 55px;
 
+// ========================
+// 颜色体系（包含语义化命名）
+// ========================
 /* 主品牌色 */
 $color-primary: #409eff; // 品牌主色调（类似 Element Plus 蓝）
 $color-success: #67c23a; // 成功状态（表单验证/操作反馈）
@@ -28,6 +28,21 @@ $color-border-light: #e4e7ed; // 浅色边框
 $footer-bg: #b7b6b6;
 $body-bg-1: #fcfcfc;
 $body-bg-2: #f9f8f8;
+
+$z-index-map: (
+  base: 0,
+  //基础
+  floating: 10,
+  //悬浮
+  navbar: 20,
+  //导航栏
+  dropdown: 30,
+  //下拉
+  modal: 40,
+  //弹窗
+  overlay: 100, //遮罩层
+);
+
 // ========================
 // 布局与间距（8px基准系统）
 // ========================
@@ -88,14 +103,6 @@ $font-size-map: (
   lg: 1.125rem,
   // 18px
   xl: 1.25rem, // 20px
-);
-
-/* 字重 */
-$font-weight-map: (
-  light: 300,
-  normal: 400,
-  medium: 500,
-  bold: 700,
 );
 
 // ========================

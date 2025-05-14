@@ -14,7 +14,14 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@bytemd/plugin-gfm": "^1.22.0",
+    "@bytemd/plugin-highlight": "^1.22.0",
+    "@bytemd/vue-next": "^1.22.0",
     "axios": "^1.9.0",
+    "bytemd": "^1.22.0",
+    "github-markdown-css": "^5.8.1",
+    "highlight.js": "^11.11.1",
+    "juejin-markdown-themes": "^1.34.0",
     "pinia": "^3.0.1",
     "sass": "^1.88.0",
     "vue": "^3.5.13",

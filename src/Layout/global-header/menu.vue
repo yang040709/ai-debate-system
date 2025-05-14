@@ -33,7 +33,5 @@ const handleMenuClick = (e: string) => {
 .menu-container {
   box-sizing: border-box;
   width: 60%;
-  // padding: 40px;
-  background-color: var(--color-neutral-2);
 }
 </style>

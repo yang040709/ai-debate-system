@@ -17,6 +17,11 @@ export default [
         name: 'about',
         component: () => import('../views/AboutView.vue'),
       },
+      {
+        path: '/404',
+        name: 'not-find',
+        component: () => import('@/views/not-find/index.vue'),
+      },
     ],
   },
   {
@@ -28,5 +33,10 @@ export default [
     path: '/register',
     name: 'register',
     component: () => import('@/views/user-register/index.vue'),
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    // name: 'not-find',
+    redirect: '/404',
   },
 ]
