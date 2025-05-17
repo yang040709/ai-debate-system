@@ -13,6 +13,7 @@ const handleMenuClick = (e: string) => {
     <a-menu mode="horizontal" :default-selected-keys="['home']" @menu-item-click="handleMenuClick">
       <a-menu-item key="home">主页</a-menu-item>
       <a-menu-item key="about">关于</a-menu-item>
+      <a-menu-item key="test">test</a-menu-item>
     </a-menu>
     <!-- <router-link to="/" :exact="false">主页</router-link>
     <router-link to="/about">关于</router-link> -->

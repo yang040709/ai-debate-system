@@ -20,11 +20,17 @@ const toLoginPage = () => {
     path: '/login',
   })
 }
+
+const toHomePage = () => {
+  router.push({
+    path: '/',
+  })
+}
 </script>
 
 <template>
   <div class="header-container">
-    <div class="title">
+    <div class="title" @click="toHomePage">
       <img class="logo-img" :src="logo" alt="" />
       <div class="title-text">AI辩论平台</div>
     </div>
@@ -88,6 +94,7 @@ const toLoginPage = () => {
     }
   }
   .title {
+    cursor: pointer;
     display: flex;
     align-items: center;
     width: 150px;
