@@ -1,16 +1,52 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import type { LoginForm } from '@/types/user'
 import ReturnHome from '@/components/return-home/index.vue'
 import { Message } from '@arco-design/web-vue'
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
 
-const loginForm = reactive<LoginForm>({ loginId: '', loginPwd: '' })
-loginForm.loginId = 'admin'
-loginForm.loginPwd = '123456'
-const handleSubmit = (e: any) => {
+const userStore = useUserStore()
+const router = useRouter()
+const loginForm = reactive<LoginForm>({ account: '', password: '' })
+const submitLoading = ref<boolean>(false)
+loginForm.account = 'admin'
+loginForm.password = '123456'
+
+const handleLoginError = (error: any) => {
+  console.error('登录失败:', error)
+  let errorMessage = error instanceof Error ? error.message : null
+  if (!errorMessage) {
+    errorMessage = error?.msg || '登录失败，请检查网络连接'
+  }
+  Message.error(errorMessage as string)
+}
+
+const handleSubmit = async (e: any) => {
   if (e.errors) {
     Message.error('请输入正确的账号密码')
+    return
   }
+  if (submitLoading.value) {
+    Message.warning('正在登录中，请稍后...')
+  }
+  try {
+    submitLoading.value = true
+    await userStore.login(loginForm)
+    router.push({
+      name: 'home',
+    })
+  } catch (error) {
+    handleLoginError(error)
+  } finally {
+    submitLoading.value = false
+  }
+}
+
+const toRegister = () => {
+  router.push({
+    name: 'register',
+  })
 }
 </script>
 
@@ -26,15 +62,15 @@ const handleSubmit = (e: any) => {
       @submit="handleSubmit"
     >
       <a-form-item
-        field="loginId"
+        field="account"
         label="账号"
         :rules="[{ required: true, message: '名字是必填项' }]"
         :validate-trigger="['change', 'input']"
       >
-        <a-input v-model="loginForm.loginId" placeholder="请输入账号" />
+        <a-input v-model="loginForm.account" placeholder="请输入账号" />
       </a-form-item>
       <a-form-item
-        field="loginPwd"
+        field="password"
         tooltip="密码不小于 8 位"
         label="密码"
         :rules="[
@@ -43,12 +79,14 @@ const handleSubmit = (e: any) => {
         ]"
         :validate-trigger="['change', 'input']"
       >
-        <a-input-password v-model="loginForm.loginPwd" placeholder="请输入密码" />
+        <a-input-password v-model="loginForm.password" placeholder="请输入密码" />
       </a-form-item>
       <a-form-item>
         <div class="login-btn">
-          <a-button type="primary" html-type="submit" style="width: 120px"> 登录 </a-button>
-          <a-link href="/register">新用户注册</a-link>
+          <a-button type="primary" :loading="submitLoading" html-type="submit" style="width: 120px">
+            登录
+          </a-button>
+          <a-link @click="toRegister">新用户注册</a-link>
         </div>
       </a-form-item>
     </a-form>

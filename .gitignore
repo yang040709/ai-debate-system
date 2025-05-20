@@ -26,7 +26,8 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-
+note.md
+test.html
 *.tsbuildinfo
 
 commitlint.config.cjs

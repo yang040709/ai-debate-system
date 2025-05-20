@@ -1,22 +1,59 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import type { RegisterForm } from '@/types/user'
 import { Message } from '@arco-design/web-vue'
 import ReturnHome from '@/components/return-home/index.vue'
-const registerForm = reactive<RegisterForm>({ loginId: '', loginPwd: '', checkPwd: '' })
-registerForm.loginId = 'admin'
-registerForm.loginPwd = '123456'
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
 
-const handleSubmit = (e: any) => {
+type RegisterFromState = RegisterForm & {
+  confirmPassword: string
+}
+const userStore = useUserStore()
+const router = useRouter()
+const registerForm = reactive<RegisterFromState>({
+  account: '',
+  password: '',
+  nickname: '',
+  confirmPassword: '',
+})
+const submitLoading = ref<boolean>(false)
+registerForm.account = 'admin'
+registerForm.nickname = 'yang'
+registerForm.password = '123456'
+registerForm.confirmPassword = '123456'
+
+const handleRegisterError = (error: any) => {
+  console.error('注册失败:', error)
+  let errorMessage = error instanceof Error ? error.message : null
+  if (!errorMessage) {
+    errorMessage = error?.msg || '注册失败，请检查网络连接'
+  }
+  Message.error(errorMessage as string)
+}
+
+const handleSubmit = async (e: any) => {
   if (e.errors) {
     Message.error('请输入正确的账号密码')
     return
   }
-  if (registerForm.loginPwd !== registerForm.checkPwd) {
-    registerForm.checkPwd = ''
-    Message.error('确认密码与密码不一致')
-    return
+  try {
+    submitLoading.value = true
+    await userStore.register(registerForm)
+    router.push({
+      name: 'home',
+    })
+  } catch (error) {
+    handleRegisterError(error)
+  } finally {
+    submitLoading.value = false
   }
+}
+
+const toLogin = () => {
+  router.push({
+    name: 'login',
+  })
 }
 </script>
 
@@ -32,15 +69,23 @@ const handleSubmit = (e: any) => {
       @submit="handleSubmit"
     >
       <a-form-item
-        field="loginId"
+        field="account"
         label="账号"
         :rules="[{ required: true, message: '名字是必填项' }]"
         :validate-trigger="['change', 'input']"
       >
-        <a-input v-model="registerForm.loginId" placeholder="请输入账号" />
+        <a-input v-model="registerForm.account" placeholder="请输入账号" />
       </a-form-item>
       <a-form-item
-        field="loginPwd"
+        field="nickname"
+        label="昵称"
+        :rules="[{ required: true, message: '名字是必填项' }]"
+        :validate-trigger="['change', 'input']"
+      >
+        <a-input v-model="registerForm.nickname" placeholder="请输入账号" />
+      </a-form-item>
+      <a-form-item
+        field="password"
         tooltip="密码不小于 6 位"
         label="密码"
         :rules="[
@@ -49,17 +94,17 @@ const handleSubmit = (e: any) => {
         ]"
         :validate-trigger="['change', 'input']"
       >
-        <a-input-password v-model="registerForm.loginPwd" placeholder="请输入密码" />
+        <a-input-password v-model="registerForm.password" placeholder="请输入密码" />
       </a-form-item>
       <a-form-item
-        field="checkPwd"
+        field="confirmPassword"
         tooltip="密码需与上面的密码一致"
         label="确认密码"
         :rules="[
           { required: true, message: '密码是必填项' },
           {
             validator: (value: string | undefined, callback: any) => {
-              if (value !== registerForm.loginPwd) {
+              if (value !== registerForm.password) {
                 callback('确认密码需与上面的密码一致')
               } else {
                 callback()
@@ -70,12 +115,14 @@ const handleSubmit = (e: any) => {
         ]"
         :validate-trigger="['change', 'input']"
       >
-        <a-input-password v-model="registerForm.checkPwd" placeholder="请再次输入密码" />
+        <a-input-password v-model="registerForm.confirmPassword" placeholder="请再次输入密码" />
       </a-form-item>
       <a-form-item>
         <div class="login-btn">
-          <a-button type="primary" html-type="submit" style="width: 120px"> 登录 </a-button>
-          <a-link href="/login">用户登录</a-link>
+          <a-button type="primary" :loading="submitLoading" html-type="submit" style="width: 120px">
+            注册
+          </a-button>
+          <a-link @click="toLogin">用户登录</a-link>
         </div>
       </a-form-item>
     </a-form>

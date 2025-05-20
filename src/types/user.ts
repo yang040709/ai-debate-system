@@ -1,9 +1,24 @@
 export interface LoginForm {
-  loginId: string
-  loginPwd: string
+  account: string
+  password: string
 }
+
+export interface loginResponse extends UserInfo {
+  token: string
+}
+
 export interface RegisterForm {
-  loginId: string
-  loginPwd: string
-  checkPwd: string
+  account: string
+  password: string
+  nickname: string
+}
+
+export interface UserInfo {
+  user_id?: string
+  nickname: string
+  avatar: string
+}
+
+export interface RegisterResponse {
+  user_id: string
 }

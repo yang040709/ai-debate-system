@@ -2,19 +2,25 @@
 import logo from '@/assets/logo.png'
 import Menu from './menu.vue'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, toRefs, computed } from 'vue'
+import { useUserStore } from '@/stores/user'
+import toggleDark from '@/components/toggle-dark/index.vue'
+const userStore = useUserStore()
+const router = useRouter()
 
-const isLogin = ref(true)
+const isLogin = toRefs(userStore).isLogin
 
 const handleSelect = (e: any) => {
   console.log(e)
 }
 
 const handleLoginOut = () => {
-  isLogin.value = false
+  userStore.logout()
+  router.push({
+    path: '/',
+  })
 }
 
-const router = useRouter()
 const toLoginPage = () => {
   router.push({
     path: '/login',
@@ -26,6 +32,13 @@ const toHomePage = () => {
     path: '/',
   })
 }
+
+const defaultAvatar =
+  'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp'
+
+const avatar = computed(() => {
+  return userStore.userInfo.avatar || defaultAvatar
+})
 </script>
 
 <template>
@@ -38,6 +51,7 @@ const toHomePage = () => {
     <Menu></Menu>
 
     <div class="user">
+      <toggle-dark />
       <div class="login no-login" v-if="!isLogin" @click="toLoginPage">
         <a-avatar :size="32">A</a-avatar>
         <span>未登录</span>
@@ -45,12 +59,8 @@ const toHomePage = () => {
       <div class="login is-login" v-if="isLogin">
         <a-dropdown @select="handleSelect" trigger="hover">
           <div>
-            <a-avatar
-              :size="32"
-              image-url="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
-            >
-            </a-avatar>
-            <span>用户名</span>
+            <a-avatar :size="32" :image-url="avatar"> </a-avatar>
+            <span>{{ userStore.userInfo.nickname }}</span>
           </div>
           <template #content>
             <a-doption>
@@ -80,13 +90,13 @@ const toHomePage = () => {
 
 <style lang="scss" scoped>
 .header-container {
-  background-color: #fff;
-  height: $navbar-height;
+  background-color: var(--header-bg);
+  height: $header-height;
   padding-left: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid $color-border-light;
+  border-bottom: 1px solid var(--color-border-light);
   a {
     margin: 0 30px;
     &.router-link-exact-active {
@@ -98,7 +108,7 @@ const toHomePage = () => {
     display: flex;
     align-items: center;
     width: 150px;
-    color: $color-text-primary;
+    color: var(--color-text-primary);
     .logo-img {
       width: 32px;
       height: 32px;
@@ -112,18 +122,21 @@ const toHomePage = () => {
   }
   .user {
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .login {
-      color: $color-text-secondary;
+      color: var(--color-text-secondary);
       height: 100%;
       cursor: pointer;
-      line-height: $navbar-height;
+      line-height: $header-height;
       padding: 0 10px;
       border-radius: 8px;
       span {
         padding-left: 10px;
       }
       &:hover {
-        background-color: #f0f0f0;
+        background-color: var(--header-bg-hover);
       }
     }
   }

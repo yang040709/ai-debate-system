@@ -5,8 +5,7 @@
 *::after {
   box-sizing: border-box; /* 更直观的尺寸计算 */
   margin: 0;
-  padding: 0;
-  /* color: rgba(0, 0, 0, 0.88); */
+  padding: 0px;
 }
 
 /* 2. 全局边距清理 */
@@ -29,8 +28,13 @@ legend {
   padding: 0;
 }
 
-body {
+html {
   color: rgba(0, 0, 0, 0.88);
+  font-family:
+    'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial,
+    sans-serif;
+  -webkit-tap-highlight-color: transparent; /* 禁用点击高亮 */
+  -webkit-font-smoothing: antialiased; /* 字体抗锯齿 */
 }
 
 /* 3. 超链接样式重置 */
@@ -79,18 +83,28 @@ select {
   padding: 0.5rem;
 }
 
-/* 7. 移动端优化 */
-html {
-  -webkit-tap-highlight-color: transparent; /* 禁用点击高亮 */
-  -webkit-font-smoothing: antialiased; /* 字体抗锯齿 */
-}
-
 /* 8. 滚动条样式 (可选) */
+/* 滚动条宽度 */
 ::-webkit-scrollbar {
-  width: 8px;
-  background: #f1f1f1;
+  width: 4px;
+  height: 4px;
 }
+::scrollbar {
+  width: 4px;
+  height: 4px;
+}
+/* 滚动条插槽 */
+::-webkit-scrollbar-track {
+  display: none;
+}
+::scrollbar-track {
+  display: none;
+}
+/* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+  background: #4b4948;
+  border-radius: 1em;
+}
+::scrollbar-thumb {
+  border-radius: 1em;
 }

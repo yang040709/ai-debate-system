@@ -1,4 +1,4 @@
-import './assets/main.css'
+// import './assets/main.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -10,7 +10,9 @@ import '@arco-design/web-vue/dist/arco.css'
 // import 'highlight.js/styles/atom-one-dark.min.css'
 import 'juejin-markdown-themes/dist/channing-cyan.min.css'
 import installDirectives from '@/directives/index.ts'
-import eventBus from './eventBus'
+import './styles/base.scss'
+import './styles/arco-override.scss'
+
 const app = createApp(App)
 installDirectives(app)
 app.use(Arco)

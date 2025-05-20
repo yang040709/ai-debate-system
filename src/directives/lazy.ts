@@ -1,9 +1,11 @@
 // export default
+import placeholder from '@/assets/placeholder.png'
 const intersectionObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
+      const target = entry.target as HTMLImageElement
+      target.src = placeholder
       if (entry.isIntersecting) {
-        const target = entry.target as HTMLImageElement
         const img = new Image()
         img.addEventListener('load', () => {
           target.src = img.src

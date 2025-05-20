@@ -1,6 +1,15 @@
 import HomeView from '../views/HomeView.vue'
 import Layout from '@/Layout/index.vue'
 
+/* 
+layout下面的子路由有下列的规则决定：
+meta里面的onHeader是在header组件中显示的文字，
+name属性必须书写，是决定路由的唯一标识，否则无法出现在header组件中
+
+要求：
+所有的路由都不得同名
+*/
+
 export default [
   {
     path: '/',
@@ -11,16 +20,33 @@ export default [
         path: '/',
         name: 'home',
         component: HomeView,
+        meta: {
+          onHeader: '主页',
+        },
       },
       {
         path: '/about',
         name: 'about',
         component: () => import('../views/AboutView.vue'),
+        meta: {
+          onHeader: '关于',
+        },
       },
       {
-        path: '/test',
+        path: '/test1',
         name: 'test',
         component: () => import('@/views/test/index.vue'),
+        meta: {
+          onHeader: '测试',
+        },
+      },
+      {
+        path: '/test2',
+        name: 'test2',
+        component: () => import('@/views/test/index.vue'),
+        meta: {
+          onHeader: '测试2',
+        },
       },
       {
         path: '/404',
@@ -41,7 +67,6 @@ export default [
   },
   {
     path: '/:pathMatch(.*)*',
-    // name: 'not-find',
     redirect: '/404',
   },
 ]

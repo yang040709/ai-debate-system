@@ -23,13 +23,6 @@ const hello = async () => {
 }
 
 const loading = ref()
-
-onMounted(() => {
-  // console.log(loading.value)
-  const res = h(loading.value)
-  console.log(res)
-})
-
 const boolVal = ref(false)
 
 const changBool = () => {
@@ -39,6 +32,16 @@ const changBool = () => {
 
 <template>
   <div class="container">
+    <div class="test-scroll">
+      <div class="inner">测试</div>
+    </div>
+    <div>
+      <img
+        referrerpolicy="no-referrer"
+        src="https://i1.hdslb.com/bfs/archive/f5627d00cd0bf05084f052f7ae1aed96a8d7041b.png@672w_378h_1c_!web-search-common-cover.avif"
+        alt=""
+      />
+    </div>
     <div>
       <button @click="changBool">
         <span>点击</span>
@@ -60,6 +63,18 @@ const changBool = () => {
 </template>
 
 <style scoped lang="scss">
+.test-scroll {
+  width: 300px;
+  height: 300px;
+  overflow-y: auto;
+  background: #ccc;
+  .inner {
+    width: 100%;
+    height: 1000px;
+    background: #ddd;
+  }
+}
+
 .image {
   width: 200px;
   height: 200px;

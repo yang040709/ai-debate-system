@@ -1,22 +1,34 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-
+import { ref, watch, h } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import filterRoutes from '@/utils/filterRoutes'
+// import {  HomeOutlined } from '@arco-design/web-vue'
 const router = useRouter()
+const route = useRoute()
+
+const routes = filterRoutes(router.getRoutes())
+
 const handleMenuClick = (e: string) => {
   router.push({
     name: e,
   })
+  selectedKey.value = [e]
 }
+
+const initRoute = route.name
+const selectedKey = ref([initRoute])
+
+router.afterEach(() => {
+  selectedKey.value = [route.name as string]
+})
 </script>
 <template>
   <div class="menu-container">
-    <a-menu mode="horizontal" :default-selected-keys="['home']" @menu-item-click="handleMenuClick">
-      <a-menu-item key="home">主页</a-menu-item>
-      <a-menu-item key="about">关于</a-menu-item>
-      <a-menu-item key="test">test</a-menu-item>
+    <a-menu mode="horizontal" :selected-keys="selectedKey" @menu-item-click="handleMenuClick">
+      <a-menu-item v-for="route in routes" :key="route.name">
+        {{ route?.meta?.onHeader ? route.meta.onHeader : route.name }}
+      </a-menu-item>
     </a-menu>
-    <!-- <router-link to="/" :exact="false">主页</router-link>
-    <router-link to="/about">关于</router-link> -->
   </div>
 </template>
 <style lang="scss" scoped>

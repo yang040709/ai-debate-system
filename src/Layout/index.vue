@@ -35,22 +35,23 @@ import GlobalFooter from './global-footer/index.vue'
   }
 
   .main {
-    margin-top: $navbar-height;
+    margin-top: $header-height;
     flex: 1;
     padding: 28px;
-    background: linear-gradient(to right, $body-bg-1, $body-bg-2);
+    background: linear-gradient(to right, var(--body-bg-1), var(--body-bg-2));
     // margin-bottom: 28px;
   }
   .footer {
     flex: 0;
-    background-color: #f9f8f8;
+    // background-color: #f9f8f8;
+    background-color: var(--footer-bg);
     padding: 16px;
     bottom: 0;
     left: 0;
     right: 0;
     text-align: center;
     // border-top: 1px solid rgba(5, 5, 5, 0.06);
-    border-top: 1px solid $color-border-light;
+    border-top: 1px solid var(color-border-light);
   }
 }
 </style>
