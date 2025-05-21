@@ -11,9 +11,9 @@ import GlobalFooter from './global-footer/index.vue'
     <main class="main">
       <router-view />
     </main>
-    <footer class="footer">
+    <!-- <footer class="footer">
       <GlobalFooter />
-    </footer>
+    </footer> -->
   </div>
 </template>
 

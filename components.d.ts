@@ -31,6 +31,14 @@ declare module 'vue' {
     ReturnHome: typeof import('./src/components/return-home/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TButton: typeof import('tdesign-vue-next')['Button']
+    TChat: typeof import('tdesign-vue-next')['Chat']
+    TChatContent: typeof import('tdesign-vue-next')['ChatContent']
+    TChatLoading: typeof import('tdesign-vue-next')['ChatLoading']
+    TChatReasoning: typeof import('tdesign-vue-next')['ChatReasoning']
+    TChatSender: typeof import('tdesign-vue-next')['ChatSender']
     ToggleDark: typeof import('./src/components/toggle-dark/index.vue')['default']
+    TSelect: typeof import('tdesign-vue-next')['Select']
+    TTooltip: typeof import('tdesign-vue-next')['Tooltip']
   }
 }

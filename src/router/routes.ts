@@ -48,7 +48,7 @@ export default [
       {
         path: '/test2',
         name: 'test2',
-        component: () => import('@/views/test/index.vue'),
+        component: () => import('@/views/test/index2.vue'),
         meta: {
           onHeader: '测试2',
         },

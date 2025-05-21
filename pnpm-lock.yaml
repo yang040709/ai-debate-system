@@ -47,6 +47,9 @@ importers:
       pinia:
         specifier: ^3.0.1
         version: 3.0.2(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3))
+      tdesign-vue-next:
+        specifier: ^1.13.0
+        version: 1.13.0(vue@3.5.13(typescript@5.8.3))
       unplugin-vue-components:
         specifier: ^28.5.0
         version: 28.5.0(@babel/parser@7.27.2)(vue@3.5.13(typescript@5.8.3))
@@ -2706,6 +2709,12 @@ packages:
 
   tdesign-vue-next@1.11.5:
     resolution: {integrity: sha512-o4hR8GkP2lD3S6xTSbPJWUypdPhzmHuq4EnB/IyEYXWFHSdO6zuXoBvMntd41NqLjoXYOKj3VzRU2ZmmIvxuLQ==}
+    engines: {node: '>= 18'}
+    peerDependencies:
+      vue: '>=3.1.0'
+
+  tdesign-vue-next@1.13.0:
+    resolution: {integrity: sha512-TEJawGwJHg5vyG3uFHvmwV4u/5PjmE27eXd4QOneCD+pguEJ0zvcEno5pete85XFBRVTBZeqmldTbTtwakoQ9g==}
     engines: {node: '>= 18'}
     peerDependencies:
       vue: '>=3.1.0'
@@ -5888,6 +5897,23 @@ snapshots:
       vue: 3.5.13(typescript@5.8.3)
 
   tdesign-vue-next@1.11.5(vue@3.5.13(typescript@5.8.3)):
+    dependencies:
+      '@babel/runtime': 7.22.15
+      '@popperjs/core': 2.11.8
+      '@types/lodash-es': 4.17.12
+      '@types/sortablejs': 1.15.8
+      '@types/tinycolor2': 1.4.6
+      '@types/validator': 13.15.1
+      dayjs: 1.11.10
+      lodash-es: 4.17.21
+      mitt: 3.0.1
+      sortablejs: 1.15.6
+      tdesign-icons-vue-next: 0.3.6(vue@3.5.13(typescript@5.8.3))
+      tinycolor2: 1.6.0
+      validator: 13.15.0
+      vue: 3.5.13(typescript@5.8.3)
+
+  tdesign-vue-next@1.13.0(vue@3.5.13(typescript@5.8.3)):
     dependencies:
       '@babel/runtime': 7.22.15
       '@popperjs/core': 2.11.8

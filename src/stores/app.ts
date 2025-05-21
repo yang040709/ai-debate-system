@@ -7,9 +7,11 @@ export const useAppStore = defineStore('app', () => {
       if (dark) {
         document.documentElement.classList.add('dark')
         document.body.setAttribute('arco-theme', 'dark')
+        document.documentElement.setAttribute('theme-mode', 'dark')
       } else {
         document.documentElement.classList.remove('dark')
         document.body.removeAttribute('arco-theme')
+        document.documentElement.removeAttribute('theme-mode')
       }
     },
   })

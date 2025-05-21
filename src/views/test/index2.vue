@@ -1,0 +1,317 @@
+<script setup lang="js">
+import { ref } from 'vue'
+import { Button as TButton, Tooltip as TTooltip, Select as TSelect } from 'tdesign-vue-next'
+import { MockSSEResponse } from './mock-data/sseRequest-reasoning'
+// import { ArrowDownIcon, CheckCircleIcon } from 'tdesign-icons-vue-next'
+const fetchCancel = ref(null)
+const loading = ref(false)
+// 流式数据加载中
+const isStreamLoad = ref(false)
+
+const chatRef = ref(null)
+const isShowToBottom = ref(false)
+
+// 清空消息
+const clearConfirm = function () {
+  chatList.value = []
+}
+
+// 倒序渲染
+const chatList = ref([
+  {
+    avatar: 'https://tdesign.gtimg.com/site/chat-avatar.png',
+    name: '辩论AI',
+    datetime: '今天16:38',
+    reasoning: '',
+    content:
+      '哈哈，那肯定是基因的奇妙组合呀！你从家人那里继承了优秀的外貌特质，再加上独特的气质和自信，整个人就散发着魅力。而且呀，相由心生，内心的善良、有趣也为你的帅气加分不少呢！ ',
+    role: 'assistant',
+    duration: 10,
+  },
+  {
+    avatar: 'https://tdesign.gtimg.com/site/avatar.jpg',
+    name: '自己',
+    datetime: '今天16:38',
+    content: 'yang为什么这么帅',
+    role: 'user',
+    reasoning: '',
+  },
+])
+
+const onStop = function () {
+  if (fetchCancel.value) {
+    fetchCancel.value.controller.close()
+    loading.value = false
+    isStreamLoad.value = false
+  }
+}
+
+const inputEnter = function (inputValue) {
+  if (isStreamLoad.value) {
+    return
+  }
+  if (!inputValue) return
+  const params = {
+    avatar: 'https://tdesign.gtimg.com/site/avatar.jpg',
+    name: '自己',
+    datetime: new Date().toDateString(),
+    content: inputValue,
+    role: 'user',
+  }
+  chatList.value.unshift(params)
+  // 空消息占位
+  const params2 = {
+    avatar: 'https://tdesign.gtimg.com/site/chat-avatar.png',
+    name: 'TDesignAI',
+    datetime: new Date().toDateString(),
+    content: '',
+    reasoning: '',
+    role: 'assistant',
+  }
+  chatList.value.unshift(params2)
+  handleData(inputValue)
+}
+
+const fetchSSE = async (fetchFn, options) => {
+  const response = await fetchFn()
+  const { success, fail, complete } = options
+  console.log('---test2----')
+  // fail()
+  // success()
+  // return
+  // 如果不 ok 说明有请求错误
+  if (!response.ok) {
+    complete?.(false, response.statusText)
+    fail?.()
+    return
+  }
+  const reader = response?.body?.getReader()
+  const decoder = new TextDecoder()
+  if (!reader) return
+
+  reader.read().then(function processText({ done, value }) {
+    if (done) {
+      // 正常的返回
+      complete?.(true)
+      return
+    }
+    const chunk = decoder.decode(value, { stream: true })
+    const buffers = chunk.toString().split(/\r?\n/)
+    const jsonData = JSON.parse(buffers)
+    success(jsonData)
+    reader.read().then(processText)
+  })
+}
+const handleData = async () => {
+  loading.value = true
+  isStreamLoad.value = true
+  const lastItem = chatList.value[0]
+  const mockedData = {
+    reasoning: `嗯，用户问牛顿第一定律是不是适用于所有参考系。首先，我得先回忆一下牛顿第一定律的内容。`,
+    content: `牛顿第一定律（惯性定律）**并不适用于所有参考系**，它只在**惯性参考系**中成立。以下是关键点：
+### **1. 牛顿第一定律的核心**
+- **内容**：物体在不受外力（或合力为零）时，将保持静止或匀速直线运动状态。
+- **本质**：定义了惯性系的存在——即存在一类参考系，在其中惯性定律成立。`,
+  }
+  let i = 0,
+    j = 0
+  loading.value = false
+  const timer = setInterval(() => {
+    // console.log(lastItem.reasoning)
+    if (i < mockedData.reasoning.length) {
+      lastItem.reasoning += mockedData.reasoning.slice(i, i + 1)
+      i++
+    } else if (j < mockedData.content.length) {
+      lastItem.content += mockedData.content.slice(j, j + 1)
+      j++
+    }
+  }, 100)
+  await delay(3000)
+  clearInterval(timer)
+  lastItem.reasoning += '123'
+  lastItem.content += '123'
+  lastItem.duration = 20
+  isStreamLoad.value = false
+}
+
+function delay(ms = 2000) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
+}
+
+const selectValue = ref({
+  label: '默认模型',
+  value: 'default',
+})
+
+const selectOptions = [
+  {
+    label: '默认模型',
+    value: 'default',
+  },
+  {
+    label: 'deepseek-r1',
+    value: 'deepseek-r1',
+  },
+  {
+    label: '混元',
+    value: 'hunyuan',
+  },
+]
+
+const allowToolTip = ref(false)
+const isChecked = ref(false)
+const checkClick = () => {
+  isChecked.value = !isChecked.value
+}
+</script>
+
+<template>
+  <div class="chat-box">
+    <t-chat
+      ref="chatRef"
+      :clear-history="false"
+      :data="chatList"
+      :text-loading="loading"
+      :is-stream-load="isStreamLoad"
+      style="height: 100%"
+    >
+      <!-- @clear="clearConfirm" -->
+      <!-- eslint-disable vue/no-unused-vars -->
+      <template #content="{ item, index }">
+        <t-chat-reasoning v-if="item.reasoning?.length > 0" expand-icon-placement="right">
+          <template #header>
+            <t-chat-loading v-if="isStreamLoad" text="思考中..." />
+            <div v-else style="display: flex; align-items: center">
+              <span>已深度思考</span>
+            </div>
+          </template>
+          <t-chat-content v-if="item.reasoning.length > 0" :content="item.reasoning" />
+        </t-chat-reasoning>
+        <t-chat-content v-if="item.content.length > 0" :content="item.content" />
+      </template>
+      <template #footer>
+        <!-- <t-chat-input :stop-disabled="isStreamLoad" @send="inputEnter" @stop="onStop">
+        </t-chat-input> -->
+        <t-chat-sender
+          :stop-disabled="isStreamLoad"
+          :textarea-props="{
+            placeholder: '请输入消息...',
+          }"
+          @stop="onStop"
+          @send="inputEnter"
+        >
+          <template #prefix>
+            <div class="model-select">
+              <t-tooltip v-model:visible="allowToolTip" content="切换模型" trigger="hover">
+                <t-select
+                  v-model="selectValue"
+                  :options="selectOptions"
+                  value-type="object"
+                  @focus="allowToolTip = false"
+                ></t-select>
+              </t-tooltip>
+              <t-button
+                class="check-box"
+                :class="{ 'is-active': isChecked }"
+                variant="text"
+                @click="checkClick"
+              >
+                <span>深度思考</span>
+              </t-button>
+            </div>
+          </template>
+        </t-chat-sender>
+      </template>
+    </t-chat>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.chat-box {
+  height: calc(91vh - $header-height);
+}
+
+/* 应用滚动条样式 */
+::-webkit-scrollbar-thumb {
+  background-color: var(--td-scrollbar-color);
+}
+::-webkit-scrollbar-thumb:horizontal:hover {
+  background-color: var(--td-scrollbar-hover-color);
+}
+::-webkit-scrollbar-track {
+  background-color: var(--td-scroll-track-color);
+}
+.chat-box {
+  position: relative;
+  .bottomBtn {
+    position: absolute;
+    left: 50%;
+    margin-left: -20px;
+    bottom: 210px;
+    padding: 0;
+    border: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow:
+      0px 8px 10px -5px rgba(0, 0, 0, 0.08),
+      0px 16px 24px 2px rgba(0, 0, 0, 0.04),
+      0px 6px 30px 5px rgba(0, 0, 0, 0.05);
+  }
+  .to-bottom {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #dcdcdc;
+    box-sizing: border-box;
+    background: var(--td-bg-color-container);
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .t-icon {
+      font-size: 24px;
+    }
+  }
+}
+
+.model-select {
+  display: flex;
+  align-items: center;
+  .t-select {
+    width: 112px;
+    height: 32px;
+    margin-right: 8px;
+    .t-input {
+      border-radius: 32px;
+      padding: 0 15px;
+    }
+  }
+  .check-box {
+    width: 112px;
+    height: 32px;
+    border-radius: 32px;
+    border: 0;
+    background: #e7e7e7;
+    color: rgba(0, 0, 0, 0.9);
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    .t-button__text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      span {
+        margin-left: 4px;
+      }
+    }
+  }
+  .check-box.is-active {
+    border: 1px solid #d9e1ff;
+    background: #f2f3ff;
+    color: var(--td-brand-color);
+  }
+}
+</style>
