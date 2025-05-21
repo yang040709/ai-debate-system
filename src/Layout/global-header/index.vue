@@ -14,9 +14,8 @@ import mobileMenu from './menu/mobile-menu.vue'
       </router-link>
       <mobile-menu class="mobile-menu" />
     </div>
-
     <Menu></Menu>
-    <User></User>
+    <User class="user"></User>
   </div>
 </template>
 
@@ -28,17 +27,14 @@ import mobileMenu from './menu/mobile-menu.vue'
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--color-border-light);
-  // margin: 0 10px;
-  // a {
-  //   margin: 0 30px;
-  //   &.router-link-exact-active {
-  //     color: #409eff;
-  //   }
-  // }
   .pc-title-padding {
     padding-left: 16px;
   }
+  .user {
+    flex: 0 0 auto;
+  }
   .title {
+    flex: 0 0 auto;
     margin: 0 10px;
     cursor: pointer;
     display: flex;

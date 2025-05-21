@@ -1,7 +1,5 @@
 @use 'sass:map';
-// ========================
-// 全局变量定义
-// ========================
+
 $breakpoints: (
   sm: 576px,
   md: 768px,
@@ -9,21 +7,6 @@ $breakpoints: (
   xl: 1200px,
 ) !default;
 $shadow-color: rgba(0, 0, 0, 0.1) !default;
-
-// ========================
-// 响应式媒体查询
-// ========================
-/// 响应式断点查询
-/// @param {String} $breakpoint - 断点名称 (sm, md, lg, xl)
-@mixin respond-to($breakpoint) {
-  @if map.has-key($breakpoints, $breakpoint) {
-    @media (min-width: map.get($breakpoints, $breakpoint)) {
-      @content;
-    }
-  } @else {
-    @warn "Undefined breakpoint `#{$breakpoint}`";
-  }
-}
 
 // ========================
 // 布局工具
@@ -99,12 +82,8 @@ $shadow-color: rgba(0, 0, 0, 0.1) !default;
 /// @param {String} $direction - 渐变方向 (to right|to bottom...)
 @mixin gradient-animation($start-color, $end-color, $direction: to right) {
   background: linear-gradient($direction, $start-color, $end-color);
-  background-size: 200% auto;
+  // background-size: 200% auto;
   transition: background-position 0.5s ease;
-
-  &:hover {
-    background-position: right center;
-  }
 }
 
 // ========================

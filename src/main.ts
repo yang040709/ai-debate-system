@@ -4,7 +4,7 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
-import Arco from '@arco-design/web-vue'
+// import Arco from '@arco-design/web-vue'
 import ArcoIcon from '@arco-design/web-vue/es/icon'
 import '@arco-design/web-vue/dist/arco.css'
 // import 'highlight.js/styles/atom-one-dark.min.css'
@@ -15,7 +15,7 @@ import './styles/arco-override.scss'
 import 'default-passive-events'
 const app = createApp(App)
 installDirectives(app)
-app.use(Arco)
+// app.use(Arco)
 app.use(ArcoIcon)
 app.use(createPinia())
 app.use(router)

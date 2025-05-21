@@ -8,8 +8,9 @@
 
 <style lang="scss" scoped>
 .footer-container {
-  padding: 20px;
-  height: 60px;
+  border-top: 1px solid var(--color-border-light);
+  padding: 36px;
+  height: $footer-height;
   font-size: 12px;
   color: #b7b6b6;
 }

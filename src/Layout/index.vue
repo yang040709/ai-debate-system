@@ -45,13 +45,13 @@ import GlobalFooter from './global-footer/index.vue'
     flex: 0;
     // background-color: #f9f8f8;
     background-color: var(--footer-bg);
-    padding: 16px;
+    // padding: 16px;
+    // height: 92px;
     bottom: 0;
     left: 0;
     right: 0;
     text-align: center;
     // border-top: 1px solid rgba(5, 5, 5, 0.06);
-    border-top: 1px solid var(color-border-light);
   }
 }
 </style>

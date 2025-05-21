@@ -24,10 +24,16 @@
   --background-color: #f5f5f5; /* 背景色 */
   /* 遮罩层  */
   --mask-bg: rgba(255, 255, 255, 0.6); /* 遮罩层 */
+
+  /* 用户中心的背景色 */
+  --user-bg: #f5f5f5;
+  --user-box-bg1: #42a1fe;
 }
 
 /* header头部区域的高度 */
 $header-height: 55px;
+/* footer底部区域的高度 */
+$footer-height: 92px;
 
 /* z-index层级 */
 $z-index-map: (
@@ -103,4 +109,7 @@ html.dark {
 
   /* 辅助元素颜色 */
   --mask-bg: rgba(0, 0, 0, 0.6); /* 遮罩层透明度优化 */
+
+  --user-bg: #1a1a1a;
+  --user-box-bg1: #082c51;
 }

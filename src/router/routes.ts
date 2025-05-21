@@ -33,6 +33,11 @@ export default [
         },
       },
       {
+        path: '/user',
+        name: 'user',
+        component: () => import('@/views/user/index.vue'),
+      },
+      {
         path: '/test1',
         name: 'test',
         component: () => import('@/views/test/index.vue'),

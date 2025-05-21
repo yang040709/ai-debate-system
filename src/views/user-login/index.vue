@@ -5,11 +5,12 @@ import ReturnHome from '@/components/return-home/index.vue'
 import { Message } from '@arco-design/web-vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 
 const userStore = useUserStore()
 const router = useRouter()
 const loginForm = reactive<LoginForm>({ account: '', password: '' })
-const submitLoading = ref<boolean>(false)
+const submitLoading = storeToRefs(userStore).submitLoading
 loginForm.account = 'admin'
 loginForm.password = '123456'
 

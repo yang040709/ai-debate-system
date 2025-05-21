@@ -9,20 +9,25 @@ const router = useRouter()
 
 const isLogin = storeToRefs(userStore).isLogin
 
-const handleSelect = (e: any) => {
-  console.log(e)
-}
-
-const handleLoginOut = () => {
-  userStore.logout()
+const handleLoginOut = async () => {
+  await userStore.logout()
   router.push({
     path: '/',
   })
 }
 
 const toLoginPage = () => {
+  // 正在用户信息正在加载中，不允许跳转
+  if (userStore.submitLoading) {
+    return
+  }
   router.push({
     path: '/login',
+  })
+}
+const toUserCenter = () => {
+  router.push({
+    path: '/user',
   })
 }
 
@@ -36,28 +41,25 @@ const avatar = computed(() => {
 <template>
   <div class="user">
     <toggle-dark class="user-item" />
-    <div class="login user-item no-login" v-if="!isLogin" @click="toLoginPage">
+    <div class="login login-loading" v-if="userStore.submitLoading && !isLogin">
+      <span>正在加载中...</span>
+    </div>
+    <div class="login user-item no-login" v-else-if="!isLogin" @click="toLoginPage">
       <a-avatar :size="32">A</a-avatar>
       <span>未登录</span>
     </div>
-    <div class="login user-item is-login" v-if="isLogin">
-      <a-dropdown @select="handleSelect" trigger="hover">
+    <div class="login user-item is-login pc-user-item" v-if="isLogin">
+      <a-dropdown trigger="hover">
         <div>
           <a-avatar :size="32" :image-url="avatar"> </a-avatar>
-          <span class="pc-nickname">{{ userStore.userInfo.nickname }}</span>
+          <span>{{ userStore.userInfo.nickname }}</span>
         </div>
         <template #content>
-          <a-doption>
+          <a-doption @click="toUserCenter">
             <template #icon>
               <icon-user />
             </template>
             <template #default>个人中心</template>
-          </a-doption>
-          <a-doption disabled
-            ><template #icon>
-              <icon-location />
-            </template>
-            <template #default>Option 1</template>
           </a-doption>
           <a-doption :value="{ value: 'Option3' }" @click="handleLoginOut">
             <template #icon>
@@ -97,6 +99,9 @@ const avatar = computed(() => {
   }
   .no-login {
     width: 104px;
+  }
+  .login-loading {
+    width: 140px;
   }
 }
 </style>

@@ -17,6 +17,7 @@ export const useUserStore = defineStore('user', () => {
     avatar: '',
   })
   const token = useLocalStorage('token', '')
+  const submitLoading = ref(false)
   const isLogin = computed(
     () =>
       userInfo.value && JSON.stringify(userInfo.value) != '{}' && userInfo.value.nickname !== '',
@@ -42,7 +43,9 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const getUserInfo = async () => {
+    submitLoading.value = true
     const res = (await getUserInfoApi()) as UserInfo
+    submitLoading.value = false
     userInfo.value = {
       user_id: res.user_id,
       nickname: res.nickname,
@@ -68,5 +71,6 @@ export const useUserStore = defineStore('user', () => {
     token,
     isLogin,
     getUserInfo,
+    submitLoading,
   }
 })

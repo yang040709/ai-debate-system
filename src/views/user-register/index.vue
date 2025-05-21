@@ -5,6 +5,7 @@ import { Message } from '@arco-design/web-vue'
 import ReturnHome from '@/components/return-home/index.vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 
 type RegisterFromState = RegisterForm & {
   confirmPassword: string
@@ -17,7 +18,7 @@ const registerForm = reactive<RegisterFromState>({
   nickname: '',
   confirmPassword: '',
 })
-const submitLoading = ref<boolean>(false)
+const submitLoading = storeToRefs(userStore).submitLoading
 registerForm.account = 'admin'
 registerForm.nickname = 'yang'
 registerForm.password = '123456'
