@@ -1,18 +1,38 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import type { LoginForm } from '@/types/user'
 import ReturnHome from '@/components/return-home/index.vue'
 import { Message } from '@arco-design/web-vue'
 import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
 const userStore = useUserStore()
 const router = useRouter()
+const route = useRoute()
 const loginForm = reactive<LoginForm>({ account: '', password: '' })
 const submitLoading = storeToRefs(userStore).submitLoading
-loginForm.account = 'admin'
-loginForm.password = '123456'
+
+// ！！开发环境模拟账号密码
+if (import.meta.env.DEV) {
+  loginForm.account = 'admin'
+  loginForm.password = '123456'
+}
+
+// 监听用户是否登录,如果登录了就跳转到首页
+watch(
+  () => userStore.isLogin,
+  () => {
+    if (userStore.isLogin) {
+      router.push({
+        name: 'home',
+      })
+    }
+  },
+  {
+    immediate: true,
+  },
+)
 
 const handleLoginError = (error: any) => {
   console.error('登录失败:', error)
@@ -35,7 +55,7 @@ const handleSubmit = async (e: any) => {
     submitLoading.value = true
     await userStore.login(loginForm)
     router.push({
-      name: 'home',
+      path: route?.query?.redirect ? (route.query.redirect as string) : '/',
     })
   } catch (error) {
     handleLoginError(error)

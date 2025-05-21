@@ -311,9 +311,11 @@ const handleHome = () => {
 
 <style lang="scss" scoped>
 .not-find-container {
+  // background: red;
   margin: 50px auto;
   display: flex;
   @include card-container;
+  background: var(--background-color);
   .right {
     padding: 30px;
     .title {

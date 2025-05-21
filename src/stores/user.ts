@@ -44,7 +44,12 @@ export const useUserStore = defineStore('user', () => {
 
   const getUserInfo = async () => {
     submitLoading.value = true
+    if (token.value === '') {
+      submitLoading.value = false
+      return
+    }
     const res = (await getUserInfoApi()) as UserInfo
+    console.log(res, token.value, '<===getUserInfoApi===')
     submitLoading.value = false
     userInfo.value = {
       user_id: res.user_id,

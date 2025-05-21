@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import type { RegisterForm } from '@/types/user'
 import { Message } from '@arco-design/web-vue'
 import ReturnHome from '@/components/return-home/index.vue'
 import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
 type RegisterFromState = RegisterForm & {
   confirmPassword: string
 }
 const userStore = useUserStore()
+
 const router = useRouter()
+const route = useRoute()
 const registerForm = reactive<RegisterFromState>({
   account: '',
   password: '',
@@ -19,10 +21,28 @@ const registerForm = reactive<RegisterFromState>({
   confirmPassword: '',
 })
 const submitLoading = storeToRefs(userStore).submitLoading
-registerForm.account = 'admin'
-registerForm.nickname = 'yang'
-registerForm.password = '123456'
-registerForm.confirmPassword = '123456'
+
+if (import.meta.env.DEV) {
+  registerForm.account = 'admin'
+  registerForm.nickname = 'yang'
+  registerForm.password = '123456'
+  registerForm.confirmPassword = '123456'
+}
+
+// 监听用户是否登录,如果登录了就跳转到首页
+watch(
+  () => userStore.isLogin,
+  () => {
+    if (userStore.isLogin) {
+      router.push({
+        path: route?.query?.redirect ? (route.query.redirect as string) : '/',
+      })
+    }
+  },
+  {
+    immediate: true,
+  },
+)
 
 const handleRegisterError = (error: any) => {
   console.error('注册失败:', error)
