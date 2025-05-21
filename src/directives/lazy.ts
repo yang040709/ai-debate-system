@@ -1,5 +1,5 @@
 // export default
-import placeholder from '@/assets/placeholder.png'
+import placeholder from '@/assets/placeholder.gif'
 const intersectionObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {

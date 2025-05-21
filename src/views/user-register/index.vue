@@ -62,8 +62,8 @@ const toLogin = () => {
     <ReturnHome />
     <h2 class="title">用户注册</h2>
     <a-form
+      class="register-form"
       :model="registerForm"
-      :style="{ width: '480px', margin: '0 auto' }"
       label-align="left"
       auto-label-width
       @submit="handleSubmit"
@@ -146,5 +146,12 @@ const toLogin = () => {
     align-items: center;
     justify-content: space-between;
   }
+  .register-form {
+    margin-top: 20px;
+    max-width: 480px;
+    width: 70%;
+    min-width: 240px;
+  }
+  //  :style="{ width: '480px', margin: '0 auto' }"
 }
 </style>

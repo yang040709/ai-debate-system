@@ -88,4 +88,8 @@
   </div>
 </template>
 
-<style></style>
+<style lang="scss">
+.about {
+  color: var(--color-text-primary);
+}
+</style>

@@ -29,7 +29,7 @@ legend {
 }
 
 html {
-  color: rgba(0, 0, 0, 0.88);
+  color: var(--color-text-primary);
   font-family:
     'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial,
     sans-serif;
@@ -107,4 +107,22 @@ select {
 }
 ::scrollbar-thumb {
   border-radius: 1em;
+}
+
+@media screen and (max-width: 768px) {
+  .pc-title {
+    display: none;
+  }
+  .pc-nickname {
+    display: none;
+  }
+  .pc-title-padding {
+    padding-left: 0px !important;
+  }
+  .pc-menu {
+    display: none;
+  }
+  .mobile-menu {
+    display: inline !important;
+  }
 }

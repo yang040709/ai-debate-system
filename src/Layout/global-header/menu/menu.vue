@@ -23,7 +23,7 @@ router.afterEach(() => {
 })
 </script>
 <template>
-  <div class="menu-container">
+  <div class="menu-container pc-menu">
     <a-menu mode="horizontal" :selected-keys="selectedKey" @menu-item-click="handleMenuClick">
       <a-menu-item v-for="route in routes" :key="route.name">
         {{ route?.meta?.onHeader ? route.meta.onHeader : route.name }}

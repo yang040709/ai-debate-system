@@ -12,7 +12,7 @@ import 'juejin-markdown-themes/dist/channing-cyan.min.css'
 import installDirectives from '@/directives/index.ts'
 import './styles/base.scss'
 import './styles/arco-override.scss'
-
+import 'default-passive-events'
 const app = createApp(App)
 installDirectives(app)
 app.use(Arco)
