@@ -4,6 +4,7 @@
   /* 文字颜色体系  */
   --color-text-primary: rgba(0, 0, 0, 0.87); // 主文字（WCAG AA 标准对比度[9](@ref)）
   --color-text-secondary: rgba(0, 0, 0, 0.6); // 辅助文字
+  --color-text-white: #fff;
   /* 颜色体系  */
   --color-primary: #409eff; // 品牌主色调（类似 Element Plus 蓝）
   --color-primary-hover: #66b1ff; // Hover状态提升10%
@@ -28,6 +29,15 @@
   /* 用户中心的背景色 */
   --user-bg: #f5f5f5;
   --user-box-bg1: #42a1fe;
+
+  /*  按钮的颜色 */
+
+  //返回
+  --btn-bg: #f9f9fe;
+  --btn-bg-hover: #e6e6e6;
+  // 登录，注册
+  --btn-login-bg: #2563eb;
+  --btn-login-bg-hover: #1e40af;
 }
 
 /* header头部区域的高度 */
@@ -112,4 +122,8 @@ html.dark {
 
   --user-bg: #1a1a1a;
   --user-box-bg1: #082c51;
+
+  /* 按钮的颜色 */
+  --btn-bg: #2d2d2d;
+  --btn-bg-hover: #3a3a3a;
 }

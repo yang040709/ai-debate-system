@@ -19,7 +19,8 @@ const handleReturnHome = () => {
   height: 50px;
   padding: 0 10px;
   border-radius: 10px;
-  background-color: #f9f9fe;
+  // background-color: #f9f9fe;
+  background-color: var(--body-bg-2);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,7 +28,7 @@ const handleReturnHome = () => {
   top: 10px;
   left: 10px;
   &:hover {
-    background-color: #e6e6e6;
+    background-color: var(--btn-bg-hover);
   }
 }
 </style>
