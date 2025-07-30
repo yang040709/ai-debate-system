@@ -19,6 +19,11 @@ export interface UserInfo {
   avatar: string
 }
 
+export interface CanModifyUserInfo {
+  nickname: string
+  avatar: string
+}
+
 export interface RegisterResponse {
   user_id: string
 }

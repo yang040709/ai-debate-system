@@ -48,8 +48,9 @@ import mobileMenu from './menu/mobile-menu.vue'
     .title-text {
       color: var(--color-text-primary);
       font-weight: 500;
-      padding-left: 10px;
-      font-size: 16px;
+      // padding-left: 20px;
+      margin-left: 15px;
+      font-size: 18px;
       line-height: 24px;
     }
   }

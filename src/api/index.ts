@@ -1,7 +1,7 @@
 import axios from 'axios'
-import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import { BaseURL } from '@/global.config.ts'
+import { handleRegisterError } from '@/utils/error'
 
 const require = axios.create({
   baseURL: BaseURL,
@@ -24,16 +24,22 @@ require.interceptors.request.use(
 require.interceptors.response.use(
   (response) => {
     const res = response.data // 获取完整响应体
+    if (res.code !== 0) {
+      handleRegisterError(res, response.config.meta)
+      return Promise.reject(res.msg)
+    }
+    /* 
     if (res.code === 401) {
       router.replace('/login')
       return Promise.reject(new Error(res.msg || '未授权'))
-    } else if (res.code !== 0) {
-      return Promise.reject(new Error(res.msg || '请求错误'))
-    }
+    } 
+    */
     console.log(res, '<==res.data')
-    return res.data
+    return res.data || 'request success!!'
   },
   (err) => {
+    // return Promise.reject('请检查网络连接')
+    handleRegisterError(err)
     return Promise.reject(err)
   },
 )

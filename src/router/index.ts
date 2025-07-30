@@ -8,10 +8,18 @@ const router = createRouter({
 
 const blackList = ['/user']
 const whiteList = ['/login', '/register']
+let isTryGetUserInfo = false
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
-  console.log(to)
+  if (!userStore.isLogin && !isTryGetUserInfo) {
+    console.log('如果当前没有登录，就帮你获取个人信息')
+    await userStore.getUserInfo()
+    isTryGetUserInfo = true
+  }
+  // console.log(userStore.userInfo, '<===userStore.userInfo')
+  // console.log(to)
+
   if (userStore.isLogin) {
     if (whiteList.includes(to.path)) {
       next({

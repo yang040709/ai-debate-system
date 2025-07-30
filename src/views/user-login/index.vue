@@ -19,14 +19,14 @@ if (import.meta.env.DEV) {
   loginForm.password = '123456'
 }
 
-const handleLoginError = (error: any) => {
-  console.error('登录失败:', error)
-  let errorMessage = error instanceof Error ? error.message : null
-  if (!errorMessage) {
-    errorMessage = error?.msg || '登录失败，请检查网络连接'
-  }
-  Message.error(errorMessage as string)
-}
+// const handleLoginError = (error: any) => {
+//   console.error('登录失败:', error)
+//   let errorMessage = error instanceof Error ? error.message : null
+//   if (!errorMessage) {
+//     errorMessage = error?.msg || '登录失败，请检查网络连接'
+//   }
+//   Message.error(errorMessage as string)
+// }
 
 const toRegister = () => {
   router.push({
@@ -51,17 +51,15 @@ const handleClickLoginBtn = async () => {
   if (submitLoading.value) {
     Message.warning('正在登录中，请稍后...')
   }
-  try {
-    submitLoading.value = true
-    await userStore.login(loginForm)
-    router.push({
-      path: (route?.query?.redirect as string) || '/',
-    })
-  } catch (error) {
-    handleLoginError(error)
-  } finally {
-    submitLoading.value = false
+
+  submitLoading.value = true
+  const result = await userStore.login(loginForm)
+  if (!result) {
+    return
   }
+  router.push({
+    path: (route?.query?.redirect as string) || '/',
+  })
 }
 </script>
 

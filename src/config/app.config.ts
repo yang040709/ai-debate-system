@@ -4,7 +4,7 @@ const AppConfigObj = {
   appTitle: 'AI辩论系统',
   version: '0.0.2',
   defaultAvatar: 'https://avatars.githubusercontent.com/u/65129319',
-  placeholderImgSrc: '@/assets/placeholder.gif',
+  placeholderImgSrc: '/placeholder.png',
   footerList: ['思弈阁 ©2025 | 智能AI辩论系统'],
 }
 export type AppConfig = typeof AppConfigObj

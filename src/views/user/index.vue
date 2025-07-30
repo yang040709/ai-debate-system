@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
+
 import EditModal from './edit-modal.vue'
 const userStore = useUserStore()
 </script>
@@ -10,7 +11,7 @@ const userStore = useUserStore()
       <div class="box">
         <a-avatar class="avatar" :style="{ backgroundColor: '#3370ff' }" :size="68">
           <!-- <IconUser /> -->
-          <img class="avatar-img" :src="userStore.userInfo.avatar" alt="" />
+          <img v-placeholder-img class="avatar-img" :data-src="userStore.userInfo.avatar" alt="" />
         </a-avatar>
         <div class="user-info">
           <div class="user-name">{{ userStore.userInfo.nickname }}</div>
@@ -30,14 +31,16 @@ const userStore = useUserStore()
 
 <style lang="scss" scoped>
 .user-container {
-  overflow: hidden;
-  margin: -28px;
+  width: 100vw;
+  margin-top: -28px;
+  margin-left: -28px;
   background: linear-gradient(180deg, var(--user-box-bg1), var(--footer-bg));
-  max-height: 100vh;
+  // max-height: 100vh;
   .user-content {
+    overflow: hidden;
     width: 80%;
     margin: 0 auto;
-    height: calc(95vh - $footer-height - $header-height);
+    height: calc(90vh - $footer-height - $header-height);
     position: relative;
   }
 }

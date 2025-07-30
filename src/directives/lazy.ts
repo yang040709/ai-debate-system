@@ -7,10 +7,14 @@ const intersectionObserver = new IntersectionObserver(
       target.src = placeholder
       if (entry.isIntersecting) {
         const img = new Image()
-        img.addEventListener('load', () => {
+        function observerImg() {
           target.src = img.src
           intersectionObserver.unobserve(entry.target)
-        })
+          setTimeout(() => {
+            img.removeEventListener('load', observerImg)
+          }, 5000)
+        }
+        img.addEventListener('load', observerImg)
         img.src = target.dataset.src || ''
       }
     })

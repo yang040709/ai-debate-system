@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref, reactive, watchEffect } from 'vue'
 import { useUserStore } from '@/stores/user'
-
+import { Message } from '@arco-design/web-vue'
+// 回显数据
 const userStore = useUserStore()
 
 const form = reactive({
   nickname: userStore.userInfo.nickname,
-  avatar: '',
+  avatar: userStore.userInfo.avatar,
 })
 
 watchEffect(() => {
@@ -14,6 +15,7 @@ watchEffect(() => {
   form.avatar = userStore.userInfo.avatar || ''
 })
 
+//
 const file = ref()
 
 const uploadAvatar = (option: any) => {
@@ -43,7 +45,7 @@ const uploadAvatar = (option: any) => {
 
   const formData = new FormData()
   formData.append(name || 'file', fileItem.file)
-  xhr.open('post', 'http://127.0.0.1:4523/m1/6382740-6079334-default/oss/upload', true)
+  xhr.open('post', '/api/oss/upload', true)
   xhr.send(formData)
 
   return {
@@ -53,15 +55,33 @@ const uploadAvatar = (option: any) => {
   }
 }
 
+// 处理可见性
+
 const visible = ref<boolean>(false)
+
 const handleClick = () => {
   visible.value = true
 }
+
 const handleBeforeOk = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 3000))
+  // await new Promise((resolve) => setTimeout(resolve, 3000))
+
+  const res = await userStore.updateUserInfo({
+    nickname: form.nickname,
+    avatar: form.avatar,
+  })
+  if (!res) {
+    return false
+  }
+  Message.success('修改成功')
   return true
 }
+
 const handleCancel = () => {
+  visible.value = false
+}
+
+const handleOk = () => {
   visible.value = false
 }
 
@@ -76,34 +96,21 @@ const onChange = (_: any, currentFile: any) => {
 <template>
   <div class="container">
     <a-button type="outline" @click="handleClick">编辑</a-button>
-    <a-modal
-      v-model:visible="visible"
-      @cancel="handleCancel"
-      :on-before-ok="handleBeforeOk"
-      unmountOnClose
-      ok-text="...暂时无法修改个人信息"
-      width="60%"
-    >
+    <a-modal v-model:visible="visible" @cancel="handleCancel" @ok="handleOk" :on-before-ok="handleBeforeOk"
+      unmountOnClose ok-text="修改" width="60%">
       <template #title> 修改资料 </template>
       <a-form :model="form">
         <a-form-item field="name" label="呢称">
           <a-input v-model="form.nickname" />
         </a-form-item>
         <a-form-item field="avatar" label="头像">
-          <a-upload
-            :custom-request="uploadAvatar"
-            :fileList="file ? [file] : []"
-            :show-file-list="false"
-            @change="onChange"
-          >
+          <a-upload :custom-request="uploadAvatar" :fileList="file ? [file] : []" :show-file-list="false"
+            @change="onChange">
             <template #upload-button>
-              <div
-                :class="`arco-upload-list-item${
-                  file && file.status === 'error' ? ' arco-upload-list-item-error' : ''
-                }`"
-              >
+              <div :class="`arco-upload-list-item${file && file.status === 'error' ? ' arco-upload-list-item-error' : ''
+                }`">
                 <div class="arco-upload-list-picture custom-upload-avatar" v-if="form.avatar">
-                  <img :src="form.avatar" />
+                  <img v-placeholder-img :data-src="form.avatar" />
                   <div class="arco-upload-list-picture-mask">
                     <IconEdit />
                   </div>

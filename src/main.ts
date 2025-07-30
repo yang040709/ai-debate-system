@@ -15,6 +15,8 @@ import './styles/base.scss'
 import './styles/arco-override.scss'
 import 'default-passive-events'
 import 'tdesign-vue-next/es/style/index.css'
+import '@/mock/index.js'
+
 // 创建vue实例
 const app = createApp(App)
 // 引入全局指令

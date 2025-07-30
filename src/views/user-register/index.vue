@@ -31,15 +31,6 @@ if (import.meta.env.DEV) {
   registerForm.confirmPassword = '123456'
 }
 
-const handleRegisterError = (error: any) => {
-  console.error('注册失败:', error)
-  let errorMessage = error instanceof Error ? error.message : null
-  if (!errorMessage) {
-    errorMessage = error?.msg || '注册失败，请检查网络连接'
-  }
-  Message.error(errorMessage as string)
-}
-
 const toLogin = () => {
   router.push({
     name: 'login',
@@ -62,17 +53,15 @@ const handleClickRegisterBtn = async () => {
     Message.warning('正在注册中，请稍后...')
     return
   }
-  try {
-    submitLoading.value = true
-    await userStore.register(registerForm)
-    router.push({
-      name: 'home',
-    })
-  } catch (error) {
-    handleRegisterError(error)
-  } finally {
-    submitLoading.value = false
+
+  submitLoading.value = true
+  const result = await userStore.register(registerForm)
+  if (!result) {
+    return
   }
+  router.push({
+    name: 'home',
+  })
 }
 </script>
 
