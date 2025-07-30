@@ -30,7 +30,7 @@ require.interceptors.response.use(
     } else if (res.code !== 0) {
       return Promise.reject(new Error(res.msg || '请求错误'))
     }
-    console.log(res.data, '<==res.data')
+    console.log(res, '<==res.data')
     return res.data
   },
   (err) => {

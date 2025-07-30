@@ -15,6 +15,7 @@ const userStore = useUserStore()
 
 const router = useRouter()
 const route = useRoute()
+
 const registerForm = reactive<RegisterFromState>({
   account: '',
   password: '',
@@ -30,21 +31,6 @@ if (import.meta.env.DEV) {
   registerForm.confirmPassword = '123456'
 }
 
-// 监听用户是否登录,如果登录了就跳转到首页
-watch(
-  () => userStore.isLogin,
-  () => {
-    if (userStore.isLogin) {
-      router.push({
-        path: route?.query?.redirect ? (route.query.redirect as string) : '/',
-      })
-    }
-  },
-  {
-    immediate: true,
-  },
-)
-
 const handleRegisterError = (error: any) => {
   console.error('注册失败:', error)
   let errorMessage = error instanceof Error ? error.message : null
@@ -57,6 +43,9 @@ const handleRegisterError = (error: any) => {
 const toLogin = () => {
   router.push({
     name: 'login',
+    query: {
+      redirect: route?.query?.redirect,
+    },
   })
 }
 

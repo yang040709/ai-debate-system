@@ -7,3 +7,7 @@ declare module 'vue' {
     $config: AppConfig
   }
 }
+
+declare global {
+  export type AppConfig = import('@/config/app.config').AppConfig
+}

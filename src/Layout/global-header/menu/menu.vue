@@ -32,17 +32,6 @@ router.afterEach(() => {
   </div>
 </template>
 <style lang="scss" scoped>
-// a {
-//   margin: 0 30px;
-//   &.router-link-exact-active {
-//     color: #409eff;
-//   }
-// }
-// .nav {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
 .menu-container {
   box-sizing: border-box;
   width: 60%;

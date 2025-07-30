@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import toggleDark from '@/components/toggle-dark/index.vue'
+import type { AppConfig } from '@/config/app.config'
 const userStore = useUserStore()
 const router = useRouter()
 
@@ -31,7 +32,9 @@ const toUserCenter = () => {
   })
 }
 
-const defaultAvatar = 'https://avatars.githubusercontent.com/u/65129319'
+const appConfig = inject<AppConfig>('config')
+
+const defaultAvatar = appConfig?.defaultAvatar
 
 const avatar = computed(() => {
   return userStore.userInfo.avatar || defaultAvatar
@@ -61,7 +64,7 @@ const avatar = computed(() => {
             </template>
             <template #default>个人中心</template>
           </a-doption>
-          <a-doption :value="{ value: 'Option3' }" @click="handleLoginOut">
+          <a-doption @click="handleLoginOut">
             <template #icon>
               <icon-poweroff />
             </template>

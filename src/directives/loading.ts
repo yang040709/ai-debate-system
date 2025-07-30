@@ -5,10 +5,10 @@ declare global {
   }
 }
 
-import { h, render } from 'vue'
+import { h, render, DirectiveBinding } from 'vue'
 import loading from '@/components/loading/index.vue'
 
-export default (el: HTMLElement, binding: any) => {
+export default (el: HTMLElement, binding: DirectiveBinding<boolean>) => {
   if (getComputedStyle(el).position === 'static') {
     el.style.position = 'relative'
   }

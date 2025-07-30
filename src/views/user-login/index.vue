@@ -19,21 +19,6 @@ if (import.meta.env.DEV) {
   loginForm.password = '123456'
 }
 
-// 监听用户是否登录,如果登录了就跳转到首页
-watch(
-  () => userStore.isLogin,
-  () => {
-    if (userStore.isLogin) {
-      router.push({
-        name: 'home',
-      })
-    }
-  },
-  {
-    immediate: true,
-  },
-)
-
 const handleLoginError = (error: any) => {
   console.error('登录失败:', error)
   let errorMessage = error instanceof Error ? error.message : null
@@ -46,6 +31,9 @@ const handleLoginError = (error: any) => {
 const toRegister = () => {
   router.push({
     name: 'register',
+    query: {
+      redirect: route?.query?.redirect as string,
+    },
   })
 }
 
