@@ -15,8 +15,10 @@ import './styles/base.scss'
 import './styles/arco-override.scss'
 import 'default-passive-events'
 import 'tdesign-vue-next/es/style/index.css'
+import ConfigPlugin from '@/plugins/config'
 const app = createApp(App)
 installDirectives(app)
+app.use(ConfigPlugin)
 app.use(TDesignChat)
 app.use(ArcoIcon)
 app.use(createPinia())

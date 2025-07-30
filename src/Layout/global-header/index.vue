@@ -10,7 +10,7 @@ import mobileMenu from './menu/mobile-menu.vue'
     <div class="title pc-title-padding">
       <router-link to="/" class="title pc-title-padding">
         <img class="logo-img" :src="logo" alt="" />
-        <div class="title-text pc-title">AI辩论平台</div>
+        <h1 class="title-text pc-title">{{ $config.appName }}</h1>
       </router-link>
       <mobile-menu class="mobile-menu" />
     </div>

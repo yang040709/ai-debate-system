@@ -1,4 +1,11 @@
-import type { LoginForm, RegisterForm, UserInfo } from '@/types/user'
+import type {
+  LoginForm,
+  RegisterForm,
+  UserInfo,
+  loginResponse,
+  RegisterResponse,
+} from '@/types/user'
+
 import { request } from './request'
 
 export const loginApi = (data: LoginForm) => {
@@ -6,7 +13,7 @@ export const loginApi = (data: LoginForm) => {
     url: '/user/login',
     method: 'post',
     data,
-  })
+  }) as Promise<loginResponse>
 }
 
 export const registerApi = (data: RegisterForm) => {
@@ -14,12 +21,12 @@ export const registerApi = (data: RegisterForm) => {
     url: '/user/register',
     method: 'post',
     data,
-  })
+  }) as Promise<RegisterResponse>
 }
 
 export const getUserInfoApi = () => {
   return request({
     url: '/user/info',
     method: 'get',
-  })
+  }) as Promise<UserInfo>
 }

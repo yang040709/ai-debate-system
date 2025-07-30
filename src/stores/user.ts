@@ -3,13 +3,8 @@ import { computed, ref } from 'vue'
 // import { getItem } from '@/utils/storage.ts'
 import { loginApi, registerApi, getUserInfoApi } from '@/api/user'
 import { useLocalStorage } from '@vueuse/core'
-import type {
-  UserInfo,
-  LoginForm,
-  RegisterForm,
-  loginResponse,
-  RegisterResponse,
-} from '@/types/user'
+import type { UserInfo, LoginForm, RegisterForm } from '@/types/user'
+
 export const useUserStore = defineStore('user', () => {
   const userInfo = ref<UserInfo>({
     user_id: '',
@@ -24,10 +19,8 @@ export const useUserStore = defineStore('user', () => {
   )
 
   const login = async (data: LoginForm) => {
-    console.log('登录', data)
-    const res = (await loginApi(data)) as loginResponse
+    let res = await loginApi(data)
     token.value = res.token
-    console.log(res, token.value, '<===token')
     userInfo.value = {
       user_id: res.user_id,
       nickname: res.nickname,
@@ -37,7 +30,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const register = async (data: RegisterForm) => {
-    const registerRes = (await registerApi(data)) as RegisterResponse
+    const registerRes = await registerApi(data)
     await login({ account: data.account, password: data.password })
     return registerRes
   }
@@ -48,7 +41,7 @@ export const useUserStore = defineStore('user', () => {
       submitLoading.value = false
       return
     }
-    const res = (await getUserInfoApi()) as UserInfo
+    const res = await getUserInfoApi()
     console.log(res, token.value, '<===getUserInfoApi===')
     submitLoading.value = false
     userInfo.value = {

@@ -113,6 +113,11 @@ select {
   border-radius: 1em;
 }
 
+// 适应平板的屏幕的媒体查询
+@media screen and (max-width: 1024px) {
+}
+
+// 适应手机的屏幕的媒体查询
 @media screen and (max-width: 768px) {
   .pc-title {
     display: none;
@@ -129,8 +134,7 @@ select {
   .mobile-menu {
     display: inline !important;
   }
-  .pc-user-item {
-    // display: none;
-    // margin-right: 50px;
+  .not-find-container {
+    flex-wrap: wrap;
   }
 }

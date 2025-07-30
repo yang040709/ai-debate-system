@@ -15,12 +15,6 @@ require.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
-    // if (url && whiteListApi.includes(url)) {
-    //   config.headers['Authorization'] = `Bearer ${token}`
-    // }
-    // // 这里省略加密过程
-    // let _secretId = secretId + Date.now()
-    // config.headers['secret'] = _secretId
     return config
   },
   (err) => {
@@ -29,18 +23,15 @@ require.interceptors.request.use(
 )
 require.interceptors.response.use(
   (response) => {
-    console.log(response.data, '<===data')
-    const code = response.data.code
-    const msg = response.data.msg || '未知错误'
-    if (code === 401) {
-      router.replace({
-        path: '/login',
-      })
-      return Promise.reject({ msg })
-    } else if (code !== 0) {
-      return Promise.reject({ msg })
+    const res = response.data // 获取完整响应体
+    if (res.code === 401) {
+      router.replace('/login')
+      return Promise.reject(new Error(res.msg || '未授权'))
+    } else if (res.code !== 0) {
+      return Promise.reject(new Error(res.msg || '请求错误'))
     }
-    return response.data.data
+    console.log(res.data, '<==res.data')
+    return res.data
   },
   (err) => {
     return Promise.reject(err)

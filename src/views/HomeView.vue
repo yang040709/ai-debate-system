@@ -20,10 +20,10 @@ const handleChange = (value: string) => {
       <a-button type="dashed">Dashed</a-button>
       <a-button type="outline">Outline</a-button>
     </div>
-    <div class="demo">
+    <!-- <div class="demo">
       <MdEditor :content="content" :handle-change="handleChange" />
       <MdViewer :content="content" />
-    </div>
+    </div> -->
   </main>
 </template>
 <style scoped lang="scss"></style>
