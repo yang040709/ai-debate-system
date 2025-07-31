@@ -38,6 +38,20 @@
   // 登录，注册
   --btn-login-bg: #2563eb;
   --btn-login-bg-hover: #1e40af;
+
+  // --theme-gray-1: #9ca3af; //文字使用
+  // --theme-gray-2: #1f2937; //背景使用
+  // --theme-blue-1: #60a5fa; //文字使用
+  // --theme-blue-2: #2563eb; //对话框使用
+  // --theme-blue-3: #2563eb; //下面是渐变使用
+  // --theme-blue-4: #1e40b0; //下面是渐变使用
+  --theme-gray-1: #4b5563; /* 文字使用（深灰替代原浅灰） */
+  --theme-gray-2: #edeff3d2; /* 背景使用（浅灰替代原深灰） */
+  --theme-blue-1: #2563eb; /* 文字使用（保持高饱和蓝色提升可读性） */
+  --theme-blue-2: #dbeafe; /* 对话框使用（浅蓝替代深蓝） */
+  --theme-blue-3: #6fb2fd; /* 渐变起始（浅蓝色） */
+  --theme-blue-4: #2778fa; /* 渐变结束（中蓝色） */
+  --theme-yellow-1: #eab308;
 }
 
 /* header头部区域的高度 */
@@ -105,7 +119,7 @@ html.dark {
 
   /* 边框体系 - 符合暗色对比层次 */
   --color-border-base: #434343; /* 4.2:1对比度 */
-  --color-border-light: #5a5a5a; /* 3.1:1对比度 */
+  --color-border-light: #313030; /* 3.1:1对比度 */
 
   /* 背景体系 - 阶梯式明度设计 */
   --body-bg-1: #1a1a1a; /* 基础背景层 */
@@ -126,4 +140,27 @@ html.dark {
   /* 按钮的颜色 */
   --btn-bg: #2d2d2d;
   --btn-bg-hover: #3a3a3a;
+
+  /* 
+  文字使用
+  #9CA3AF 灰色1
+  背景使用
+  #1F2937 灰色2
+  文字使用
+  #60A5FA 蓝色1
+  对话框使用
+  #2563EB 蓝色2
+  下面是渐变使用
+  #2563EB 蓝色3
+  #1E40B0 蓝色4
+  #EAB308 黄色1
+  */
+
+  --theme-gray-1: #9ca3af; //文字使用
+  --theme-gray-2: #1f2937; //背景使用
+  --theme-blue-1: #60a5fa; //文字使用
+  --theme-blue-2: #2563eb; //对话框使用
+  --theme-blue-3: #2563eb; //下面是渐变使用
+  --theme-blue-4: #1e40b0; //下面是渐变使用
+  --theme-yellow-1: #eab308;
 }

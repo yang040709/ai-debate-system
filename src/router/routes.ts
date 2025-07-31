@@ -1,6 +1,6 @@
 import HomeView from '../views/HomeView.vue'
 import Layout from '@/Layout/index.vue'
-
+import Home from '@/views/home/index.vue'
 /* 
 layout下面的子路由有下列的规则决定：
 meta里面的onHeader是在header组件中显示的文字，
@@ -19,9 +19,17 @@ export default [
       {
         path: '/',
         name: 'home',
-        component: HomeView,
+        component: Home,
         meta: {
           onHeader: '主页',
+        },
+      },
+      {
+        path: '/home',
+        name: 'home2',
+        component: HomeView,
+        meta: {
+          onHeader: '测试主页',
         },
       },
       {

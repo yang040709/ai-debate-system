@@ -46,9 +46,10 @@ import GlobalFooter from './global-footer/index.vue'
   .footer {
     flex: 0;
     // background-color: #f9f8f8;
-    background-color: var(--footer-bg);
     // padding: 16px;
     // height: 92px;
+    // background-color: var(--body-bg-2);
+    background: linear-gradient(to right, var(--body-bg-1), var(--body-bg-2));
     bottom: 0;
     left: 0;
     right: 0;

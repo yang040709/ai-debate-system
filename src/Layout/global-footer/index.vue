@@ -14,12 +14,13 @@ const footerList = inject<AppConfig>('config')?.footerList
 
 <style lang="scss" scoped>
 .footer-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding-bottom: 20px;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: flex-end;
+  // padding-bottom: 20px;
+  // height: $footer-height;
+  line-height: $footer-height;
   border-top: 1px solid var(--color-border-light);
-  height: $footer-height;
   font-size: 12px;
   color: #b7b6b6;
 }
