@@ -39,19 +39,20 @@
   --btn-login-bg: #2563eb;
   --btn-login-bg-hover: #1e40af;
 
-  // --theme-gray-1: #9ca3af; //文字使用
-  // --theme-gray-2: #1f2937; //背景使用
-  // --theme-blue-1: #60a5fa; //文字使用
-  // --theme-blue-2: #2563eb; //对话框使用
-  // --theme-blue-3: #2563eb; //下面是渐变使用
-  // --theme-blue-4: #1e40b0; //下面是渐变使用
   --theme-gray-1: #4b5563; /* 文字使用（深灰替代原浅灰） */
   --theme-gray-2: #edeff3d2; /* 背景使用（浅灰替代原深灰） */
-  --theme-blue-1: #2563eb; /* 文字使用（保持高饱和蓝色提升可读性） */
+  --theme-gray-3: #f6f6f6 /* 背景使用 */ --theme-blue-1: #2563eb; /* 文字使用（保持高饱和蓝色提升可读性） */
+  --theme-blue-1: #e8f2ff; //文字使用
   --theme-blue-2: #dbeafe; /* 对话框使用（浅蓝替代深蓝） */
   --theme-blue-3: #6fb2fd; /* 渐变起始（浅蓝色） */
   --theme-blue-4: #2778fa; /* 渐变结束（中蓝色） */
   --theme-yellow-1: #eab308;
+
+  --theme-tag-1: #dbeafe;
+  --theme-tag-2: #dcfce7;
+  --theme-tag-3: #f3e8ff;
+  --theme-tag-4: #fee2e2;
+  --theme-tag-5: #fef9c3;
 }
 
 /* header头部区域的高度 */
@@ -163,4 +164,10 @@ html.dark {
   --theme-blue-3: #2563eb; //下面是渐变使用
   --theme-blue-4: #1e40b0; //下面是渐变使用
   --theme-yellow-1: #eab308;
+
+  --theme-tag-1: #1e3a8a; /* 深海军蓝（原浅蓝的暗色变体） */
+  --theme-tag-2: #065f46; /* 墨绿色（保持自然感同时增强深度） */
+  --theme-tag-3: #5b21b6; /* 宝石紫色（提升饱和度避免沉闷） */
+  --theme-tag-4: #7f1d1d; /* 深绯红色（降低亮度保留警示性） */
+  --theme-tag-5: #854d0e; /* 琥珀金色（模拟暗光下的金属质感） */
 }

@@ -11,10 +11,30 @@ const arr = [
     ranking: 2,
     name: '张三',
     winningRate: '89%',
-    score: 2890
+    score: 2890,
+    avatar: "https://ui-avatars.com/api/?name=P&background=random"
   },
   {
     ranking: 3,
+    name: '张三',
+    winningRate: '89%',
+    score: 2890,
+    avatar: "https://ui-avatars.com/api/?name=Z&background=random"
+  },
+  {
+    ranking: 4,
+    name: '张三',
+    winningRate: '89%',
+    score: 2890
+  },
+  {
+    ranking: 5,
+    name: '张三',
+    winningRate: '89%',
+    score: 2890
+  },
+  {
+    ranking: 6,
     name: '张三',
     winningRate: '89%',
     score: 2890

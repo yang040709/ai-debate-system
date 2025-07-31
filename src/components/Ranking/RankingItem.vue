@@ -19,7 +19,7 @@ defineProps<{ rank: Ranking }>()
     <div class="left">
       <span class="ranking" :class="{ yellow: rank.ranking === 1 }">{{ rank.ranking }}</span>
       <div class="user-info">
-        <img src="https://ui-avatars.com/api/?name=J&background=random" alt="">
+        <img v-placeholder-img :data-src="rank.avatar || '/avatar.png'" alt="">
         <div class="user-info-text">
           <div class="name">
             {{ rank.name }}

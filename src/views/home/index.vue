@@ -5,6 +5,7 @@ import StartDebate from '@/components/start-debate/index.vue'
 import HomeItem from './home-item.vue'
 import TopicList from '@/components/Topic/TopicList.vue'
 import RankingList from '@/components/Ranking/RankingList.vue'
+import createTopic from '@/components/create-topic/create-topic.vue'
 const obj = {
   id: "aa45ac484cc",
   title: "人工智能是否应该拥有法律人格？",
@@ -33,13 +34,28 @@ const obj2 = {
     <home-item>
       <start-debate></start-debate>
     </home-item>
-    <home-item title="热门话题" :link="{ text: '查看更多', href: '/about' }">
-      <topic-list></topic-list>
-    </home-item>
-    <home-item title="排行榜" :link="{ text: '查看更多', href: '/about' }">
-      <ranking-list></ranking-list>
-    </home-item>
-    <div class="test-container">
+
+    <div class="home-content">
+      <div class="content-left">
+        <home-item title="热门话题" :link="{ text: '查看更多', href: '/about' }">
+          <topic-list></topic-list>
+        </home-item>
+        <home-item title="排行榜" :link="{ text: '查看更多', href: '/about' }">
+          <ranking-list></ranking-list>
+        </home-item>
+      </div>
+      <div class="content-right">
+        <home-item title="标签">
+          <tag-list></tag-list>
+        </home-item>
+        <home-item title="创建辩论话题">
+          <create-topic></create-topic>
+        </home-item>
+      </div>
+
+
+    </div>
+    <!-- <div class="test-container">
       <home-item title="热门话题" :link="{ text: '查看更多', href: '/about' }" style="width: 50%;">
         <topic-item :topic="obj"></topic-item>
         <topic-item :topic="obj"></topic-item>
@@ -51,7 +67,7 @@ const obj2 = {
         <ranking-item :rank="obj2"></ranking-item>
         <ranking-item :rank="obj2"></ranking-item>
       </home-item>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -60,6 +76,15 @@ const obj2 = {
   max-width: 1280px;
   margin: 0 auto;
   padding: 20px;
+}
+
+.home-content {
+  display: grid;
+  grid-template-columns: 2fr 380px;
+
+  .content-left {}
+
+  .content-right {}
 }
 
 .ranking-container {

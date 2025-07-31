@@ -3,4 +3,5 @@ export interface Ranking {
   name: string
   winningRate: string
   score: number
+  avatar?: string
 }

@@ -115,6 +115,9 @@ select {
 
 // 适应平板的屏幕的媒体查询
 @media screen and (max-width: 1024px) {
+  .home-content {
+    grid-template-columns: 2fr 1fr !important;
+  }
 }
 
 // 适应手机的屏幕的媒体查询
@@ -136,5 +139,8 @@ select {
   }
   .not-find-container {
     flex-wrap: wrap;
+  }
+  .home-content {
+    grid-template-columns: 1fr !important;
   }
 }
