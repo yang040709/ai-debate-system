@@ -32,10 +32,12 @@ const userStore = useUserStore()
 <style lang="scss" scoped>
 .user-container {
   width: 100vw;
-  margin-top: -28px;
-  margin-left: -28px;
+  // margin-top: -28px;
+  // margin-left: -28px;
   background: linear-gradient(180deg, var(--user-box-bg1), var(--footer-bg));
+
   // max-height: 100vh;
+
   .user-content {
     overflow: hidden;
     width: 80%;
@@ -53,6 +55,7 @@ const userStore = useUserStore()
   height: 500px;
   position: relative;
   padding: 50px 18px;
+
   .avatar {
     position: absolute;
     top: 0px;
@@ -64,6 +67,7 @@ const userStore = useUserStore()
 .user-info {
   display: flex;
   justify-content: space-between;
+
   .user-name {
     font-size: 24px;
     color: var(--color-text-primary);

@@ -19,6 +19,7 @@ import GlobalFooter from './global-footer/index.vue'
 
 <style lang="scss" scoped>
 @use 'sass:map';
+
 .layout-container {
   width: 100%;
   min-height: 100vh;
@@ -37,10 +38,11 @@ import GlobalFooter from './global-footer/index.vue'
   .main {
     margin-top: $header-height;
     flex: 1;
-    padding: 28px;
+    // padding: 28px;
     background: linear-gradient(to right, var(--body-bg-1), var(--body-bg-2));
     // margin-bottom: 28px;
   }
+
   .footer {
     flex: 0;
     // background-color: #f9f8f8;

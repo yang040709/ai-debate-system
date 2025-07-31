@@ -94,10 +94,10 @@ const onChange = (_: any, currentFile: any) => {
 </script>
 
 <template>
-  <div class="container">
+  <div class="edit-modal-container">
     <a-button type="outline" @click="handleClick">编辑</a-button>
     <a-modal v-model:visible="visible" @cancel="handleCancel" @ok="handleOk" :on-before-ok="handleBeforeOk"
-      unmountOnClose ok-text="修改" width="60%">
+      unmountOnClose ok-text="修改">
       <template #title> 修改资料 </template>
       <a-form :model="form">
         <a-form-item field="name" label="呢称">
@@ -122,8 +122,7 @@ const onChange = (_: any, currentFile: any) => {
                   </div>
                 </div>
               </div>
-            </template>
-          </a-upload>
+            </template> </a-upload>
         </a-form-item>
       </a-form>
     </a-modal>

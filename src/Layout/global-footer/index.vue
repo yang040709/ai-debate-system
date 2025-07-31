@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import { AppConfig } from '@/config/app.config';
 import { inject } from 'vue'
 
 const footerList = inject<AppConfig>('config')?.footerList
@@ -10,7 +9,6 @@ const footerList = inject<AppConfig>('config')?.footerList
     <div v-for="item in footerList" :key="item">
       {{ item }}
     </div>
-    <!-- <a href="https://arco.design/vue/docs/start"></a> -->
   </div>
 </template>
 
@@ -21,7 +19,6 @@ const footerList = inject<AppConfig>('config')?.footerList
   justify-content: flex-end;
   padding-bottom: 20px;
   border-top: 1px solid var(--color-border-light);
-  // padding: 36px;
   height: $footer-height;
   font-size: 12px;
   color: #b7b6b6;

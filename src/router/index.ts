@@ -6,22 +6,23 @@ const router = createRouter({
   routes,
 })
 
-const blackList = ['/user']
-const whiteList = ['/login', '/register']
+// 下面两个都是匹配的是路由名。要求拦截的路由必须带name属性
+// 下面是未登录不能再访问的页面
+const blackList = ['user']
+// 下面是登录后不能再访问的页面
+const whiteList = ['login', 'register']
 let isTryGetUserInfo = false
 
 router.beforeEach(async (to, from, next) => {
+  console.log(to, '<==to')
   const userStore = useUserStore()
   if (!userStore.isLogin && !isTryGetUserInfo) {
     console.log('如果当前没有登录，就帮你获取个人信息')
     await userStore.getUserInfo()
     isTryGetUserInfo = true
   }
-  // console.log(userStore.userInfo, '<===userStore.userInfo')
-  // console.log(to)
-
   if (userStore.isLogin) {
-    if (whiteList.includes(to.path)) {
+    if (to.name && whiteList.includes(to.name as string)) {
       next({
         path: to.query?.redirect ? to.query.redirect.toString() : '/',
       })
@@ -29,7 +30,7 @@ router.beforeEach(async (to, from, next) => {
     }
     next()
   } else {
-    if (blackList.includes(to.path)) {
+    if (to.name && blackList.includes(to.name as string)) {
       next({
         path: '/login',
         query: {

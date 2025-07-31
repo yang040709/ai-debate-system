@@ -23,8 +23,6 @@ const route = useRoute()
 
 const routes = filterRoutes(router.getRoutes())
 
-console.log(routes)
-
 const handleMenuClick = (e: string) => {
   router.push({
     name: e,
@@ -45,16 +43,8 @@ router.afterEach(() => {
   <div class="mobile-menu-container">
     <icon-menu-unfold :size="28" v-show="!visible" @click="handleClick" class="menu-icon" />
     <icon-menu-fold :size="28" v-show="visible" class="menu-icon" />
-    <a-drawer
-      placement="left"
-      width="40%"
-      :visible="visible"
-      @ok="handleOk"
-      @cancel="handleCancel"
-      unmountOnClose
-      hide-cancel
-      :footer="false"
-    >
+    <a-drawer placement="left" width="40%" :visible="visible" @ok="handleOk" @cancel="handleCancel" unmountOnClose
+      hide-cancel :footer="false">
       <template #title>菜单</template>
       <a-menu :selected-keys="selectedKey" @menu-item-click="handleMenuClick">
         <a-menu-item v-for="route in routes" :key="route.name">
@@ -70,6 +60,7 @@ router.afterEach(() => {
   cursor: pointer;
   margin-left: 10px;
   color: var(--color-text-secondary);
+
   &:hover {
     color: var(--color-text-primary);
   }

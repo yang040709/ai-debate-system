@@ -1,46 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+// import { ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
 const appStore = useAppStore()
-const isDark = storeToRefs(appStore).isDark
-const isFollowSystem = ref<boolean>(false)
-const systemThemeListener = ref<null | MediaQueryList>(null)
-const handleSystemThemeChange = () => {
-  // 监听系统主题变化
-  isFollowSystem.value = true
-  // systemDark 为 true 时，代表用户选择了暗黑模式, false为亮色模式
-  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-  appStore.toggleDark(systemDark)
-  setupSystemThemeListener()
-}
+const { isDark, isFollowSystem } = storeToRefs(appStore)
+const { handleSelect } = appStore
 
-const handleSelect = (value: string) => {
-  if (value === 'dark' || value === 'light') {
-    appStore.toggleDark()
-    isFollowSystem.value = false
-    removeSystemThemeListener()
-  } else if (value === 'system') {
-    handleSystemThemeChange()
-  }
-}
-
-// 开启系统主题监听器，监听系统主题变化
-const setupSystemThemeListener = () => {
-  if (!systemThemeListener.value) {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    mediaQuery.addEventListener('change', handleSystemThemeChange)
-    systemThemeListener.value = mediaQuery
-  }
-}
-
-// 移除系统主题监听器，移除系统主题变化监听
-const removeSystemThemeListener = () => {
-  if (systemThemeListener.value) {
-    systemThemeListener.value.removeEventListener('change', handleSystemThemeChange)
-    systemThemeListener.value = null
-  }
-}
 </script>
 <template>
   <div class="toggle-dark-container">

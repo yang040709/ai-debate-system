@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, h } from 'vue'
+import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import filterRoutes from '@/utils/filterRoutes'
 // import {  HomeOutlined } from '@arco-design/web-vue'
@@ -15,8 +15,7 @@ const handleMenuClick = (e: string) => {
   selectedKey.value = [e]
 }
 
-const initRoute = route.name
-const selectedKey = ref([initRoute])
+const selectedKey = ref([route.name])
 
 router.afterEach(() => {
   selectedKey.value = [route.name as string]
