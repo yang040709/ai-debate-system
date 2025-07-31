@@ -43,7 +43,8 @@ defineProps<HomeItemProps>()
     }
 
     .link {
-      color: var(--theme-blue-1);
+      cursor: pointer;
+      color: var(--theme-gray-1);
     }
   }
 }

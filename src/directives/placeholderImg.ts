@@ -4,7 +4,6 @@ export default {
   mounted(el: HTMLImageElement) {
     // 先设置占位图
     el.src = AppConfig.placeholderImgSrc
-
     const src = el.dataset.src
 
     // 1. 验证src是否有效
@@ -12,7 +11,6 @@ export default {
       console.warn('Invalid image src:', src)
       return
     }
-
     const image = new Image()
 
     // 2. 设置超时处理
@@ -62,23 +60,3 @@ export default {
     el.src = '' // 清除可能正在进行的加载
   },
 }
-
-// import AppConfig from '@/config/app.config'
-
-// export default {
-//   mounted(el: HTMLImageElement) {
-//     // el.addEventListener("load")
-//     el.src = AppConfig.placeholderImgSrc
-//     const src = el.dataset.src as string
-//     const image = new Image()
-//     image.onload = () => {
-//       el.src = src
-//     }
-//     // image.onerror = (err) => {
-//     //   console.log(err)
-
-//     //   el.src = '/avatar.png'
-//     // }
-//     image.src = src
-//   },
-// }

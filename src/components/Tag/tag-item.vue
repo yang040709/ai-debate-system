@@ -27,6 +27,7 @@ defineProps<TagItemProps>()
   display: flex;
   align-items: center;
   border-radius: 10px;
+  cursor: pointer;
 
   .tag-color-box {
     display: flex;

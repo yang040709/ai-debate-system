@@ -44,7 +44,8 @@ const arr = [
 
 <template>
   <div class='ranking-list-container'>
-    <ranking-item v-for="item in arr" :key="item.ranking" :rank="item"></ranking-item>
+    <ranking-item v-for="item in arr" :key="item.ranking" :rank="item">
+    </ranking-item>
   </div>
 </template>
 

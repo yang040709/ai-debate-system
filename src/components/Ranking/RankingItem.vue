@@ -46,6 +46,7 @@ defineProps<{ rank: Ranking }>()
   justify-content: space-between;
 
   .left {
+    cursor: pointer;
     display: flex;
     align-items: center;
 

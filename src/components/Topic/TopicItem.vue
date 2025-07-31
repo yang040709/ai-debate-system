@@ -22,16 +22,22 @@ const handleClick = () => {
     </div>
     <div class="topic-bottom">
       <div class="topic-info">
-        <div>
+        <div v-if="topic.support_count">
           <icon-user-group :size="18" />
           <p>
             支持率 {{ topic.support_count }}%
           </p>
         </div>
-        <div>
+        <div v-if="topic.comment_count">
           <icon-message :size="18" />
           <p>
             {{ topic.comment_count }}条评论
+          </p>
+        </div>
+        <div v-if="topic.tags && topic.tags.length">
+          <icon-tags :size="18" />
+          <p v-for="(item, index) in topic.tags" :key="index">
+            {{ item }}
           </p>
         </div>
       </div>
@@ -50,6 +56,7 @@ const handleClick = () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  cursor: pointer;
 
   .topic-top {
     display: flex;
@@ -73,7 +80,7 @@ const handleClick = () => {
     justify-content: space-between;
 
     &>a {
-      color: var(--theme-blue-1);
+      color: var(--theme-blue-6);
       display: flex;
       align-items: center;
     }
@@ -82,7 +89,7 @@ const handleClick = () => {
   .topic-info {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 18px;
     color: var(--theme-gray-1);
 
     &>div {

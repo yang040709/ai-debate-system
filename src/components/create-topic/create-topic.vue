@@ -32,16 +32,17 @@
   }
 
   .goto-creative-centre {
-    border: 2px solid var(--theme-tag-1);
-    width: 50%;
+
+    width: 70%;
     height: 50px;
-    background: var(--theme-blue-1);
+    background: var(--theme-blue-5);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 16px;
     border-radius: 8px;
-
+    padding: 10px;
+    cursor: pointer;
   }
 }
 </style>
