@@ -3,6 +3,7 @@
 :root {
   /* 文字颜色体系  */
   --color-text-primary: rgba(0, 0, 0, 0.87); // 主文字（WCAG AA 标准对比度[9](@ref)）
+  --color-text-primary-hover: #09408e; // 主文字（WCAG AA 标准对比度[9](@ref)）
   --color-text-secondary: rgba(0, 0, 0, 0.6); // 辅助文字
   --color-text-white: #fff;
   /* 颜色体系  */
@@ -41,6 +42,7 @@
 
   --theme-gray-1: #4b5563; /* 文字使用（深灰替代原浅灰） */
   --theme-gray-2: #edeff3d2; /* 背景使用（浅灰替代原深灰） */
+  --theme-gray-2-hover: #dee3ec; /* 背景使用 */
   --theme-gray-3: #f6f6f6 /* 背景使用 */ --theme-blue-1: #2563eb; /* 文字使用（保持高饱和蓝色提升可读性） */
   // --theme-blue-1: #e8f2ff; //文字使用
   --theme-blue-1: #147eff; //文字使用
@@ -48,6 +50,7 @@
   --theme-blue-3: #6fb2fd; /* 渐变起始（浅蓝色） */
   --theme-blue-4: #2778fa; /* 渐变结束（中蓝色） */
   --theme-blue-5: hsl(212, 93%, 89%); /* 浅蓝色盒子 */
+  --theme-blue-5-hover: hsl(212, 88%, 83%); /* 浅蓝色盒子 */
   --theme-blue-6: rgb(91, 127, 224); /* 深蓝色盒子 */
   --theme-yellow-1: #eab308;
 
@@ -162,11 +165,13 @@ html.dark {
 
   --theme-gray-1: #9ca3af; //文字使用
   --theme-gray-2: #1f2937; //背景使用
+  --theme-gray-2-hover: #4c5669; /* 背景使用 */
   --theme-blue-1: #60a5fa; //文字使用
   --theme-blue-2: #2563eb; //对话框使用
   --theme-blue-3: #2563eb; //下面是渐变使用
   --theme-blue-4: #1e40b0; //下面是渐变使用
   --theme-blue-5: #1e3a8a; //浅蓝色盒子
+  --theme-blue-5-hover: #465fa1; //浅蓝色盒子
   --theme-blue-6: rgb(58, 107, 245); /* 深蓝色盒子 */
   --theme-yellow-1: #eab308;
 

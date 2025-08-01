@@ -1,11 +1,12 @@
 <script setup lang='ts'>
-import TopicItem from '@/components/Topic/TopicItem.vue'
-import RankingItem from '@/components/Ranking/RankingItem.vue'
-import StartDebate from '@/components/start-debate/index.vue'
+// import TopicItem from '@/components/Topic/TopicItem.vue'
+// import RankingItem from '@/components/Ranking/RankingItem.vue'
+import StartDebate from '@/components/StartDebate/StartDebate.vue'
 import HomeItem from './home-item.vue'
 import TopicList from '@/components/Topic/TopicList.vue'
 import RankingList from '@/components/Ranking/RankingList.vue'
-import createTopic from '@/components/create-topic/create-topic.vue'
+import createTopic from '@/components/CreateTopic/CreateTopic.vue'
+import TagList from '@/components/Tag/TagList.vue'
 const obj = {
   id: "aa45ac484cc",
   title: "人工智能是否应该拥有法律人格？",
@@ -45,11 +46,11 @@ const obj2 = {
         </home-item>
       </div>
       <div class="content-right">
-        <home-item title="标签">
-          <tag-list></tag-list>
-        </home-item>
         <home-item title="创建辩论话题">
           <create-topic></create-topic>
+        </home-item>
+        <home-item title="标签">
+          <tag-list></tag-list>
         </home-item>
       </div>
 

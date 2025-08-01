@@ -48,6 +48,9 @@
     color: var(--theme-blue-4);
     cursor: pointer;
 
+    &:hover {
+      background: #edeff3d2;
+    }
   }
 }
 </style>

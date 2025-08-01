@@ -104,5 +104,9 @@ const handleClick = () => {
   }
 
 
+  &:hover {
+    background: var(--theme-gray-2-hover);
+  }
+
 }
 </style>

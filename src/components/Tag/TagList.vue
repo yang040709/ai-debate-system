@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import TagItem from './tag-item.vue';
+import TagItem from './TagItem.vue';
 
 const colors = ["var(--theme-tag-1)", "var(--theme-tag-2)", "var(--theme-tag-3)", "var(--theme-tag-4)", "var(--theme-tag-5)"]
 
@@ -18,6 +18,8 @@ const tagsList = ["社会", "伦理", "科技", "未来", "环境", "经济", "�
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  // background: var(--theme-gray-2);
+  // border-radius: 20px;
   gap: 15px;
 }
 </style>

@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router'
 import { computed, inject } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import toggleDark from '@/components/toggle-dark/index.vue'
+import ToggleDark from '@/components/ToggleDark/ToggleDark.vue'
 import type { AppConfig } from '@/config/app.config'
 const userStore = useUserStore()
 const router = useRouter()
@@ -83,6 +83,7 @@ const avatar = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+
   .user-item {
     color: var(--color-text-secondary);
     height: 100%;
@@ -90,19 +91,24 @@ const avatar = computed(() => {
     border-radius: 8px;
     cursor: pointer;
     line-height: $header-height + 8px;
+
     &:hover {
       background-color: var(--header-bg-hover);
     }
   }
+
   .login {
     line-height: $header-height;
+
     span {
       padding-left: 10px;
     }
   }
+
   .no-login {
     width: 104px;
   }
+
   .login-loading {
     width: 140px;
   }

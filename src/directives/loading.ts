@@ -6,7 +6,7 @@ declare global {
 }
 
 import { h, render, DirectiveBinding } from 'vue'
-import loading from '@/components/loading/index.vue'
+import loading from '@/components/Loading/Loading.vue'
 
 export default (el: HTMLElement, binding: DirectiveBinding<boolean>) => {
   if (getComputedStyle(el).position === 'static') {

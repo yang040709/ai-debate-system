@@ -39,5 +39,9 @@ defineProps<TagItemProps>()
     margin: 10px;
     color: var(--theme-gray-1);
   }
+
+  &:hover {
+    background: var(--theme-gray-2-hover);
+  }
 }
 </style>

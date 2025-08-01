@@ -40,10 +40,11 @@ defineProps<{ rank: Ranking }>()
 .ranking-item-container {
   width: 100%;
   height: 44px;
-  background: var(--theme-gray-2);
+  // background: var(--theme-gray-2);
   display: flex;
   align-items: center;
   justify-content: space-between;
+
 
   .left {
     cursor: pointer;
@@ -80,12 +81,20 @@ defineProps<{ rank: Ranking }>()
       font-weight: 700;
       font-size: 16px;
       color: var(--color-text-primary);
+
+      &:hover {
+        color: var(--color-text-primary-hover);
+      }
     }
 
     .winning-rate {
 
       line-height: 20px;
       color: var(--theme-gray-1);
+
+      &:hover {
+        color: var(--color-text-primary-hover);
+      }
     }
   }
 

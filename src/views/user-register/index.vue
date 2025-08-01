@@ -2,7 +2,7 @@
 import { ref, reactive, watch, useTemplateRef } from 'vue'
 import type { RegisterForm } from '@/types/user'
 import { Message } from '@arco-design/web-vue'
-import ReturnHome from '@/components/return-home/index.vue'
+import ReturnHome from '@/components/ReturnHome/ReturnHome.vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
@@ -70,60 +70,38 @@ const handleClickRegisterBtn = async () => {
     <ReturnHome />
     <h2 class="title">用户注册</h2>
     <p class="gray">加入AI辩论平台，开启智能辩论之旅</p>
-    <a-form
-      class="register-form"
-      :model="registerForm"
-      label-align="left"
-      auto-label-width
-      ref="registerFormRef"
-    >
+    <a-form class="register-form" :model="registerForm" label-align="left" auto-label-width ref="registerFormRef">
       <div class="gray form-item-dsc">账号</div>
-      <a-form-item
-        field="account"
-        :rules="[{ required: true, message: '账号是必填项' }]"
-        :validate-trigger="['change', 'input']"
-      >
+      <a-form-item field="account" :rules="[{ required: true, message: '账号是必填项' }]"
+        :validate-trigger="['change', 'input']">
         <a-input v-model="registerForm.account" placeholder="请输入账号" />
       </a-form-item>
       <div class="gray form-item-dsc">昵称</div>
-      <a-form-item
-        field="nickname"
-        :rules="[{ required: true, message: '呢称是必填项' }]"
-        :validate-trigger="['change', 'input']"
-      >
+      <a-form-item field="nickname" :rules="[{ required: true, message: '呢称是必填项' }]"
+        :validate-trigger="['change', 'input']">
         <a-input v-model="registerForm.nickname" placeholder="请输入账号" />
       </a-form-item>
       <div class="gray form-item-dsc">密码</div>
-      <a-form-item
-        field="password"
-        tooltip="密码不小于 6 位"
-        :rules="[
-          { required: true, message: '密码是必填项' },
-          { minLength: 6, message: '密码不小于 6 位' },
-        ]"
-        :validate-trigger="['change', 'input']"
-      >
+      <a-form-item field="password" tooltip="密码不小于 6 位" :rules="[
+        { required: true, message: '密码是必填项' },
+        { minLength: 6, message: '密码不小于 6 位' },
+      ]" :validate-trigger="['change', 'input']">
         <a-input-password v-model="registerForm.password" placeholder="请输入密码" />
       </a-form-item>
       <div class="gray form-item-dsc">确认密码</div>
-      <a-form-item
-        field="confirmPassword"
-        tooltip="密码需与上面的密码一致"
-        :rules="[
-          { required: true, message: '密码是必填项' },
-          {
-            validator: (value: string | undefined, callback: any) => {
-              if (value !== registerForm.password) {
-                callback('确认密码需与上面的密码一致')
-              } else {
-                callback()
-              }
-            },
-            message: '确认密码需与上面的密码一致',
+      <a-form-item field="confirmPassword" tooltip="密码需与上面的密码一致" :rules="[
+        { required: true, message: '密码是必填项' },
+        {
+          validator: (value: string | undefined, callback: any) => {
+            if (value !== registerForm.password) {
+              callback('确认密码需与上面的密码一致')
+            } else {
+              callback()
+            }
           },
-        ]"
-        :validate-trigger="['change', 'input']"
-      >
+          message: '确认密码需与上面的密码一致',
+        },
+      ]" :validate-trigger="['change', 'input']">
         <a-input-password v-model="registerForm.confirmPassword" placeholder="请再次输入密码" />
       </a-form-item>
       <!-- <a-form-item>
@@ -149,21 +127,25 @@ const handleClickRegisterBtn = async () => {
   justify-content: center;
   flex-direction: column;
   background: var(--body-bg-1);
+
   .title {
     margin-bottom: 20px;
   }
+
   .login-btn {
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: space-between;
   }
+
   .register-form {
     margin-top: 20px;
     max-width: 480px;
     width: 80%;
     min-width: 240px;
   }
+
   .gray {
     color: var(--color-text-secondary);
   }
@@ -185,16 +167,20 @@ const handleClickRegisterBtn = async () => {
     border-radius: 8px;
     outline: none;
   }
+
   .login-btn:hover {
     background: var(--btn-login-bg-hover);
   }
+
   .prompt {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 50px;
+
     a {
       color: var(--btn-login-bg);
+
       &:hover {
         color: var(--btn-login-bg-hover);
       }

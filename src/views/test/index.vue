@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, h } from 'vue'
-import LoadMore from '@/components/load-more/index.vue'
-import Loading from '@/components/loading/index.vue'
+import LoadMore from '@/components/LoadMore/LoadMore.vue'
+import Loading from '@/components/Loading/Loading.vue'
 
 const baseUrl = 'https://picsum.photos/200/300'
 
@@ -36,11 +36,9 @@ const changBool = () => {
       <div class="inner">测试</div>
     </div>
     <div>
-      <img
-        referrerpolicy="no-referrer"
+      <img referrerpolicy="no-referrer"
         src="https://i1.hdslb.com/bfs/archive/f5627d00cd0bf05084f052f7ae1aed96a8d7041b.png@672w_378h_1c_!web-search-common-cover.avif"
-        alt=""
-      />
+        alt="" />
     </div>
     <div>
       <button @click="changBool">
@@ -68,6 +66,7 @@ const changBool = () => {
   height: 300px;
   overflow-y: auto;
   background: #ccc;
+
   .inner {
     width: 100%;
     height: 1000px;

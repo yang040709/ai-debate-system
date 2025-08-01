@@ -43,6 +43,10 @@
     border-radius: 8px;
     padding: 10px;
     cursor: pointer;
+
+    &:hover {
+      background: var(--theme-blue-5-hover);
+    }
   }
 }
 </style>
