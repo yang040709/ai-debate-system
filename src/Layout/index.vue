@@ -1,6 +1,43 @@
 <script setup lang="ts">
 import GlobalHeader from './global-header/index.vue'
 import GlobalFooter from './global-footer/index.vue'
+import { useRoute, useRouter } from 'vue-router';
+import { ref, computed } from 'vue'
+
+
+const route = useRoute();
+
+
+const routerViewClass = computed(() => {
+  console.log(route.meta);
+  if (route.meta && route.meta.layout) {
+    return "";
+  }
+  else {
+    return "router-view-container";
+  }
+})
+
+// 有两种写法，上面和下面都可以
+
+// const routerViewClass = ref("router-view-container")
+// const setClass = (route: any) => {
+//   if (route?.meta?.layout) {
+//     routerViewClass.value = ""
+//     console.log("!!!");
+//   }
+//   else {
+//     routerViewClass.value = "router-view-container"
+//   }
+// }
+
+
+// router.beforeEach((to, from) => {
+//   setClass(to)
+// })
+
+// setClass(route)
+
 </script>
 
 <template>
@@ -9,7 +46,7 @@ import GlobalFooter from './global-footer/index.vue'
       <GlobalHeader />
     </header>
     <main class="main">
-      <router-view />
+      <router-view :class="routerViewClass" />
     </main>
     <footer class="footer">
       <GlobalFooter />
@@ -19,6 +56,14 @@ import GlobalFooter from './global-footer/index.vue'
 
 <style lang="scss" scoped>
 @use 'sass:map';
+
+.router-view-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
 
 .layout-container {
   width: 100%;

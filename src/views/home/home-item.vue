@@ -29,6 +29,7 @@ defineProps<HomeItemProps>()
 <style scoped lang="scss">
 .home-container {
   width: 100%;
+  padding: 20px;
 
   .top {
     display: flex;
@@ -45,6 +46,10 @@ defineProps<HomeItemProps>()
     .link {
       cursor: pointer;
       color: var(--theme-gray-1);
+
+      &:hover {
+        color: var(--theme-blue-1)
+      }
     }
   }
 }

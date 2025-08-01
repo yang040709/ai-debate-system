@@ -1,50 +1,14 @@
 <script setup lang='ts'>
 import RankingItem from './RankingItem.vue';
-const arr = [
-  {
-    ranking: 1,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890
-  },
-  {
-    ranking: 2,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890,
-    avatar: "https://ui-avatars.com/api/?name=P&background=random"
-  },
-  {
-    ranking: 3,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890,
-    avatar: "https://ui-avatars.com/api/?name=Z&background=random"
-  },
-  {
-    ranking: 4,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890
-  },
-  {
-    ranking: 5,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890
-  },
-  {
-    ranking: 6,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890
-  }
-]
+import type { Ranking } from '@/types/ranking'
+
+defineProps<{ list: Ranking[] }>()
+
 </script>
 
 <template>
   <div class='ranking-list-container'>
-    <ranking-item v-for="item in arr" :key="item.ranking" :rank="item">
+    <ranking-item v-for="item in list" :key="item.ranking" :rank="item">
     </ranking-item>
   </div>
 </template>

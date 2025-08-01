@@ -52,10 +52,11 @@ defineProps<{ rank: Ranking }>()
     align-items: center;
 
     .ranking {
-      margin-right: 15px;
+      // margin-right: 15px;
       font-size: 20px;
       font-weight: 700;
       color: var(--color-text-secondary);
+      width: 40px;
 
       &.yellow {
         color: var(--theme-yellow-1);

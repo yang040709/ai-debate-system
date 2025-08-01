@@ -1,74 +1,19 @@
 <script setup lang='ts'>
-import HomeItem from './home-item.vue'
-import StartDebate from '@/components/StartDebate/StartDebate.vue'
-import TopicList from '@/components/Topic/TopicList.vue'
-import RankingList from '@/components/Ranking/RankingList.vue'
-import createTopic from '@/components/CreateTopic/CreateTopic.vue'
-import TagList from '@/components/Tag/TagList.vue'
+import TopicList from '@/components/Topic/TopicList.vue';
+import { watch } from 'vue'
+const props = defineProps({
+  type: {
+    type: String,
+    default: "全部"
+  }
+})
 
+watch(() => props.type, (newVal) => {
+  console.log("获取数据", newVal);
+})
 
-
-const obj = {
-  id: "aa45ac484cc",
-  title: "人工智能是否应该拥有法律人格？", difficulty: "difficult",
-  content: "人工智能是否应该拥有法律人格？",
-  created_at: "2023-05-01 12:00:00",
-  participant_count: 200,
-  status: "open",
-  creator: { name: "张三", avatar: "https://avatars.githubusercontent.com/u/12345678?v=4" },
-  tags: ["人工智能", "法律", "人格"],
-  support_count: 120,
-  comment_count: 248,
-}
-
-const obj2 = {
-  ranking: 1,
-  name: '张三',
-  winningRate: '89%',
-  score: 2890
-}
 
 const arr = [
-  {
-    ranking: 1,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890
-  },
-  {
-    ranking: 2,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890,
-    avatar: "https://ui-avatars.com/api/?name=P&background=random"
-  },
-  {
-    ranking: 3,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890,
-    avatar: "https://ui-avatars.com/api/?name=Z&background=random"
-  },
-  {
-    ranking: 4,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890
-  },
-  {
-    ranking: 5,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890
-  },
-  {
-    ranking: 6,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890
-  }
-]
-const arr2 = [
   {
     id: "aa45ac484cc",
     title: "人工智能是否应该拥有法律人格？", difficulty: "difficult",
@@ -90,8 +35,8 @@ const arr2 = [
     status: "open",
     creator: { name: "张三", avatar: "https://avatars.githubusercontent.com/u/12345678?v=4" },
     tags: ["人工智能", "法律", "人格"],
-    // support_count: 120,
-    // comment_count: 248,
+    support_count: 120,
+    comment_count: 248,
   },
   {
     id: "aa45ac484cc",
@@ -145,49 +90,21 @@ const arr2 = [
 </script>
 
 <template>
-  <div class='home-container'>
-    <home-item>
-      <start-debate></start-debate>
-    </home-item>
-
-    <div class="home-content">
-      <div class="content-left">
-        <home-item title="热门话题" :link="{ text: '查看更多', href: '/about' }">
-          <topic-list :list="arr2"></topic-list>
-        </home-item>
-        <home-item title="排行榜" :link="{ text: '查看更多', href: '/about' }">
-          <ranking-list :list="arr"></ranking-list>
-        </home-item>
-      </div>
-      <div class="content-right">
-        <home-item title="创建辩论话题">
-          <create-topic></create-topic>
-        </home-item>
-        <home-item title="标签">
-          <tag-list></tag-list>
-        </home-item>
-      </div>
-    </div>
-
+  <div class='topic-detail-container'>
+    <topic-list :list="arr"></topic-list>
     <div>
-      <router-link to="/test1">去往测试页1</router-link>
-      <br>
-      <router-link to="/test2">去往测试页2</router-link>
+      {{ type }}
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.home-content {
-  display: grid;
-  grid-template-columns: 2fr 380px;
-}
+.topic-detail-container {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  // padding-top: 20px;
+  padding: 20px;
 
-.ranking-container {
-  width: 60%;
-}
-
-.test-container {
-  display: flex;
 }
 </style>

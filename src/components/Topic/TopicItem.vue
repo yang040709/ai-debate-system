@@ -4,6 +4,7 @@ import type { Topic } from '@/types/topic'
 
 const props = defineProps<{
   topic: Topic
+  isShowDesc?: boolean
 }>()
 
 
@@ -19,6 +20,9 @@ const handleClick = () => {
     <div class="topic-top">
       <h4>{{ topic.title }}</h4>
       <span>{{ topic.participant_count }}人参与</span>
+    </div>
+    <div class="topic-desc" v-if="isShowDesc">
+      {{ topic.desc }}
     </div>
     <div class="topic-bottom">
       <div class="topic-info">
@@ -72,6 +76,14 @@ const handleClick = () => {
     span {
       color: var(--theme-blue-1);
     }
+  }
+
+
+  .topic-desc {
+    margin: 15px 0;
+    font-size: 14px;
+    padding-right: 100px;
+    color: var(--theme-gray-1);
   }
 
   .topic-bottom {

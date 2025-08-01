@@ -1,11 +1,7 @@
 <script setup lang="ts">
 
-interface TagItemProps {
-  color: string;
-  text: string;
-}
-
-defineProps<TagItemProps>()
+import type { Tag } from '@/types/tag'
+defineProps<Tag>()
 
 </script>
 
