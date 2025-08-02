@@ -9,7 +9,6 @@ const route = useRoute();
 
 
 const routerViewClass = computed(() => {
-  console.log(route.meta);
   if (route.meta && route.meta.layout) {
     return "";
   }

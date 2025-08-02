@@ -10,7 +10,7 @@ import TagList from '@/components/Tag/TagList.vue'
 
 const obj = {
   id: "aa45ac484cc",
-  title: "人工智能是否应该拥有法律人格？", difficulty: "difficult",
+  title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
   content: "人工智能是否应该拥有法律人格？",
   created_at: "2023-05-01 12:00:00",
   participant_count: 200,
@@ -71,7 +71,7 @@ const arr = [
 const arr2 = [
   {
     id: "aa45ac484cc",
-    title: "人工智能是否应该拥有法律人格？", difficulty: "difficult",
+    title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
     desc: "随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。",
     created_at: "2023-05-01 12:00:00",
     participant_count: 200,
@@ -83,7 +83,7 @@ const arr2 = [
   },
   {
     id: "aa45ac484cc",
-    title: "人工智能是否应该拥有法律人格？", difficulty: "difficult",
+    title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
     desc: "随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。",
     created_at: "2023-05-01 12:00:00",
     participant_count: 200,
@@ -95,7 +95,7 @@ const arr2 = [
   },
   {
     id: "aa45ac484cc",
-    title: "人工智能是否应该拥有法律人格？", difficulty: "difficult",
+    title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
     desc: "随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。",
     created_at: "2023-05-01 12:00:00",
     participant_count: 200,
@@ -107,7 +107,7 @@ const arr2 = [
   },
   {
     id: "aa45ac484cc",
-    title: "人工智能是否应该拥有法律人格？", difficulty: "difficult",
+    title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
     desc: "随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。",
     created_at: "2023-05-01 12:00:00",
     participant_count: 200,
@@ -119,7 +119,7 @@ const arr2 = [
   },
   {
     id: "aa45ac484cc",
-    title: "人工智能是否应该拥有法律人格？", difficulty: "difficult",
+    title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
     desc: "随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。",
     created_at: "2023-05-01 12:00:00",
     participant_count: 200,
@@ -131,7 +131,7 @@ const arr2 = [
   },
   {
     id: "aa45ac484cc",
-    title: "人工智能是否应该拥有法律人格？", difficulty: "difficult",
+    title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
     desc: "随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。",
     created_at: "2023-05-01 12:00:00",
     participant_count: 200,
@@ -142,6 +142,15 @@ const arr2 = [
     // comment_count: 248,
   }
 ]
+
+
+const isShow = {
+  comment: false,
+  support: true,
+  tags: true,
+  desc: false,
+  difficulty: true
+}
 </script>
 
 <template>
@@ -152,18 +161,18 @@ const arr2 = [
 
     <div class="home-content">
       <div class="content-left">
-        <home-item title="热门话题" :link="{ text: '查看更多', href: '/about' }">
-          <topic-list :list="arr2"></topic-list>
+        <home-item title="热门辩论话题" :link="{ text: '查看更多', routerName: 'topicAll' }">
+          <topic-list :list="arr2" :is-show="isShow"></topic-list>
         </home-item>
-        <home-item title="排行榜" :link="{ text: '查看更多', href: '/about' }">
+        <home-item title="排行榜" :link="{ text: '查看更多', routerName: 'rank' }">
           <ranking-list :list="arr"></ranking-list>
         </home-item>
       </div>
       <div class="content-right">
-        <home-item title="创建辩论话题">
+        <home-item title="创建辩论话题" :link="{ routerName: 'creative' }">
           <create-topic></create-topic>
         </home-item>
-        <home-item title="标签">
+        <home-item title="标签" :link="{ routerName: 'topicAll' }">
           <tag-list></tag-list>
         </home-item>
       </div>

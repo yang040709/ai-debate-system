@@ -4,17 +4,36 @@ import TagItem from './TagItem.vue';
 
 const colors = ["var(--theme-tag-1)", "var(--theme-tag-2)", "var(--theme-tag-3)", "var(--theme-tag-4)", "var(--theme-tag-5)"]
 
+
+interface TagProps {
+  text: string;
+  href: string;
+}
+
+
 withDefaults(defineProps<{
-  tagsList?: string[]
+  tagsList?: TagProps[]
 }>(), {
-  tagsList: () => ["社会", "伦理", "科技", "未来", "环境", "经济", "商业", "教育", "文化", "艺术"]
+  tagsList: () => [
+    { text: "社会", href: "社会" },
+    { text: "伦理", href: "伦理" },
+    { text: "科技", href: "科技" },
+    { text: "未来", href: "未来" },
+    { text: "环境", href: "环境" },
+    { text: "经济", href: "经济" },
+    { text: "商业", href: "商业" },
+    { text: "教育", href: "教育" },
+    { text: "文化", href: "文化" },
+    { text: "艺术", href: "艺术" },
+  ]
 })
 
 </script>
 
 <template>
   <div class='tag-list-container'>
-    <tag-item v-for="(item, index) in tagsList" :color="colors[index % colors.length]" :text="item"></tag-item>
+    <tag-item v-for="(item, index) in tagsList" :color="colors[index % colors.length]" :text="item.text"
+      :href="item.href"></tag-item>
   </div>
 </template>
 

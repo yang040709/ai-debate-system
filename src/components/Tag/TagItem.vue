@@ -1,12 +1,27 @@
 <script setup lang="ts">
 
 import type { Tag } from '@/types/tag'
-defineProps<Tag>()
+import { useRouter } from 'vue-router';
+const props = defineProps<Tag>()
+const router = useRouter();
+
+/* 点击tag跳转到对应的页面 */
+const handleClick = () => {
+  if (props.href) {
+    router.push({
+      name: "topic",
+      params: {
+        type: props.href,
+        difficulty: "全部"
+      }
+    })
+  }
+}
 
 </script>
 
 <template>
-  <div class='tag-item-container'>
+  <div class='tag-item-container' @click="handleClick">
     <div class="tag-color-box" :style="{ background: color }">
       <icon-tag :size="25" />
     </div>

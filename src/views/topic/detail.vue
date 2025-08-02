@@ -1,16 +1,16 @@
 <script setup lang='ts'>
 import TopicList from '@/components/Topic/TopicList.vue';
 import { watch } from 'vue'
-const props = defineProps({
-  type: {
-    type: String,
-    default: "全部"
-  }
-})
+// const props = defineProps({
+//   type: {
+//     type: String,
+//     default: "全部"
+//   }
+// })
 
-watch(() => props.type, (newVal) => {
-  console.log("获取数据", newVal);
-})
+// watch(() => props.type, (newVal) => {
+//   console.log("获取数据", newVal);
+// })
 
 
 const arr = [
@@ -93,7 +93,7 @@ const arr = [
   <div class='topic-detail-container'>
     <topic-list :list="arr"></topic-list>
     <div>
-      {{ type }}
+      <!-- {{ type }} -->
     </div>
   </div>
 </template>

@@ -4,6 +4,10 @@ import { useUserStore } from '@/stores/user.ts'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    /* ​​恢复浏览器原生前进/后退行为​​后退时还原历史滚动位置，新导航时滚动到顶部： */
+    return savedPosition || { top: 0 }
+  },
 })
 
 // 下面两个都是匹配的是路由名。要求拦截的路由必须带name属性

@@ -2,14 +2,34 @@
 import { useUserStore } from '@/stores/user'
 
 import EditModal from './edit-modal.vue'
+import Info from './info.vue'
+import RecordItem from '@/components/Record/RecordItem.vue'
+import RecordList from '@/components/Record/RecordList.vue'
 const userStore = useUserStore()
+
+
+const items = [
+  {
+    label: "胜率",
+    value: "89%"
+  },
+  {
+    label: "场次",
+    value: "128"
+  },
+  {
+    label: "积分",
+    value: "2890"
+  }
+]
+
 </script>
 
 <template>
   <div class="user-container">
     <div class="user-content">
       <div class="box">
-        <a-avatar class="avatar" :style="{ backgroundColor: '#3370ff' }" :size="68">
+        <a-avatar class="avatar" :style="{ backgroundColor: '#3370ff' }" :size="85">
           <!-- <IconUser /> -->
           <img v-placeholder-img class="avatar-img" :data-src="userStore.userInfo.avatar" alt="" />
         </a-avatar>
@@ -17,13 +37,8 @@ const userStore = useUserStore()
           <div class="user-name">{{ userStore.userInfo.nickname }}</div>
           <edit-modal />
         </div>
-        <a-skeleton>
-          <a-space direction="vertical" :style="{ width: '100%', marginTop: '50px' }" size="large">
-            <a-skeleton-line :rows="3" />
-            功能开发中...
-            <a-skeleton-shape />
-          </a-space>
-        </a-skeleton>
+        <Info :items="items"></Info>
+        <RecordList />
       </div>
     </div>
   </div>
@@ -41,8 +56,9 @@ const userStore = useUserStore()
   .user-content {
     overflow: hidden;
     width: 80%;
+    transition: width 0.3s ease-in-out;
     margin: 0 auto;
-    height: calc(90vh - $footer-height - $header-height);
+    min-height: calc(90vh - $footer-height - $header-height);
     position: relative;
   }
 }
@@ -52,9 +68,10 @@ const userStore = useUserStore()
   width: 100%;
   background: var(--user-bg);
   border-radius: 8px;
-  height: 500px;
+  // height: 90%;
   position: relative;
-  padding: 50px 18px;
+  padding: 50px 25px;
+  padding-top: 60px;
 
   .avatar {
     position: absolute;
@@ -80,5 +97,9 @@ const userStore = useUserStore()
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
+}
+
+.test1 {
+  height: 50px;
 }
 </style>

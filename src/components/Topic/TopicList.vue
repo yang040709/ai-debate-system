@@ -1,15 +1,22 @@
 <script setup lang='ts'>
 import TopicItem from './TopicItem.vue';
 import type { Topic } from '@/types/topic'
+interface isShow {
+  comment: boolean,
+  support: boolean,
+  tags: boolean,
+  desc: boolean,
+  difficulty: boolean
+}
 
-defineProps<{ list: Topic[] }>()
+defineProps<{ list: Topic[], isShow?: isShow }>()
 
 
 </script>
 
 <template>
   <div class='topic-list-container'>
-    <topic-item v-for="item in list" :key="item.id" :topic="item" :is-show-desc="true"
+    <topic-item v-for="(item, index) in list" :is-show="isShow" :key="index" :topic="item"
       style="margin-bottom: 20px;"></topic-item>
   </div>
 </template>

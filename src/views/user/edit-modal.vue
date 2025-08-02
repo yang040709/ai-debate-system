@@ -95,7 +95,7 @@ const onChange = (_: any, currentFile: any) => {
 
 <template>
   <div class="edit-modal-container">
-    <a-button type="outline" @click="handleClick">编辑</a-button>
+    <a-button type="outline" @click="handleClick">编辑资料</a-button>
     <a-modal v-model:visible="visible" @cancel="handleCancel" @ok="handleOk" :on-before-ok="handleBeforeOk"
       unmountOnClose ok-text="修改">
       <template #title> 修改资料 </template>

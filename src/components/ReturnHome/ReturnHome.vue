@@ -16,6 +16,8 @@ const handleReturnHome = () => {
 <style lang="scss" scoped>
 .return-home-container {
   position: fixed;
+  top: 10px;
+  left: 10px;
   height: 50px;
   padding: 0 10px;
   border-radius: 10px;
@@ -25,8 +27,7 @@ const handleReturnHome = () => {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  top: 10px;
-  left: 10px;
+
   &:hover {
     background-color: var(--btn-bg-hover);
   }

@@ -118,6 +118,9 @@ select {
   .home-content {
     grid-template-columns: 2fr 1fr !important;
   }
+  .user-content {
+    width: 88% !important;
+  }
 }
 
 // 适应手机的屏幕的媒体查询
@@ -142,5 +145,14 @@ select {
   }
   .home-content {
     grid-template-columns: 1fr !important;
+  }
+  .prompt-text {
+    display: none !important;
+  }
+  .info-container-list {
+    padding: 0 !important;
+  }
+  .user-content {
+    width: 95% !important;
   }
 }

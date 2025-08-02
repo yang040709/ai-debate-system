@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute, RouteRecord, RouteRecordRaw } from 'vue-router'
 import filterRoutes from '@/utils/filterRoutes'
 // import {  HomeOutlined } from '@arco-design/web-vue'
 const router = useRouter()
@@ -13,21 +13,26 @@ console.log(route.name);
 
 
 const handleMenuClick = (e: any) => {
-  // const { link, name } = JSON.parse(e)
-  // if (link) {
-  //   router.push({
-  //     path: link
-  //   })
-  // }
-  // else {
-  //   router.push({
-  //     name: name
-  //   })
-  // }
-  console.log(e);
-  router.push({
-    name: e,
+  let targetRoute: any = {};
+  routes.forEach((route: any) => {
+    if (route.name === e) {
+      targetRoute = route;
+    }
   })
+  let defaultParams = {};
+  // console.log("点击了菜单", route);
+  if (targetRoute?.meta?.defaultParams) {
+    defaultParams = { ...targetRoute.meta.defaultParams }
+    router.push({
+      name: e,
+      params: defaultParams
+    })
+  }
+  else {
+    router.push({
+      name: e,
+    })
+  }
   selectedKey.value = [e]
 }
 

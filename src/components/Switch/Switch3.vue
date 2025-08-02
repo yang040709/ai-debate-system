@@ -1,82 +1,26 @@
 <script setup lang='ts'>
-import { useRoute, useRouter } from 'vue-router';
-import { ref } from 'vue'
-
-const arr = [{
-  text: "全部",
-  href: "全部"
-},
-{
-  text: "热门",
-  href: "热门"
-},
-{
-  text: "社会",
-  href: "社会"
-},
-{
-  text: "伦理",
-  href: "伦理"
-},
-{
-  text: "科技",
-  href: "科技"
-},
-{
-  text: "环境",
-  href: "环境"
-},
-{
-  text: "经济",
-  href: "经济"
-},
-{
-  text: "商业",
-  href: "商业"
-},
-{
-  text: "教育",
-  href: "教育"
-},
-{
-  text: "文化",
-  href: "文化"
-},
-{
-  text: "艺术",
-  href: "艺术"
-},
-]
-
-
-const router = useRouter();
-const route = useRoute();
-
-
-const currentType = ref(route.params.type || "全部")
-
-
-const selectType = (item: { text: string, href: string }) => {
-  router.push({
-    name: "topicDetail",
-    params: {
-      type: item.href
-    }
-  })
+interface SwitchItem {
+  text: string;
+  href: string;
 }
 
-router.beforeEach((to, from) => {
-  currentType.value = to.params.type || "全部"
-})
+defineProps<{
+  list: SwitchItem[],
+  currentRoute: string,
+  bottomBorder?: boolean,
+  promptText?: string,
+  selectItem: (item: SwitchItem) => void
+}>()
 
 
 </script>
 
 <template>
-  <div class='switch-container'>
+  <div class='switch-container' :class="{ 'bottom-border': bottomBorder }">
     <ul ref="switch">
-      <li v-for="item in arr" :data-text="item.text" :data-href="item.href" :key="item.href"
-        :class="{ active: currentType === item.href }" @click="selectType(item)">{{ item.text }}</li>
+      <li class="prompt-text" v-if="promptText">{{ promptText }}</li>
+      <li v-for="item in list" :data-text="item.text" :data-href="item.href" :key="item.href"
+        :class="{ active: currentRoute === item.href }" @click="selectItem(item)">{{ item.text }}</li>
     </ul>
   </div>
 
@@ -85,7 +29,6 @@ router.beforeEach((to, from) => {
 <style scoped lang="scss">
 .switch-container {
   background: var(--header-bg);
-  border-bottom: 1px solid var(--color-border-light);
 
   ul {
     padding: 0 50px;
@@ -111,6 +54,11 @@ router.beforeEach((to, from) => {
     color: var(--color-text-secondary);
     flex: 0 0 auto;
 
+
+    &.prompt-text {
+      padding-right: 0px;
+    }
+
     &.active {
       background: var(--theme-blue-1);
       color: #fff;
@@ -130,5 +78,10 @@ router.beforeEach((to, from) => {
       background: var(--header-bg);
     }
   }
+}
+
+
+.bottom-border {
+  border-bottom: 1px solid var(--color-border-light);
 }
 </style>

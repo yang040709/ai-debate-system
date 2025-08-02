@@ -49,48 +49,27 @@ export default [
         component: () => import('@/views/debate/result.vue'),
       },
       {
-        path: '/topic',
+        path: '/topic/:type?/:difficulty?',
         name: 'topic',
         component: () => import('@/views/topic/index.vue'),
         meta: {
-          childHasOnHeader: true,
-        },
-        children: [
-          {
-            path: '/topic',
-            name: 'topicAll',
-            component: () => import('@/views/topic/detail.vue'),
-            props: true,
-            meta: {
-              onHeader: '辩论话题',
-              layout: 'full',
-            },
+          onHeader: '辩论话题',
+          layout: 'full',
+          defaultParams: {
+            type: '全部',
+            difficulty: '全部',
           },
-          {
-            path: '/topic/:type',
-            name: 'topicDetail',
-            props: true,
-            component: () => import('@/views/topic/detail.vue'),
-            meta: {
-              layout: 'full',
-            },
-          },
-        ],
-      },
-      {
-        path: '/creative',
-        name: 'creative',
-        component: () => import('@/views/creative/index.vue'),
-        meta: {
-          onHeader: '创建话题',
         },
       },
       {
-        path: '/rank',
+        path: '/rank/:type?',
         name: 'rank',
         component: () => import('@/views/rank/index.vue'),
         meta: {
           onHeader: '排名',
+          defaultParams: {
+            type: '总榜',
+          },
         },
       },
       {
@@ -120,6 +99,18 @@ export default [
         component: () => import('@/views/test/index2.vue'),
       },
       {
+        path: '/test3/:type/:difficulty',
+        name: 'test3',
+        component: () => import('@/views/test/index3.vue'),
+        meta: {
+          onHeader: 'test3',
+          defaultParams: {
+            type: '全部',
+            difficulty: '全部',
+          },
+        },
+      },
+      {
         path: '/404',
         name: 'not-find',
         component: () => import('@/views/not-find/index.vue'),
@@ -135,6 +126,11 @@ export default [
     path: '/register',
     name: 'register',
     component: () => import('@/views/user-register/index.vue'),
+  },
+  {
+    path: '/creative',
+    name: 'creative',
+    component: () => import('@/views/creative/index.vue'),
   },
   {
     path: '/:pathMatch(.*)*',
