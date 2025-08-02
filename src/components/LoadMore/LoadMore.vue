@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import loadingSvg from '@/assets/loading.svg'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, useTemplateRef } from 'vue'
 
 const props = defineProps<{
   callBack: () => void
@@ -16,7 +16,7 @@ const intersectionObserver = new IntersectionObserver((entries) => {
   }
 })
 
-const load = ref<HTMLImageElement>()
+const load = useTemplateRef("load")
 
 onMounted(() => {
   if (!load.value) {

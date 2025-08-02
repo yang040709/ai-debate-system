@@ -4,7 +4,7 @@ import { computed, ref } from 'vue'
 import { loginApi, registerApi, getUserInfoApi, updateUserInfoApi } from '@/api/user'
 import { useLocalStorage } from '@vueuse/core'
 import type { UserInfo, LoginForm, RegisterForm, CanModifyUserInfo } from '@/types/user'
-import { handleRegisterError } from '@/utils/error'
+import { handleResponseError } from '@/utils/error'
 
 export const useUserStore = defineStore('user', () => {
   const userInfo = ref<UserInfo>({

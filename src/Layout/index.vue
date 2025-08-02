@@ -1,41 +1,63 @@
 <script setup lang="ts">
 import GlobalHeader from './global-header/index.vue'
 import GlobalFooter from './global-footer/index.vue'
-import { useRoute, useRouter } from 'vue-router';
-import { ref, computed } from 'vue'
-
-
-const route = useRoute();
-
+import { useRoute } from 'vue-router';
+import { computed, onMounted, onUnmounted } from 'vue'
+import $bus from '@/eventBus'
+/* 
+下面是处理路由元信息带来的布局问题
+*/
+const route = useRoute()
 
 const routerViewClass = computed(() => {
   if (route.meta && route.meta.layout) {
-    return "";
+    if (route.meta.layout === "full") {
+      return "router-full-container"
+    }
   }
-  else {
-    return "router-view-container";
-  }
+  return "router-default-container"
 })
 
-// 有两种写法，上面和下面都可以
+/* 有两种写法，上面和下面都可以
 
-// const routerViewClass = ref("router-view-container")
-// const setClass = (route: any) => {
-//   if (route?.meta?.layout) {
-//     routerViewClass.value = ""
-//     console.log("!!!");
-//   }
-//   else {
-//     routerViewClass.value = "router-view-container"
-//   }
-// }
+const routerViewClass = ref("router-default-container")
+const setClass = (route: any) => {
+  if (route?.meta?.layout) {
+    routerViewClass.value = ""
+    console.log("!!!");
+  }
+  else {
+    routerViewClass.value = "router-default-container"
+  }
+}
 
 
-// router.beforeEach((to, from) => {
-//   setClass(to)
-// })
+router.beforeEach((to, from) => {
+  setClass(to)
+})
 
-// setClass(route)
+setClass(route) */
+
+
+/* 
+处理滚动到顶部的事件总线的问题
+*/
+
+onMounted(() => {
+
+  /* 处理滚动到顶部的事件 */
+  $bus.on("scrollTop", () => {
+    document.documentElement.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  })
+})
+
+onUnmounted(() => {
+  $bus.off("scrollTop")
+})
+
 
 </script>
 
@@ -56,13 +78,16 @@ const routerViewClass = computed(() => {
 <style lang="scss" scoped>
 @use 'sass:map';
 
-.router-view-container {
+.router-default-container {
   max-width: 1280px;
   margin: 0 auto;
   padding: 20px;
 }
 
-
+.router-full-container {
+  width: 100%;
+  padding: 0;
+}
 
 .layout-container {
   width: 100%;

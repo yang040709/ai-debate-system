@@ -5,6 +5,7 @@ const AppConfig = {
   version: '0.0.2',
   defaultAvatar: 'https://avatars.githubusercontent.com/u/65129319',
   placeholderImgSrc: '/placeholder.png',
+  // footerList: ['思弈阁 ©2025 | 智能AI辩论系统', '粤 ICP 备 XXXXXXXX 号 '],
   footerList: ['思弈阁 ©2025 | 智能AI辩论系统'],
   BaseURL: '/api',
 } as const

@@ -125,8 +125,8 @@ const handleData = async () => {
       lastItem.content += mockedData.content.slice(j, j + 1)
       j++
     }
-  }, 100)
-  await delay(3000)
+  }, 500)
+  await delay(100000)
   clearInterval(timer)
   lastItem.reasoning += '123'
   lastItem.content += '123'
@@ -169,14 +169,8 @@ const checkClick = () => {
 
 <template>
   <div class="chat-box">
-    <t-chat
-      ref="chatRef"
-      :clear-history="false"
-      :data="chatList"
-      :text-loading="loading"
-      :is-stream-load="isStreamLoad"
-      style="height: 100%"
-    >
+    <t-chat ref="chatRef" :clear-history="false" :data="chatList" :text-loading="loading" :is-stream-load="isStreamLoad"
+      style="height: 100%">
       <!-- @clear="clearConfirm" -->
       <!-- eslint-disable vue/no-unused-vars -->
       <template #content="{ item, index }">
@@ -194,30 +188,16 @@ const checkClick = () => {
       <template #footer>
         <!-- <t-chat-input :stop-disabled="isStreamLoad" @send="inputEnter" @stop="onStop">
         </t-chat-input> -->
-        <t-chat-sender
-          :stop-disabled="isStreamLoad"
-          :textarea-props="{
-            placeholder: '请输入消息...',
-          }"
-          @stop="onStop"
-          @send="inputEnter"
-        >
+        <t-chat-sender :stop-disabled="isStreamLoad" :textarea-props="{
+          placeholder: '请输入消息...',
+        }" @stop="onStop" @send="inputEnter">
           <template #prefix>
             <div class="model-select">
               <t-tooltip v-model:visible="allowToolTip" content="切换模型" trigger="hover">
-                <t-select
-                  v-model="selectValue"
-                  :options="selectOptions"
-                  value-type="object"
-                  @focus="allowToolTip = false"
-                ></t-select>
+                <t-select v-model="selectValue" :options="selectOptions" value-type="object"
+                  @focus="allowToolTip = false"></t-select>
               </t-tooltip>
-              <t-button
-                class="check-box"
-                :class="{ 'is-active': isChecked }"
-                variant="text"
-                @click="checkClick"
-              >
+              <t-button class="check-box" :class="{ 'is-active': isChecked }" variant="text" @click="checkClick">
                 <span>深度思考</span>
               </t-button>
             </div>
@@ -237,14 +217,18 @@ const checkClick = () => {
 ::-webkit-scrollbar-thumb {
   background-color: var(--td-scrollbar-color);
 }
+
 ::-webkit-scrollbar-thumb:horizontal:hover {
   background-color: var(--td-scrollbar-hover-color);
 }
+
 ::-webkit-scrollbar-track {
   background-color: var(--td-scroll-track-color);
 }
+
 .chat-box {
   position: relative;
+
   .bottomBtn {
     position: absolute;
     left: 50%;
@@ -260,6 +244,7 @@ const checkClick = () => {
       0px 16px 24px 2px rgba(0, 0, 0, 0.04),
       0px 6px 30px 5px rgba(0, 0, 0, 0.05);
   }
+
   .to-bottom {
     width: 40px;
     height: 40px;
@@ -272,6 +257,7 @@ const checkClick = () => {
     display: flex;
     align-items: center;
     justify-content: center;
+
     .t-icon {
       font-size: 24px;
     }
@@ -281,15 +267,18 @@ const checkClick = () => {
 .model-select {
   display: flex;
   align-items: center;
+
   .t-select {
     width: 112px;
     height: 32px;
     margin-right: 8px;
+
     .t-input {
       border-radius: 32px;
       padding: 0 15px;
     }
   }
+
   .check-box {
     width: 112px;
     height: 32px;
@@ -299,15 +288,18 @@ const checkClick = () => {
     color: rgba(0, 0, 0, 0.9);
     box-sizing: border-box;
     flex: 0 0 auto;
+
     .t-button__text {
       display: flex;
       align-items: center;
       justify-content: center;
+
       span {
         margin-left: 4px;
       }
     }
   }
+
   .check-box.is-active {
     border: 1px solid #d9e1ff;
     background: #f2f3ff;

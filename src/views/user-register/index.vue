@@ -6,7 +6,6 @@ import ReturnHome from '@/components/ReturnHome/ReturnHome.vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { templateRef } from '@vueuse/core'
 
 type RegisterFromState = RegisterForm & {
   confirmPassword: string

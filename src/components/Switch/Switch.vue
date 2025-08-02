@@ -1,6 +1,5 @@
 <script setup lang='ts'>
-import { templateRef } from '@vueuse/core';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
 import { debounce } from '@/utils/index'
 
 // const arr = ["全部", "社会", "伦理", "科技", "未来", "环境", "经济", "商业", "教育", "文化", "艺术"]
@@ -48,7 +47,7 @@ const arr = [{
 },
 ]
 
-const switchRef = templateRef("switch")
+const switchRef = useTemplateRef("switch")
 const isShrink = ref(false)
 
 interface NewArr {

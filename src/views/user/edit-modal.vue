@@ -2,6 +2,12 @@
 import { ref, reactive, watchEffect } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { Message } from '@arco-design/web-vue'
+import { useModalVisible } from '@/composition/useModelVisible'
+
+// 处理可见性
+const { visible, handleClick, handleCancel, handleOk } = useModalVisible()
+
+
 // 回显数据
 const userStore = useUserStore()
 
@@ -10,12 +16,18 @@ const form = reactive({
   avatar: userStore.userInfo.avatar,
 })
 
+/* 
+防止修改后数据不更新的问题
+*/
+
 watchEffect(() => {
   form.nickname = userStore.userInfo.nickname || ''
   form.avatar = userStore.userInfo.avatar || ''
 })
 
-//
+
+
+//处理上传文件
 const file = ref()
 
 const uploadAvatar = (option: any) => {
@@ -55,17 +67,16 @@ const uploadAvatar = (option: any) => {
   }
 }
 
-// 处理可见性
-
-const visible = ref<boolean>(false)
-
-const handleClick = () => {
-  visible.value = true
+const onChange = (_: any, currentFile: any) => {
+  file.value = {
+    ...currentFile,
+  }
 }
 
-const handleBeforeOk = async () => {
-  // await new Promise((resolve) => setTimeout(resolve, 3000))
 
+// 提交数据
+
+const handleBeforeOk = async () => {
   const res = await userStore.updateUserInfo({
     nickname: form.nickname,
     avatar: form.avatar,
@@ -75,21 +86,6 @@ const handleBeforeOk = async () => {
   }
   Message.success('修改成功')
   return true
-}
-
-const handleCancel = () => {
-  visible.value = false
-}
-
-const handleOk = () => {
-  visible.value = false
-}
-
-const onChange = (_: any, currentFile: any) => {
-  file.value = {
-    ...currentFile,
-    // url: URL.createObjectURL(currentFile.file),
-  }
 }
 </script>
 

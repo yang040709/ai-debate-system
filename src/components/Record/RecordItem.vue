@@ -152,9 +152,9 @@ defineProps<{
   }
 
 
-  &:hover {
-    background: var(--theme-gray-2-hover);
-  }
+  // &:hover {
+  //   background: var(--theme-gray-2-hover);
+  // }
 
   .canJumpTo {
     p {

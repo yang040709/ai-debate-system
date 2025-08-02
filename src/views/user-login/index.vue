@@ -19,14 +19,6 @@ if (import.meta.env.DEV) {
   loginForm.password = '123456'
 }
 
-// const handleLoginError = (error: any) => {
-//   console.error('登录失败:', error)
-//   let errorMessage = error instanceof Error ? error.message : null
-//   if (!errorMessage) {
-//     errorMessage = error?.msg || '登录失败，请检查网络连接'
-//   }
-//   Message.error(errorMessage as string)
-// }
 
 const toRegister = () => {
   router.push({
@@ -40,8 +32,6 @@ const toRegister = () => {
 const loginFormRef = useTemplateRef('loginFormRef')
 
 const handleClickLoginBtn = async () => {
-  console.log('点击了登录')
-  console.log(loginFormRef)
   const res = await loginFormRef.value.validate()
   if (res) {
     // 说明校验有问题

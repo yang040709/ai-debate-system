@@ -4,7 +4,9 @@ import AppConfig from '@/config/app.config'
 import { ref } from 'vue'
 
 export const useAppStore = defineStore('app', () => {
-  // 使用vueUse轻松实现亮/暗主题切换
+  /* 
+    使用vueUse轻松实现亮/暗主题切换
+  */
   const isDark = useDark({
     onChanged(dark: boolean) {
       if (dark) {
@@ -63,8 +65,13 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
-  // 使用vueUse 生成响应式的标题
+  /* 
+  
+  使用vueUse 生成响应式的标题
+
+  */
   const title = useTitle(AppConfig.appName, { titleTemplate: `%s | ${AppConfig.appTitle}` })
+
   return {
     isDark,
     isFollowSystem,

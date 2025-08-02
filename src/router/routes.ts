@@ -8,18 +8,19 @@ name属性必须书写，是决定路由的唯一标识，否则无法出现在h
 1、菜单栏对应路由规则
 所有的路由的name都不得相同
 如果路由要显示到菜单导航上面就要写meta.onHeader属性
+
+下面这个规则待确认：
 如果有子路由要显示到菜单栏上面就要写meta.childHasOnHeader属性
 
 2、布局规则
 meta.layout属性可以写你的想要的布局，但是如果不写的话，默认就是默认样式
 目前只有默认样式和全屏样式
-只要你往layout写任何东西都会让布局变成全屏样式
+只要你往layout写full就可以让布局变成全屏样式
 
-
+3. 默认参数规则
+如果路由有默认参数就要写meta.defaultParams属性
 
 childHasOnHeader
-
-
 */
 
 export default [
@@ -97,6 +98,9 @@ export default [
         path: '/test2',
         name: 'test2',
         component: () => import('@/views/test/index2.vue'),
+        meta: {
+          onHeader: 'test2',
+        },
       },
       {
         path: '/test3/:type/:difficulty',

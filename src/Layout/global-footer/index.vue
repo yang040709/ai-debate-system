@@ -1,27 +1,34 @@
 <script setup lang="ts">
-import { inject } from 'vue'
-
-const footerList = inject<AppConfig>('config')?.footerList
+const siteInfo = {
+  name: '思弈阁',
+  year: new Date().getFullYear(),
+  description: '智能AI辩论系统',
+  icp: '粤ICP备123456号'
+}
 </script>
 
 <template>
   <div class="footer-container">
-    <div v-for="item in footerList" :key="item">
-      {{ item }}
-    </div>
+    <ul>
+      <li><router-link to="/">{{ siteInfo.name }}</router-link> ©{{ siteInfo.year }} |
+        <router-link to="/">{{ siteInfo.description }}</router-link>
+      </li>
+      <li>{{ siteInfo.icp }}</li>
+    </ul>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .footer-container {
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: flex-end;
-  // padding-bottom: 20px;
-  // height: $footer-height;
-  line-height: $footer-height;
   border-top: 1px solid var(--color-border-light);
   font-size: 12px;
   color: #b7b6b6;
+  padding: 12px 0;
+
+  ul {
+    li {
+      margin: 8px 0;
+    }
+  }
 }
 </style>

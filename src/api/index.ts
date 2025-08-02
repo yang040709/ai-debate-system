@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useUserStore } from '@/stores/user'
 import AppConfig from '@/config/app.config'
-import { handleRegisterError } from '@/utils/error'
+import { handleResponseError } from '@/utils/error'
 
 const require = axios.create({
   baseURL: AppConfig.BaseURL,
@@ -26,7 +26,7 @@ require.interceptors.response.use(
     const res = response.data // 获取完整响应体
     if (res.code !== 0) {
       // 处理响应错误
-      handleRegisterError(res, response.config.meta)
+      handleResponseError(res, response.config.meta)
       return Promise.reject(res.msg)
     }
     /* 
@@ -39,7 +39,7 @@ require.interceptors.response.use(
     return res.data || 'request success!!'
   },
   (err) => {
-    handleRegisterError(err)
+    handleResponseError(err)
     return Promise.reject(err)
   },
 )

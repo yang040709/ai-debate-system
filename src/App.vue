@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import { useUserStore } from '@/stores/user'
 import { useAppStore } from './stores/app'
+// import { RouterView } from 'vue-router'
+// import { useUserStore } from '@/stores/user'
 // 获取用户信息
 // const userStore = useUserStore()
 // userStore.getUserInfo()

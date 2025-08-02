@@ -1,11 +1,89 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user'
-
-import EditModal from './edit-modal.vue'
+// import { useUserStore } from '@/stores/user'
+// import EditModal from './edit-modal.vue'
 import Info from './info.vue'
-import RecordItem from '@/components/Record/RecordItem.vue'
 import RecordList from '@/components/Record/RecordList.vue'
-const userStore = useUserStore()
+import Head from './head.vue';
+import ScrollTop from '@/components/ScrollTop/ScrollTop.vue';
+import type { Record } from '@/types/record';
+
+// const userStore = useUserStore()
+
+
+const items1: Record[] = [
+  {
+    recordId: '1',
+    title: '人工智能是否应该拥有法律人格？',
+    status: '胜利',
+    timeAgo: '2小时前',
+    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
+    tags: ['人工智能', '法律', '人格'],
+    difficulty: '困难',
+    scoreChange: 100
+  },
+  {
+    recordId: '2',
+    title: '人工智能是否应该拥有法律人格？',
+    status: '失败',
+    timeAgo: '2小时前',
+    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
+    tags: ['人工智能', '法律', '人格'],
+    difficulty: '困难',
+    scoreChange: -20
+  },
+  {
+    recordId: '3',
+    title: '人工智能是否应该拥有法律人格？',
+    status: '胜利',
+    timeAgo: '2小时前',
+    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
+    tags: ['人工智能', '法律', '人格'],
+    difficulty: '困难',
+    scoreChange: 100
+  },
+  {
+    recordId: '4',
+    title: '人工智能是否应该拥有法律人格？',
+    status: '失败',
+    timeAgo: '2小时前',
+    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
+    tags: ['人工智能', '法律', '人格'],
+    difficulty: '困难',
+    scoreChange: -20
+  },
+  {
+    recordId: '5',
+    title: '人工智能是否应该拥有法律人格？',
+    status: '胜利',
+    timeAgo: '2小时前',
+    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
+    tags: ['人工智能', '法律', '人格'],
+    difficulty: '困难',
+    scoreChange: 150
+  },
+  {
+    recordId: '4',
+    title: '人工智能是否应该拥有法律人格？',
+    status: '失败',
+    timeAgo: '2小时前',
+    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
+    tags: ['人工智能', '法律', '人格'],
+    difficulty: '困难',
+    scoreChange: -20
+  },
+  {
+    recordId: '5',
+    title: '人工智能是否应该拥有法律人格？',
+    status: '胜利',
+    timeAgo: '2小时前',
+    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
+    tags: ['人工智能', '法律', '人格'],
+    difficulty: '困难',
+    scoreChange: 150
+  }
+]
+
+
 
 
 const items = [
@@ -28,17 +106,12 @@ const items = [
 <template>
   <div class="user-container">
     <div class="user-content">
-      <div class="box">
-        <a-avatar class="avatar" :style="{ backgroundColor: '#3370ff' }" :size="85">
-          <!-- <IconUser /> -->
-          <img v-placeholder-img class="avatar-img" :data-src="userStore.userInfo.avatar" alt="" />
-        </a-avatar>
-        <div class="user-info">
-          <div class="user-name">{{ userStore.userInfo.nickname }}</div>
-          <edit-modal />
-        </div>
+      <div class="user-content-box">
+
+        <Head></Head>
         <Info :items="items"></Info>
-        <RecordList />
+        <RecordList :items="items1" />
+        <ScrollTop />
       </div>
     </div>
   </div>
@@ -47,59 +120,27 @@ const items = [
 <style lang="scss" scoped>
 .user-container {
   width: 100vw;
-  // margin-top: -28px;
-  // margin-left: -28px;
   background: linear-gradient(180deg, var(--user-box-bg1), var(--footer-bg));
-
-  // max-height: 100vh;
 
   .user-content {
     overflow: hidden;
     width: 80%;
+    max-width: 1200px;
     transition: width 0.3s ease-in-out;
     margin: 0 auto;
-    min-height: calc(90vh - $footer-height - $header-height);
+    min-height: calc(90vh - $header-height);
     position: relative;
   }
 }
 
-.box {
+.user-content-box {
   margin-top: 100px;
   width: 100%;
-  background: var(--user-bg);
+  background: var(--theme-white-1);
   border-radius: 8px;
   // height: 90%;
   position: relative;
   padding: 50px 25px;
   padding-top: 60px;
-
-  .avatar {
-    position: absolute;
-    top: 0px;
-    left: 16px;
-    transform: translateY(-50%);
-  }
-}
-
-.user-info {
-  display: flex;
-  justify-content: space-between;
-
-  .user-name {
-    font-size: 24px;
-    color: var(--color-text-primary);
-    font-weight: 500;
-  }
-}
-
-.avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.test1 {
-  height: 50px;
 }
 </style>

@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { ref, watch, h } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import filterRoutes from '@/utils/filterRoutes'
-
+import { ref } from 'vue'
+import { useMenu } from '@/composition/useMenu';
 // 处理菜单的控制问题
 const visible = ref(false)
 const handleClick = () => {
@@ -15,28 +13,8 @@ const handleCancel = () => {
   visible.value = false
 }
 
-// 处理菜单的具体内容
-// import {  HomeOutlined } from '@arco-design/web-vue'
+const { routes, selectedKey, handleMenuClick } = useMenu()
 
-const router = useRouter()
-const route = useRoute()
-
-const routes = filterRoutes(router.getRoutes())
-
-const handleMenuClick = (e: string) => {
-  router.push({
-    name: e,
-  })
-  selectedKey.value = [e]
-  visible.value = false
-}
-
-const initRoute = route.name
-const selectedKey = ref([initRoute])
-
-router.afterEach(() => {
-  selectedKey.value = [route.name as string]
-})
 </script>
 
 <template>

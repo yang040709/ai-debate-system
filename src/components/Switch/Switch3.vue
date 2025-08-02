@@ -31,6 +31,8 @@ defineProps<{
   background: var(--header-bg);
 
   ul {
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 0 50px;
     display: flex;
     gap: 10px;

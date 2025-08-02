@@ -1,19 +1,9 @@
 <script setup lang='ts'>
 import type { Ranking } from '@/types/ranking'
 
-// const obj = {
-//   ranking: 1,
-//   name: '张三',
-//   winningRate: '89%',
-//   score: 2890
-// }
-
-
 defineProps<{ rank: Ranking }>()
 
-
 </script>
-
 <template>
   <div class='ranking-item-container'>
     <div class="left">
