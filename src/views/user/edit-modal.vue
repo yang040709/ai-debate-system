@@ -2,7 +2,7 @@
 import { ref, reactive, watchEffect } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { Message } from '@arco-design/web-vue'
-import { useModalVisible } from '@/composition/useModelVisible'
+import { useModalVisible } from '@/composables/useModelVisible'
 
 // 处理可见性
 const { visible, handleClick, handleCancel, handleOk } = useModalVisible()

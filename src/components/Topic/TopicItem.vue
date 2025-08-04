@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import type { Topic } from '@/types/topic'
 
 
@@ -25,12 +25,6 @@ const props = withDefaults(defineProps<{
   })
 })
 
-// const props = defineProps<{
-//   topic: Topic
-//   isShow?: isShow
-// }>()
-
-
 
 const router = useRouter();
 const handleClick = () => {
@@ -48,20 +42,22 @@ const gotoDebatePage = () => {
 }
 
 
+const route = useRoute();
+
 const gotoTopicPage = (tag: string, type: "type" | "difficulty") => {
   if (type === "type") {
     router.push({
       name: 'topic',
       params: {
         type: tag,
-        difficulty: "全部"
+        difficulty: route.params.difficulty || "-1",
       },
     });
   } else if (type === "difficulty") {
     router.push({
       name: 'topic',
       params: {
-        type: "全部",
+        type: route.params.type || "-1",
         difficulty: tag
       },
     });
@@ -81,10 +77,10 @@ const gotoTopicPage = (tag: string, type: "type" | "difficulty") => {
     </div>
     <div class="topic-bottom">
       <div class="topic-info">
-        <div v-if="topic.support_count && isShow?.support">
+        <div v-if="topic.winningRate && isShow?.support">
           <icon-user-group :size="18" />
           <p>
-            支持率 {{ topic.support_count }}%
+            胜率 {{ topic.winningRate }}%
           </p>
         </div>
         <div v-if="topic.comment_count && isShow?.comment">
@@ -93,15 +89,16 @@ const gotoTopicPage = (tag: string, type: "type" | "difficulty") => {
             {{ topic.comment_count }}条评论
           </p>
         </div>
-        <div v-if="topic.tags && topic.tags.length && isShow?.tags" class="canJumpTo">
+        <div v-if="topic.type && topic.type.length && isShow?.tags" class="canJumpTo">
           <icon-tags :size="18" />
-          <p v-for="(item, index) in topic.tags" :key="index" @click="gotoTopicPage(item, 'type')">
-            {{ item }}
+          <p v-for="(item, index) in topic.type" :key="index" @click="gotoTopicPage(item.id, 'type')">
+            {{ item.name }}
           </p>
         </div>
         <div v-if="topic.difficulty && isShow?.difficulty" class="canJumpTo">
           <icon-question-circle :size="18" />
-          <p @click="gotoTopicPage(topic.difficulty, 'difficulty')"> {{ topic.difficulty }}</p>
+          <p @click="gotoTopicPage(topic.difficulty.id, 'difficulty')">
+            {{ topic.difficulty.name }}</p>
         </div>
       </div>
       <a @click.prevent="handleClick">参加辩论<icon-arrow-right :size="18" /></a>

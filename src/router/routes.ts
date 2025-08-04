@@ -57,8 +57,8 @@ export default [
           onHeader: '辩论话题',
           layout: 'full',
           defaultParams: {
-            type: '全部',
-            difficulty: '全部',
+            type: '-1',
+            difficulty: '-1',
           },
         },
       },

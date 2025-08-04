@@ -1,18 +1,18 @@
 <script setup lang="ts">
 
-import type { Tag } from '@/types/tag'
+import type { TagProps } from '@/types/tag'
 import { useRouter } from 'vue-router';
-const props = defineProps<Tag>()
+const props = defineProps<TagProps>()
 const router = useRouter();
 
 /* 点击tag跳转到对应的页面 */
 const handleClick = () => {
-  if (props.href) {
+  if (props.id) {
     router.push({
       name: "topic",
       params: {
-        type: props.href,
-        difficulty: "全部"
+        type: props.id,
+        difficulty: "-1"
       }
     })
   }
@@ -25,7 +25,7 @@ const handleClick = () => {
     <div class="tag-color-box" :style="{ background: color }">
       <icon-tag :size="25" />
     </div>
-    <span>{{ text }}</span>
+    <span>{{ name }}</span>
   </div>
 </template>
 

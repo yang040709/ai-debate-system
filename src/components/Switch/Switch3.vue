@@ -1,26 +1,42 @@
 <script setup lang='ts'>
-interface SwitchItem {
-  text: string;
-  href: string;
-}
+import Skeleton from '@/components/Skeleton/Skeleton.vue';
+import type { Tag } from '@/types/tag'
 
 defineProps<{
-  list: SwitchItem[],
+  list: Tag[],
+  loading: boolean,
   currentRoute: string,
   bottomBorder?: boolean,
   promptText?: string,
-  selectItem: (item: SwitchItem) => void
+  isShowAll?: boolean,
+  isShowHot?: boolean,
+  selectItem: (item: Tag) => void
 }>()
 
 
+const allType: Tag = {
+  id: '-1',
+  name: '全部'
+}
+const hotType: Tag = {
+  id: '-2',
+  name: '热门'
+}
 </script>
 
 <template>
   <div class='switch-container' :class="{ 'bottom-border': bottomBorder }">
     <ul ref="switch">
       <li class="prompt-text" v-if="promptText">{{ promptText }}</li>
-      <li v-for="item in list" :data-text="item.text" :data-href="item.href" :key="item.href"
-        :class="{ active: currentRoute === item.href }" @click="selectItem(item)">{{ item.text }}</li>
+      <Skeleton v-show="loading" :loading="loading" :animation="true" :rows="1" style="width: 80%;" />
+      <template v-if="!loading">
+        <li v-if="isShowAll" :class="{ active: currentRoute === allType.id }" @click="selectItem(allType)">{{
+          allType.name }}</li>
+        <li v-if="isShowHot" :class="{ active: currentRoute === hotType.id }" @click="selectItem(hotType)">{{
+          hotType.name }}</li>
+        <li v-for="item in list" :key="item.id" :class="{ active: currentRoute === item.id }" @click="selectItem(item)">
+          {{ item.name }}</li>
+      </template>
     </ul>
   </div>
 

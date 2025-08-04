@@ -5,95 +5,32 @@ import Switch3 from '@/components/Switch/Switch3.vue';
 import detail from './detail.vue';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useTagsStore } from '@/stores/tags';
+import { storeToRefs } from 'pinia';
+import type { Tag } from '@/types/tag';
 
 
+const { tagListData, tagListLoading } = storeToRefs(useTagsStore());
 
-const arr = [{
-  text: "全部",
-  href: "全部"
-},
-{
-  text: "社会",
-  href: "社会"
-},
-{
-  text: "伦理",
-  href: "伦理"
-},
-{
-  text: "科技",
-  href: "科技"
-},
-{
-  text: "环境",
-  href: "环境"
-},
-{
-  text: "经济",
-  href: "经济"
-},
-{
-  text: "商业",
-  href: "商业"
-},
-{
-  text: "教育",
-  href: "教育"
-},
-{
-  text: "文化",
-  href: "文化"
-},
-{
-  text: "艺术",
-  href: "艺术"
-},
-]
-
-const arr2 = [{
-  text: "全部",
-  href: "全部"
-},
-{
-  text: "简单",
-  href: "简单"
-},
-{
-  text: "中等",
-  href: "中等"
-},
-{
-  text: "困难",
-  href: "困难"
-},
-{
-  text: "专家",
-  href: "专家"
-},
-{
-  text: "大师",
-  href: "大师"
-},
-]
 
 
 const router = useRouter();
 const route = useRoute();
-const selectType = (item: { text: string, href: string }) => {
+const selectType = (item: Tag) => {
   router.push({
     name: "topic",
     params: {
-      type: item.href,
-      difficulty: route.params.difficulty || "全部"
+      type: item.id,
+      difficulty: route.params.difficulty || "-1"
     }
   })
 }
-const selectDifficulty = (item: { text: string, href: string }) => {
+const selectDifficulty = (item: Tag) => {
   router.push({
     name: "topic",
     params: {
-      type: route.params.type || "全部",
-      difficulty: item.href
+      type: route.params.type || "-1",
+      difficulty: item.id
     }
   })
 }
@@ -108,13 +45,17 @@ router.beforeEach((to, from) => {
   difficultyRoute.value = to.params.difficulty as string || "全部";
 })
 
+
+
 </script>
 
 <template>
   <div class='topic-container'>
-    <switch3 promptText="请选择类型：" :current-route="typeRoute" :list="arr" :select-item="selectType"></switch3>
-    <switch3 :bottom-border="true" promptText="请选择难度：" :current-route="difficultyRoute" :list="arr2"
-      :select-item="selectDifficulty">
+    <switch3 :loading="tagListLoading" promptText="请选择类型：" :current-route="typeRoute" :list="tagListData.type"
+      :select-item="selectType" :is-show-all="true" :is-show-hot="true">
+    </switch3>
+    <switch3 :loading="tagListLoading" :bottom-border="true" promptText="请选择难度：" :current-route="difficultyRoute"
+      :list="tagListData.difficulty" :select-item="selectDifficulty" :is-show-all="true">
     </switch3>
     <detail></detail>
   </div>

@@ -47,6 +47,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ScrollTop: typeof import('./src/components/ScrollTop/ScrollTop.vue')['default']
+    Skeleton: typeof import('./src/components/Skeleton/Skeleton.vue')['default']
     StartDebate: typeof import('./src/components/StartDebate/StartDebate.vue')['default']
     Switch: typeof import('./src/components/Switch/Switch.vue')['default']
     Switch2: typeof import('./src/components/Switch/Switch2.vue')['default']

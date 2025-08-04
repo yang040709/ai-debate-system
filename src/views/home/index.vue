@@ -5,145 +5,12 @@ import TopicList from '@/components/Topic/TopicList.vue'
 import RankingList from '@/components/Ranking/RankingList.vue'
 import createTopic from '@/components/CreateTopic/CreateTopic.vue'
 import TagList from '@/components/Tag/TagList.vue'
-
-
-
-const obj = {
-  id: "aa45ac484cc",
-  title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
-  content: "人工智能是否应该拥有法律人格？",
-  created_at: "2023-05-01 12:00:00",
-  participant_count: 200,
-  status: "open",
-  creator: { name: "张三", avatar: "https://avatars.githubusercontent.com/u/12345678?v=4" },
-  tags: ["人工智能", "法律", "人格"],
-  support_count: 120,
-  comment_count: 248,
-}
-
-const obj2 = {
-  ranking: 1,
-  name: '张三',
-  winningRate: '89%',
-  score: 2890
-}
-
-const arr = [
-  {
-    ranking: 1,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890
-  },
-  {
-    ranking: 2,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890,
-    avatar: "https://ui-avatars.com/api/?name=P&background=random"
-  },
-  {
-    ranking: 3,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890,
-    avatar: "https://ui-avatars.com/api/?name=Z&background=random"
-  },
-  {
-    ranking: 4,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890
-  },
-  {
-    ranking: 5,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890
-  },
-  {
-    ranking: 6,
-    name: '张三',
-    winningRate: '89%',
-    score: 2890
-  }
-]
-const arr2 = [
-  {
-    id: "aa45ac484cc",
-    title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
-    desc: "随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。",
-    created_at: "2023-05-01 12:00:00",
-    participant_count: 200,
-    status: "open",
-    creator: { name: "张三", avatar: "https://avatars.githubusercontent.com/u/12345678?v=4" },
-    tags: ["人工智能", "法律", "人格"],
-    // support_count: 120,
-    comment_count: 248,
-  },
-  {
-    id: "aa45ac484cc",
-    title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
-    desc: "随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。",
-    created_at: "2023-05-01 12:00:00",
-    participant_count: 200,
-    status: "open",
-    creator: { name: "张三", avatar: "https://avatars.githubusercontent.com/u/12345678?v=4" },
-    tags: ["人工智能", "法律", "人格"],
-    // support_count: 120,
-    // comment_count: 248,
-  },
-  {
-    id: "aa45ac484cc",
-    title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
-    desc: "随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。",
-    created_at: "2023-05-01 12:00:00",
-    participant_count: 200,
-    status: "open",
-    creator: { name: "张三", avatar: "https://avatars.githubusercontent.com/u/12345678?v=4" },
-    // tags: ["人工智能", "法律", "人格"],
-    support_count: 120,
-    comment_count: 248,
-  },
-  {
-    id: "aa45ac484cc",
-    title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
-    desc: "随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。",
-    created_at: "2023-05-01 12:00:00",
-    participant_count: 200,
-    status: "open",
-    creator: { name: "张三", avatar: "https://avatars.githubusercontent.com/u/12345678?v=4" },
-    tags: ["人工智能", "法律", "人格"],
-    // support_count: 120,
-    comment_count: 248,
-  },
-  {
-    id: "aa45ac484cc",
-    title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
-    desc: "随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。",
-    created_at: "2023-05-01 12:00:00",
-    participant_count: 200,
-    status: "open",
-    creator: { name: "张三", avatar: "https://avatars.githubusercontent.com/u/12345678?v=4" },
-    // tags: ["人工智能", "法律", "人格"],
-    support_count: 120,
-    comment_count: 248,
-  },
-  {
-    id: "aa45ac484cc",
-    title: "人工智能是否应该拥有法律人格？", difficulty: "困难",
-    desc: "随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。",
-    created_at: "2023-05-01 12:00:00",
-    participant_count: 200,
-    status: "open",
-    creator: { name: "张三", avatar: "https://avatars.githubusercontent.com/u/12345678?v=4" },
-    tags: ["人工智能", "法律", "人格"],
-    support_count: 120,
-    // comment_count: 248,
-  }
-]
-
-
+import { useFetchData } from '@/composables/useFetchData'
+import { getTagListApi } from '@/api/tag'
+import { getTopicListApi } from '@/api/topic';
+import { getRankingListApi } from '@/api/ranking';
+import { useTagsStore } from '@/stores/tags'
+import { storeToRefs } from 'pinia'
 const isShow = {
   comment: false,
   support: true,
@@ -152,6 +19,15 @@ const isShow = {
   difficulty: true
 }
 
+
+
+// const { data: tagListData, loading: tagListLoading, fetchData: fetchTagData } = useFetchData(getTagListApi, '获取标签失败', [], [])
+const { data: topicListData, loading: topicListLoading, fetchData: fetchTopicListData } = useFetchData(getTopicListApi, '获取话题失败', [], [])
+const { data: rankingListData, loading: rankingListLoading, fetchData: fetchRankingListData } = useFetchData(getRankingListApi, '获取排名失败', [], [])
+const { tagListData, tagListLoading } = storeToRefs(useTagsStore())
+
+fetchTopicListData();
+fetchRankingListData();
 
 </script>
 
@@ -163,23 +39,22 @@ const isShow = {
 
     <div class="home-content">
       <div class="content-left">
-        <home-item title="热门辩论话题" :link="{ text: '查看更多', routerName: 'topicAll' }">
-          <topic-list :list="arr2" :is-show="isShow"></topic-list>
+        <home-item title="热门辩论话题" :link="{ text: '查看更多', routerName: 'topic' }">
+          <topic-list :loading="topicListLoading" :list="topicListData" :is-show="isShow"></topic-list>
         </home-item>
         <home-item title="排行榜" :link="{ text: '查看更多', routerName: 'rank' }">
-          <ranking-list :list="arr"></ranking-list>
+          <ranking-list :loading="rankingListLoading" :list="rankingListData"></ranking-list>
         </home-item>
       </div>
       <div class="content-right">
         <home-item title="创建辩论话题" :link="{ routerName: 'creative' }">
           <create-topic></create-topic>
         </home-item>
-        <home-item title="标签" :link="{ routerName: 'topicAll' }">
-          <tag-list></tag-list>
+        <home-item title="标签" :link="{ routerName: 'topic' }">
+          <tag-list :loading="tagListLoading" :list="tagListData.type" />
         </home-item>
       </div>
     </div>
-
     <div>
       <router-link to="/test1">去往测试页1</router-link>
       <br>

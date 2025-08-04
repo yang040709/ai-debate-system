@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMenu } from '@/composition/useMenu';
+import { useMenu } from '@/composables/useMenu';
 
 
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useMenu } from '@/composition/useMenu';
+import { useMenu } from '@/composables/useMenu';
 // 处理菜单的控制问题
 const visible = ref(false)
 const handleClick = () => {
