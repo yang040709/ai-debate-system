@@ -56,7 +56,7 @@ const changBool = () => {
     </div>
     <h1 v-permission="'selectUser'">你好</h1>
     <img v-lazy class="image" :data-src="baseUrl + '?a=' + i" v-for="i in imgCount" :key="i" />
-    <LoadMore :callBack="hello" :isLoading="isLoading" />
+    <LoadMore :callBack="hello" :loading="isLoading" />
   </div>
 </template>
 

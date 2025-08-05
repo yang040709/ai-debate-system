@@ -1,20 +1,29 @@
 <script setup lang="ts">
 import loadingSvg from '@/assets/loading.svg'
-import { onMounted, ref, useTemplateRef } from 'vue'
+import { onMounted, ref, useTemplateRef, watch } from 'vue'
 
 const props = defineProps<{
-  callBack: () => void
-  isLoading: boolean
+  callBack: (...args: any[]) => any
+  loading: boolean
 }>()
 
 const intersectionObserver = new IntersectionObserver((entries) => {
   if (entries[0].isIntersecting) {
-    if (props.isLoading) {
+    if (props.loading) {
       return
     }
     props.callBack()
   }
 })
+
+
+// watch(() => props.loading, () => {
+//   console.log("props.loading", props.loading, "<===");
+//   if (props.loading === false) {
+//     console.log("开始监控");
+//   }
+// })
+
 
 const load = useTemplateRef("load")
 

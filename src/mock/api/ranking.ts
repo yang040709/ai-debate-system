@@ -12,7 +12,6 @@ const generateRankings = () => {
   const rankings = mockjs.mock({
     'list|6-20': [baseTemplate],
   }).list
-  console.log('123', rankings)
   return rankings.map((item: any, index: number) => {
     item.score = 3000 - index * 100 - Math.floor(Math.random() * 100) // 分数递减
     return item
@@ -20,3 +19,4 @@ const generateRankings = () => {
 }
 
 mockjs.mock('/api/rankings', 'get', requestFun(generateRankings))
+// mockjs.mock('/api/rankings', 'get', requestFun([]))

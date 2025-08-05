@@ -28,8 +28,9 @@ const hotType: Tag = {
   <div class='switch-container' :class="{ 'bottom-border': bottomBorder }">
     <ul ref="switch">
       <li class="prompt-text" v-if="promptText">{{ promptText }}</li>
-      <Skeleton v-show="loading" :loading="loading" :animation="true" :rows="1" style="width: 80%;" />
-      <template v-if="!loading">
+      <Skeleton v-if="loading && list.length === 0" :loading="loading" :animation="true" :rows="1"
+        style="width: 80%;" />
+      <template v-if="!loading || list.length !== 0">
         <li v-if="isShowAll" :class="{ active: currentRoute === allType.id }" @click="selectItem(allType)">{{
           allType.name }}</li>
         <li v-if="isShowHot" :class="{ active: currentRoute === hotType.id }" @click="selectItem(hotType)">{{

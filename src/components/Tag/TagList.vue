@@ -15,7 +15,7 @@ defineProps<{
 
 <template>
   <div class='tag-list-container'>
-    <Skeleton v-if="loading" :loading="true" :animation="true" :rows="8" />
+    <Skeleton v-if="loading && list.length === 0" :loading="true" :animation="true" :rows="8" />
     <div v-if="!loading" class="tag-list">
       <tag-item v-for="(item, index) in list" :color="colors[index % colors.length]" :id="item.id"
         :name="item.name"></tag-item>

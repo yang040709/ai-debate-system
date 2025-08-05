@@ -1,4 +1,4 @@
-import { requestFun } from '../utils'
+// import { requestFun } from '../utils'
 import mockjs from 'mockjs'
 import type { Topic } from '@/types/topic'
 const topicList: Topic[] = [
@@ -292,4 +292,28 @@ const topicList: Topic[] = [
   },
 ]
 
-mockjs.mock('/api/topics', 'get', requestFun(topicList))
+/* 
+为什么mock不出来params?
+*/
+mockjs.mock(/\/api\/topics?.+/, 'get', (options) => {
+  const params = options.url.split('?')[1]
+  const paramsObj = params.split('&').reduce((pre, cur) => {
+    const [key, value] = cur.split('=')
+    pre[key] = value
+    return pre
+  }, {} as any)
+  console.log(paramsObj)
+  let data = []
+  data = topicList.filter((item, index) => {
+    return index < Number(paramsObj.limit)
+  })
+  console.log(topicList, data)
+  return {
+    code: 0,
+    msg: 'success',
+    data: {
+      total: topicList.length,
+      list: data,
+    },
+  }
+})

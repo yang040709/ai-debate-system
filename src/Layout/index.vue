@@ -67,7 +67,11 @@ onUnmounted(() => {
       <GlobalHeader />
     </header>
     <main class="main">
-      <router-view :class="routerViewClass" />
+      <router-view :class="routerViewClass" v-slot="{ Component, route }">
+        <keep-alive>
+          <component :is="Component" :key="route.path" />
+        </keep-alive>
+      </router-view>
     </main>
     <footer class="footer">
       <GlobalFooter />

@@ -14,11 +14,13 @@ const animation = ref(true);
 
 <template>
   <div class='ranking-list-container'>
-    <skeleton :loading="loading" :animation="animation" :rows="8" :size="30"></skeleton>
-    <div v-if="!loading" class="ranking-list">
+    <skeleton v-if="loading && list.length === 0" :loading="loading" :animation="animation" :rows="8" :size="30">
+    </skeleton>
+    <div v-if="!loading && list.length > 0" class="ranking-list">
       <ranking-item v-for="item in list" :key="item.ranking" :rank="item">
       </ranking-item>
     </div>
+    <Empty v-if="!loading && list.length === 0" />
   </div>
 </template>
 

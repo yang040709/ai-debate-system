@@ -128,6 +128,10 @@ const gotoTopicPage = (tag: string, type: "type" | "difficulty") => {
       font-weight: 700;
       color: var(--color-text-primary);
       cursor: pointer;
+
+      &:hover {
+        color: var(--color-text-primary-hover);
+      }
     }
 
     span {

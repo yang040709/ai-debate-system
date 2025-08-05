@@ -1,6 +1,8 @@
 <script setup lang='ts'>
 import TopicItem from './TopicItem.vue';
 import type { Topic } from '@/types/topic'
+import Empty from '@/components/Empty/Empty.vue';
+import Skeleton from '@/components/Skeleton/Skeleton.vue';
 interface isShow {
   comment: boolean,
   support: boolean,
@@ -16,13 +18,12 @@ defineProps<{ list: Topic[], isShow?: isShow, loading: boolean }>()
 
 <template>
   <div class='topic-list-container'>
-    <a-skeleton animation :loading="loading">
-      <a-skeleton-line :rows="10">123</a-skeleton-line>
-    </a-skeleton>
-    <template v-if="!loading">
+    <Skeleton v-if="loading && list.length === 0" :loading="loading" :animation="true" :rows="8" :size="30"></skeleton>
+    <template v-if="!loading || list.length !== 0">
       <topic-item v-for="(item, index) in list" :is-show="isShow" :key="index" :topic="item"
         style="margin-bottom: 20px;"></topic-item>
     </template>
+    <Empty v-if="!loading && list.length === 0" />
   </div>
 </template>
 

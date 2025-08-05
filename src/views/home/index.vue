@@ -11,6 +11,8 @@ import { getTopicListApi } from '@/api/topic';
 import { getRankingListApi } from '@/api/ranking';
 import { useTagsStore } from '@/stores/tags'
 import { storeToRefs } from 'pinia'
+import type { GetTopicListParams } from '@/types/topic'
+import { ref } from 'vue'
 const isShow = {
   comment: false,
   support: true,
@@ -20,9 +22,17 @@ const isShow = {
 }
 
 
+const params = ref<GetTopicListParams>({
+  page: 0,
+  limit: 8,
+  type: '-2',
+  difficulty: '-1',
+}
+);
+
 
 // const { data: tagListData, loading: tagListLoading, fetchData: fetchTagData } = useFetchData(getTagListApi, '获取标签失败', [], [])
-const { data: topicListData, loading: topicListLoading, fetchData: fetchTopicListData } = useFetchData(getTopicListApi, '获取话题失败', [], [])
+const { data: topicListData, loading: topicListLoading, fetchData: fetchTopicListData } = useFetchData(getTopicListApi, '获取话题失败', { total: 0, list: [] }, [params])
 const { data: rankingListData, loading: rankingListLoading, fetchData: fetchRankingListData } = useFetchData(getRankingListApi, '获取排名失败', [], [])
 const { tagListData, tagListLoading } = storeToRefs(useTagsStore())
 
@@ -40,7 +50,7 @@ fetchRankingListData();
     <div class="home-content">
       <div class="content-left">
         <home-item title="热门辩论话题" :link="{ text: '查看更多', routerName: 'topic' }">
-          <topic-list :loading="topicListLoading" :list="topicListData" :is-show="isShow"></topic-list>
+          <topic-list :loading="topicListLoading" :list="topicListData.list" :is-show="isShow"></topic-list>
         </home-item>
         <home-item title="排行榜" :link="{ text: '查看更多', routerName: 'rank' }">
           <ranking-list :loading="rankingListLoading" :list="rankingListData"></ranking-list>

@@ -1,10 +1,11 @@
 import { request } from './request'
-import type { Topic } from '@/types/topic'
+import type { GetTopicListParams, TopicResponse } from '@/types/topic'
 
 // 获取话题列表
-export const getTopicListApi = () => {
+export const getTopicListApi = (params: GetTopicListParams) => {
   return request({
     url: '/topics',
     method: 'get',
-  }) as Promise<Topic[]>
+    params,
+  }) as Promise<TopicResponse>
 }

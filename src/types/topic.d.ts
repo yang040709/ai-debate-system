@@ -14,3 +14,15 @@ export interface Topic {
   support_count?: number
   comment_count?: number
 }
+
+export interface GetTopicListParams {
+  page: number
+  limit: number
+  type: string
+  difficulty: string
+}
+
+export interface TopicResponse {
+  list: Topic[]
+  total: number
+}
