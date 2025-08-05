@@ -2,11 +2,12 @@
 // import Switch from '@/components/Switch/Switch.vue'
 // import Switch2 from '@/components/Switch/Switch2.vue';
 import Switch3 from '@/components/Switch/Switch3.vue';
-import detail from './detail.vue';
+import Content from './content.vue';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useTagsStore } from '@/stores/tags';
 import { storeToRefs } from 'pinia';
+import ScrollTop from '@/components/ScrollTop/ScrollTop.vue';
 import type { Tag } from '@/types/tag';
 
 
@@ -51,14 +52,23 @@ router.beforeEach((to, from) => {
 
 <template>
   <div class='topic-container'>
-    <switch3 :loading="tagListLoading" promptText="请选择类型：" :current-route="typeRoute" :list="tagListData.type"
-      :select-item="selectType" :is-show-all="true" :is-show-hot="true">
-    </switch3>
-    <switch3 :loading="tagListLoading" :bottom-border="true" promptText="请选择难度：" :current-route="difficultyRoute"
-      :list="tagListData.difficulty" :select-item="selectDifficulty" :is-show-all="true">
-    </switch3>
-    <detail></detail>
+    <div class="topic-switch">
+      <switch3 :loading="tagListLoading" promptText="请选择类型：" :current-route="typeRoute" :list="tagListData.type"
+        :select-item="selectType" :is-show-all="true" :is-show-hot="true">
+      </switch3>
+      <switch3 :loading="tagListLoading" :bottom-border="true" promptText="请选择难度：" :current-route="difficultyRoute"
+        :list="tagListData.difficulty" :select-item="selectDifficulty" :is-show-all="true">
+      </switch3>
+    </div>
+    <Content></Content>
+    <ScrollTop />
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.topic-switch {
+  position: sticky;
+  top: $header-height;
+  left: 0;
+}
+</style>

@@ -22,6 +22,8 @@ const hotType: Tag = {
   id: '-2',
   name: '热门'
 }
+
+
 </script>
 
 <template>
@@ -84,18 +86,18 @@ const hotType: Tag = {
       border-radius: 30px;
     }
 
-    &.switch-more {
-      text-align: center;
-      position: absolute;
-      top: 50%;
-      width: 100px;
-      // border: 1px solid red;
-      transform: translateY(-50%);
-      // bottom: 0;
-      right: 0px;
-      opacity: 1;
-      background: var(--header-bg);
-    }
+    // &.switch-more {
+    //   text-align: center;
+    //   position: absolute;
+    //   top: 50%;
+    //   width: 100px;
+    //   // border: 1px solid red;
+    //   transform: translateY(-50%);
+    //   // bottom: 0;
+    //   right: 0px;
+    //   opacity: 1;
+    //   background: var(--header-bg);
+    // }
   }
 }
 

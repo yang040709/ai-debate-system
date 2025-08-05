@@ -21,7 +21,7 @@ const topicList: Topic[] = [
   {
     id: 't002',
     title: '基因编辑技术是否应全面放开民用？',
-    desc: 'CRISPR 等基因编辑技术的成熟，让修改人类胚胎基因成为可能，但其对人类基因库的潜在风险引发广泛担忧。',
+    desc: 'CRISPR 等基因编辑技术的突破性进展，已能实现对人类胚胎基因的精准修改，为根治遗传性疾病、提升生命质量带来革命性可能。然而，这一技术若全面放开民用，可能引发难以预估的风险：非医学目的的基因增强（如身高、智力优化）可能加剧社会不公，形成 "基因歧视"；脱靶效应可能导致未知基因突变，通过遗传混入人类基因库，对物种延续构成潜在威胁；更可能因商业利益驱动，催生地下基因编辑市场，绕过伦理审查与安全监管。如何在技术创新与风险防控间建立平衡机制，成为全球科学界与伦理学界的核心争议。',
     created_at: '2023-06-15 09:30:00',
     participant_count: 180,
     status: '1',
@@ -277,7 +277,7 @@ const topicList: Topic[] = [
   {
     id: 't018',
     title: '气候变化背景下是否应限制高耗能奢侈品生产？',
-    desc: '奢侈品产业能耗高且碳排放量大，但作为重要经济板块，限制生产可能影响就业与经济增长。',
+    desc: '奢侈品产业因原材料开采、精细加工及全球运输等环节，成为高能耗、高碳排放的典型代表，其生产过程中对稀有皮革、贵金属的过度消耗，以及为维持品牌溢价而采取的限量生产模式，进一步加剧了资源浪费与环境负担。然而，该产业作为全球经济的重要组成部分，不仅创造了巨额税收和高端就业岗位，更带动了设计、手工艺、物流等上下游产业链的发展，若贸然限制生产，可能引发连锁反应，导致大量从业者失业，尤其对依赖奢侈品出口的国家造成显著经济冲击，如何在生态保护与产业存续间找到平衡成为关键争议点。',
     created_at: '2023-06-22 16:00:00',
     participant_count: 170,
     status: '1',
@@ -295,19 +295,17 @@ const topicList: Topic[] = [
 /* 
 为什么mock不出来params?
 */
-mockjs.mock(/\/api\/topics?.+/, 'get', (options) => {
+mockjs.mock(/\/api\/topics\?.+/, 'get', (options) => {
   const params = options.url.split('?')[1]
   const paramsObj = params.split('&').reduce((pre, cur) => {
     const [key, value] = cur.split('=')
     pre[key] = value
     return pre
   }, {} as any)
-  console.log(paramsObj)
   let data = []
   data = topicList.filter((item, index) => {
     return index < Number(paramsObj.limit)
   })
-  console.log(topicList, data)
   return {
     code: 0,
     msg: 'success',
@@ -315,5 +313,17 @@ mockjs.mock(/\/api\/topics?.+/, 'get', (options) => {
       total: topicList.length,
       list: data,
     },
+  }
+})
+
+mockjs.mock(/\/api\/topic\/.+/, 'get', (options) => {
+  const id = options.url.split('/')[3]
+
+  const data = topicList.find((item) => item.id === id)
+  console.log(options, data)
+  return {
+    code: 0,
+    msg: 'success',
+    data,
   }
 })

@@ -32,8 +32,8 @@ const params = ref<GetTopicListParams>({
 
 
 // const { data: tagListData, loading: tagListLoading, fetchData: fetchTagData } = useFetchData(getTagListApi, '获取标签失败', [], [])
-const { data: topicListData, loading: topicListLoading, fetchData: fetchTopicListData } = useFetchData(getTopicListApi, '获取话题失败', { total: 0, list: [] }, [params])
-const { data: rankingListData, loading: rankingListLoading, fetchData: fetchRankingListData } = useFetchData(getRankingListApi, '获取排名失败', [], [])
+const { data: topicListData, loading: topicListLoading, fetchData: fetchTopicListData } = useFetchData(getTopicListApi, [params], { total: 0, list: [] })
+const { data: rankingListData, loading: rankingListLoading, fetchData: fetchRankingListData } = useFetchData(getRankingListApi, [], [])
 const { tagListData, tagListLoading } = storeToRefs(useTagsStore())
 
 fetchTopicListData();

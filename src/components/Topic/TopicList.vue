@@ -11,8 +11,7 @@ interface isShow {
   difficulty: boolean
 }
 
-defineProps<{ list: Topic[], isShow?: isShow, loading: boolean }>()
-
+defineProps<{ list: Topic[], isShow?: isShow, loading: boolean, mode?: "gray" | "border" }>()
 
 </script>
 
@@ -21,7 +20,7 @@ defineProps<{ list: Topic[], isShow?: isShow, loading: boolean }>()
     <Skeleton v-if="loading && list.length === 0" :loading="loading" :animation="true" :rows="8" :size="30"></skeleton>
     <template v-if="!loading || list.length !== 0">
       <topic-item v-for="(item, index) in list" :is-show="isShow" :key="index" :topic="item"
-        style="margin-bottom: 20px;"></topic-item>
+        style="margin-bottom: 20px;" :mode="mode"></topic-item>
     </template>
     <Empty v-if="!loading && list.length === 0" />
   </div>

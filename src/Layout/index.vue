@@ -3,6 +3,7 @@ import GlobalHeader from './global-header/index.vue'
 import GlobalFooter from './global-footer/index.vue'
 import { useRoute } from 'vue-router';
 import { computed, onMounted, onUnmounted } from 'vue'
+import { debounce } from '@/utils';
 import $bus from '@/eventBus'
 /* 
 下面是处理路由元信息带来的布局问题
@@ -52,11 +53,25 @@ onMounted(() => {
       behavior: 'smooth'
     })
   })
+  document.addEventListener("scroll", debounceHandleScroll)
 })
 
 onUnmounted(() => {
   $bus.off("scrollTop")
+  document.documentElement.removeEventListener("scroll", debounceHandleScroll)
 })
+
+
+const handleScroll = (e: Event) => {
+  const scrollTop = document.documentElement.scrollTop;
+  $bus.emit("scroll", scrollTop)
+}
+
+const debounceHandleScroll = debounce(handleScroll, 50)
+
+
+
+
 
 
 </script>

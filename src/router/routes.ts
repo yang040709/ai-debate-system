@@ -50,6 +50,14 @@ export default [
         component: () => import('@/views/debate/result.vue'),
       },
       {
+        path: '/topic/detail/:id?',
+        name: 'topicDetail',
+        component: () => import('@/views/topic-detail/index.vue'),
+        meta: {
+          layout: 'full',
+        },
+      },
+      {
         path: '/topic/:type?/:difficulty?',
         name: 'topic',
         component: () => import('@/views/topic/index.vue'),

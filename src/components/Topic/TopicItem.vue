@@ -15,6 +15,7 @@ interface isShow {
 const props = withDefaults(defineProps<{
   topic: Topic
   isShow?: Partial<isShow>  // 使用 Partial 使属性可选
+  mode?: "gray" | "border"
 }>(), {
   isShow: () => ({
     comment: true,
@@ -34,7 +35,7 @@ const handleClick = () => {
 
 const gotoDebatePage = () => {
   router.push({
-    name: 'debate',
+    name: 'topicDetail',
     params: {
       id: props.topic.id,
     },
@@ -67,7 +68,7 @@ const gotoTopicPage = (tag: string, type: "type" | "difficulty") => {
 </script>
 
 <template>
-  <div class='topic-item-container'>
+  <div class='topic-item-container' :class="{ border: mode === 'border' }">
     <div class="topic-top">
       <h4 @click="gotoDebatePage">{{ topic.title }}</h4>
       <span>{{ topic.participant_count }}人参与</span>
@@ -145,6 +146,7 @@ const gotoTopicPage = (tag: string, type: "type" | "difficulty") => {
     font-size: 14px;
     padding-right: 100px;
     color: var(--theme-gray-1);
+    @include text-ellipsis(2);
   }
 
   .topic-bottom {
@@ -190,5 +192,11 @@ const gotoTopicPage = (tag: string, type: "type" | "difficulty") => {
       }
     }
   }
+}
+
+.topic-item-container.border {
+  background: transparent;
+  border-radius: 0;
+  border-bottom: 1px solid var(--theme-gray-5);
 }
 </style>

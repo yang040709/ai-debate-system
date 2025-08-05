@@ -2,7 +2,7 @@
 import TagItem from './TagItem.vue';
 import Skeleton from '@/components/Skeleton/Skeleton.vue';
 import type { Tag } from '@/types/tag'
-
+import Empty from '../Empty/Empty.vue';
 const colors = ["var(--theme-tag-1)", "var(--theme-tag-2)", "var(--theme-tag-3)", "var(--theme-tag-4)", "var(--theme-tag-5)"]
 
 
@@ -16,10 +16,11 @@ defineProps<{
 <template>
   <div class='tag-list-container'>
     <Skeleton v-if="loading && list.length === 0" :loading="true" :animation="true" :rows="8" />
-    <div v-if="!loading" class="tag-list">
+    <div v-if="!loading && list.length > 0" class="tag-list">
       <tag-item v-for="(item, index) in list" :color="colors[index % colors.length]" :id="item.id"
         :name="item.name"></tag-item>
     </div>
+    <Empty v-if="!loading && list.length === 0" />
   </div>
 </template>
 

@@ -5,24 +5,20 @@ import { onMounted, ref, useTemplateRef, watch } from 'vue'
 const props = defineProps<{
   callBack: (...args: any[]) => any
   loading: boolean
+  hasMore: boolean
 }>()
 
 const intersectionObserver = new IntersectionObserver((entries) => {
   if (entries[0].isIntersecting) {
+    // if (!props.hasMore) {
+    //   return
+    // }
     if (props.loading) {
       return
     }
     props.callBack()
   }
 })
-
-
-// watch(() => props.loading, () => {
-//   console.log("props.loading", props.loading, "<===");
-//   if (props.loading === false) {
-//     console.log("开始监控");
-//   }
-// })
 
 
 const load = useTemplateRef("load")
@@ -38,16 +34,37 @@ onMounted(() => {
 
 <template>
   <div class="load-more-container">
-    <img :src="loadingSvg" alt="" ref="load" />
+    <img :src="loadingSvg" alt="" ref="load" :class="{ 'opacity': !hasMore }" />
+    <span v-show="!hasMore">
+      没有更多了
+    </span>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .load-more-container {
   width: 100%;
-  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  height: 80px;
+
+  span {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background: red; */
+    bottom: 10px;
+    color: var(--theme-gray-4);
+    z-index: 2;
+  }
+
+  .opacity {
+    opacity: 0 !important;
+  }
 }
 </style>

@@ -40,12 +40,13 @@
   --btn-login-bg-hover: #1e40af;
 
   --theme-white-1: #f5f5f5; /* 用户中心的背景色 */
+  --theme-white-2: #fff;
   --theme-gray-1: #4b5563; /* 文字使用（深灰替代原浅灰） */
   --theme-gray-2: #edeff3d2; /* 背景使用（浅灰替代原深灰） */
   --theme-gray-2-hover: #dee3ec; /* 背景使用 */
   --theme-gray-3: #f6f6f6; /* 背景使用 */
   --theme-gray-4: #a9aeb8; /* 空图标使用 */
-
+  --theme-gray-5: #f4f6f9;
   // --theme-blue-1: #2563eb; /* 文字使用（保持高饱和蓝色提升可读性） */
   // --theme-blue-1: #e8f2ff; //文字使用
   --theme-blue-1: #147eff; //文字使用
@@ -55,7 +56,10 @@
   --theme-blue-5: hsl(212, 93%, 89%); /* 浅蓝色盒子 */
   --theme-blue-5-hover: hsl(212, 88%, 83%); /* 浅蓝色盒子 */
   --theme-blue-6: rgb(91, 127, 224); /* 深蓝色盒子 */
+  --theme-blue-7: #2778fa;
   --theme-yellow-1: #eab308;
+  --theme-yellow-2: #eab308;
+  --theme-yellow-3: #fef9c3;
   --theme-green-1: #22c55e;
   --theme-red-1: #ef443f;
   --theme-tag-1: #dbeafe;
@@ -154,9 +158,11 @@ html.dark {
   --btn-bg-hover: #3a3a3a;
 
   --theme-white-1: #1a1a1a;
+  --theme-white-2: #202020;
   --theme-gray-1: #9ca3af; //文字使用
   --theme-gray-2: #1f2937; //背景使用
   --theme-gray-2-hover: #4c5669; /* 背景使用 */
+  --theme-gray-5: #374151; //背景使用
   --theme-blue-1: #60a5fa; //文字使用
   --theme-blue-2: #2563eb; //对话框使用
   --theme-blue-3: #2563eb; //下面是渐变使用
@@ -164,8 +170,10 @@ html.dark {
   --theme-blue-5: #1e3a8a; //浅蓝色盒子
   --theme-blue-5-hover: #465fa1; //浅蓝色盒子
   --theme-blue-6: rgb(58, 107, 245); /* 深蓝色盒子 */
+  --theme-blue-7: #dbe9ff;
   --theme-yellow-1: #eab308;
-
+  --theme-yellow-2: #fff;
+  --theme-yellow-3: #ccbf35;
   --theme-tag-1: #1e3a8a; /* 深海军蓝（原浅蓝的暗色变体） */
   --theme-tag-2: #065f46; /* 墨绿色（保持自然感同时增强深度） */
   --theme-tag-3: #5b21b6; /* 宝石紫色（提升饱和度避免沉闷） */

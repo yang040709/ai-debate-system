@@ -7,9 +7,6 @@ import Head from './head.vue';
 import ScrollTop from '@/components/ScrollTop/ScrollTop.vue';
 import type { Record } from '@/types/record';
 
-// const userStore = useUserStore()
-
-
 const items1: Record[] = [
   {
     recordId: '1',
@@ -84,8 +81,6 @@ const items1: Record[] = [
 ]
 
 
-
-
 const items = [
   {
     label: "胜率",
@@ -100,6 +95,7 @@ const items = [
     value: "2890"
   }
 ]
+
 
 </script>
 
@@ -119,7 +115,7 @@ const items = [
 
 <style lang="scss" scoped>
 .user-container {
-  width: 100vw;
+  // width: 100%;
   background: linear-gradient(180deg, var(--user-box-bg1), var(--footer-bg));
 
   .user-content {

@@ -155,4 +155,13 @@ select {
   .user-content {
     width: 95% !important;
   }
+  .topic-detail-container .topic-detail-box .content-container {
+    grid-template-columns: 1fr;
+  }
+  .topic-detail-container {
+    padding: 20px !important;
+  }
+  .topic-detail-container .topic-detail-recommend .topic-item-container {
+    padding: 20px 0 !important;
+  }
 }

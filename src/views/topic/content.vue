@@ -6,9 +6,15 @@ import { useFetchData } from '@/composables/useFetchData';
 import type { GetTopicListParams } from '@/types/topic';
 import LoadMore from '@/components/LoadMore/LoadMore.vue';
 import { useRoute } from 'vue-router';
+import { usePaging } from '@/composables/usePaging';
 
 
 const route = useRoute();
+const hasMoreFlag = ref(false);
+
+
+const { page, changePage, changeLimit, changeTotal, hasMore } = usePaging();
+
 
 const params = ref<GetTopicListParams>({
   page: 0,
@@ -17,22 +23,39 @@ const params = ref<GetTopicListParams>({
   difficulty: route.params.difficulty.toString(),
 })
 
-const { data, loading, fetchData } = useFetchData(getTopicListApi, '获取话题失败', { total: 0, list: [] }, [params], "add")
+changePage(params.value.page);
+changeLimit(params.value.limit);
+hasMoreFlag.value = hasMore.value;
 
-fetchData();
 
+const { data, loading, fetchData } = useFetchData(getTopicListApi, [params], { total: 0, list: [] }, { newData: "add" })
+
+
+fetchData().then(() => {
+  changeTotal(data.value.total);
+  hasMoreFlag.value = hasMore.value;
+})
 
 const fetchMoreData = () => {
-  params.value.page++;
-  fetchData();
+  if (!hasMore.value) {
+    return;
+  }
+  changePage(page.value + 1)
+  params.value.page = page.value;
+  fetchData().then(() => {
+    changeTotal(data.value.total);
+    hasMoreFlag.value = hasMore.value;
+  });
 }
+
+
 
 </script>
 
 <template>
   <div class='topic-detail-container'>
     <topic-list :list="data.list" :loading="loading"></topic-list>
-    <LoadMore :loading="loading" :call-back="fetchMoreData" />
+    <LoadMore :hasMore="hasMoreFlag" :loading="loading" :call-back="fetchMoreData" />
   </div>
 </template>
 

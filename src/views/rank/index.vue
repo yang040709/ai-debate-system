@@ -4,7 +4,7 @@ import { getRankingListApi } from '@/api/ranking';
 import { useFetchData } from '@/composables/useFetchData';
 
 
-const { data, loading, fetchData } = useFetchData(getRankingListApi, '获取排名失败', [], [])
+const { data, loading, fetchData } = useFetchData(getRankingListApi, [], [])
 fetchData();
 </script>
 

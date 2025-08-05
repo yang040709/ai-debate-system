@@ -8,5 +8,5 @@ emitter.emit('delete', 42);     // ✅
 emitter.emit('update', 100);    // ❌ 类型错误
 
 */
-
-export default mitt()
+type Events = { scroll: number; scrollTop?: undefined }
+export default mitt<Events>()
