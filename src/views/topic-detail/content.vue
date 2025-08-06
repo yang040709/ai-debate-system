@@ -3,35 +3,59 @@ import type { Topic } from '@/types/topic';
 import Skeleton from '@/components/Skeleton/Skeleton.vue';
 import { useRouter } from 'vue-router';
 import type { Tag } from '@/types/tag';
+import { computed, onMounted, ref } from 'vue'
+import dayjs from 'dayjs'
+import { useTagsStore } from '@/stores/tags';
+import { storeToRefs } from 'pinia';
+import { useQrcode } from '@/composables/useQrcode';
 
-defineProps<{
+const props = defineProps<{
   item: Topic,
   loading: boolean,
 }>()
 
 const router = useRouter();
 
-const selectType = (item: Tag, type: "type" | "difficulty") => {
-  if (type === "type") {
-    router.push({
-      name: "topic",
-      params: {
-        type: item.id,
-        difficulty: "-1"
-      }
-    })
-  }
-  else if (type === "difficulty") {
-    router.push({
-      name: "topic",
-      params: {
-        type: "-1",
-        difficulty: item.id
-      }
-    })
-  }
+const selectType = (item: Tag) => {
+  router.push({
+    name: "topic",
+    params: {
+      type: item.id,
+    }
+  })
 }
 
+
+const positionType = [
+  { name: '正方', id: "1" },
+  { name: '反方', id: "2" },
+]
+
+// #优化 这里默认值应该想办法从数据获取 
+const form = ref({
+  difficulty: "2",
+  position: "2",
+})
+
+
+
+const formatDay = computed(() => {
+  return dayjs(parseInt(props.item.created_at)).format('YYYY-MM-DD HH:mm:ss')
+})
+
+
+
+
+const { tagListData, tagListLoading } = storeToRefs(useTagsStore())
+
+console.log(tagListData.value.difficulty);
+
+
+const joinDebate = () => {
+  console.log("joinDebate", form.value);
+}
+
+const { QRcodeUrl } = useQrcode()
 
 </script>
 
@@ -46,8 +70,8 @@ const selectType = (item: Tag, type: "type" | "difficulty") => {
             {{ item.creator.name }}
           </p>
           <ul>
-            <li v-for="type in item.type" @click="selectType(type, 'type')">{{ type.name }}</li>
-            <li class="difficulty" @click="selectType(item.difficulty, 'difficulty')">{{ item.difficulty.name }}</li>
+            <li v-for="type in item.type" @click="selectType(type)">{{ type.name }}</li>
+            <!-- <li class="difficulty" @click="selectType(item.difficulty, 'difficulty')">{{ item.difficulty.name }}</li> -->
           </ul>
         </div>
         <div class="content">
@@ -59,8 +83,40 @@ const selectType = (item: Tag, type: "type" | "difficulty") => {
       </div>
       <Skeleton v-if="loading" :loading="loading" :animation="true" :rows="6" />
       <div class="bottom">
-        <div class="join-debate">参与辩论</div>
-        <!-- 分享功能？ -->
+        <div class="select">
+          <div class="select-item" v-loading="tagListLoading">
+            <span>难度:</span>
+            <a-radio-group type="button" v-model="form.difficulty">
+              <a-radio v-for="item in tagListData.difficulty" :value="item.id" :key="item.id">{{ item.name }}</a-radio>
+            </a-radio-group>
+          </div>
+          <div class="select-item">
+            <span>立场:</span>
+            <a-radio-group type="button" v-model="form.position">
+              <a-radio v-for="item in positionType" :value="item.id" :key="item.id">{{ item.name }}</a-radio>
+            </a-radio-group>
+          </div>
+        </div>
+        <div class="very-bottom">
+          <div class="join-debate" @click="joinDebate">参与辩论</div>
+          <!-- 分享功能？ -->
+          <div class="item">
+            <a-dropdown>
+              <div class="text">
+                <icon-share-external :size="20" />
+                <span>
+                  分享
+                </span>
+              </div>
+              <template #content>
+                <div class="dropdown-content" style="padding: 10px 5px;">
+                  <p style="text-align: center;" class="qrcode-dsc">扫码查看</p>
+                  <img v-if="QRcodeUrl" class="qrcode" :src="QRcodeUrl" alt="二维码">
+                </div>
+              </template>
+            </a-dropdown>
+          </div>
+        </div>
       </div>
     </div>
     <div class="topic-detail-info">
@@ -83,7 +139,7 @@ const selectType = (item: Tag, type: "type" | "difficulty") => {
         </p>
       </div>
       <div class="time" v-if="!loading">
-        <p>创建于：{{ item.created_at }}</p>
+        <p>创建于：{{ formatDay }}</p>
       </div>
       <Skeleton v-if="loading" :loading="loading" :animation="true" :rows="6" />
     </div>
@@ -167,24 +223,62 @@ const selectType = (item: Tag, type: "type" | "difficulty") => {
   }
 
   .bottom {
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
+    margin-top: 100px;
 
-    .join-debate {
-      display: flex;
-      padding: 15px 50px;
-      align-items: center;
-      // width: 100%;
-      justify-content: center;
-      height: 40px;
-      font-size: 16px;
-      // padding: 0 20px;
-      cursor: pointer;
-      color: #fff;
-      background: var(--theme-blue-4);
-      border-radius: 5px;
+    .select {
+      .select-item {
+        // display: flex;
+        font-size: 16px;
+        margin-bottom: 15px;
+
+        // flex-wrap: wrap;
+        &>span {
+          font-weight: 700;
+          flex: 0 0 auto;
+          display: block;
+          color: var(--color-text-primary);
+          margin-bottom: 3px;
+        }
+      }
     }
+
+    .very-bottom {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      .join-debate {
+        display: flex;
+        padding: 15px 50px;
+        align-items: center;
+        // width: 100%;
+        justify-content: center;
+        height: 40px;
+        font-size: 16px;
+        // padding: 0 20px;
+        cursor: pointer;
+        color: #fff;
+        background: var(--theme-blue-4);
+        border-radius: 5px;
+      }
+
+      .item {
+        font-size: 16px;
+
+        .text {
+          display: flex;
+          align-items: center;
+          cursor: default;
+
+          span {
+            margin-left: 3px;
+          }
+        }
+
+      }
+    }
+
   }
 }
 
@@ -226,5 +320,9 @@ const selectType = (item: Tag, type: "type" | "difficulty") => {
   }
 
   background: var(--theme-white-2);
+}
+
+:deep(.arco-radio-group-direction-horizontal) {
+  width: fit-content;
 }
 </style>

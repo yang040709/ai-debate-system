@@ -12,7 +12,6 @@ const handleClick = () => {
       name: "topic",
       params: {
         type: props.id,
-        difficulty: "-1"
       }
     })
   }

@@ -6,15 +6,15 @@ const topicList: Topic[] = [
     id: 't001',
     title: '人工智能是否应该拥有法律人格？',
     desc: '随着人工智能技术飞速发展，强 AI 已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    created_at: '2023-05-01 12:00:00',
+    created_at: '1754460487758',
     participant_count: 200,
-    status: '1',
+
     creator: { name: '张三', avatar: 'https://avatars.githubusercontent.com/u/12345678?v=4' },
     type: [
       { id: '1', name: '伦理' },
       { id: '2', name: '科技' },
     ],
-    difficulty: { id: '3', name: '困难' },
+
     winningRate: 80,
     comment_count: 248,
   },
@@ -22,15 +22,15 @@ const topicList: Topic[] = [
     id: 't002',
     title: '基因编辑技术是否应全面放开民用？',
     desc: 'CRISPR 等基因编辑技术的突破性进展，已能实现对人类胚胎基因的精准修改，为根治遗传性疾病、提升生命质量带来革命性可能。然而，这一技术若全面放开民用，可能引发难以预估的风险：非医学目的的基因增强（如身高、智力优化）可能加剧社会不公，形成 "基因歧视"；脱靶效应可能导致未知基因突变，通过遗传混入人类基因库，对物种延续构成潜在威胁；更可能因商业利益驱动，催生地下基因编辑市场，绕过伦理审查与安全监管。如何在技术创新与风险防控间建立平衡机制，成为全球科学界与伦理学界的核心争议。',
-    created_at: '2023-06-15 09:30:00',
+    created_at: '1754460487758',
     participant_count: 180,
-    status: '1',
+
     creator: { name: '李四', avatar: 'https://avatars.githubusercontent.com/u/87654321?v=4' },
     type: [
       { id: '1', name: '伦理' },
       { id: '2', name: '科技' },
     ],
-    difficulty: { id: '1', name: '简单' },
+
     winningRate: 80,
     comment_count: 210,
   },
@@ -38,15 +38,15 @@ const topicList: Topic[] = [
     id: 't003',
     title: '全面推行四天工作制是否会影响经济发展？',
     desc: '部分国家试点四天工作制后生产力未降反升，但企业运营成本可能增加，引发对经济模式的讨论。',
-    created_at: '2023-04-20 14:15:00',
+    created_at: '1754460487758',
     participant_count: 250,
-    status: '1',
+
     creator: { name: '王五', avatar: 'https://avatars.githubusercontent.com/u/23456789?v=4' },
     type: [
       { id: '5', name: '经济' },
       { id: '10', name: '社会' },
     ],
-    difficulty: { id: '5', name: '大师' },
+
     winningRate: 80,
     comment_count: 320,
   },
@@ -54,15 +54,15 @@ const topicList: Topic[] = [
     id: 't004',
     title: '虚拟货币是否应被纳入主流金融监管体系？',
     desc: '比特币等虚拟货币市值飙升的同时，其匿名性带来的洗钱风险和价格波动对金融稳定构成挑战。',
-    created_at: '2023-07-08 16:40:00',
+    created_at: '1754460487758',
     participant_count: 190,
-    status: '1',
+
     creator: { name: '赵六', avatar: 'https://avatars.githubusercontent.com/u/98765432?v=4' },
     type: [
       { id: '5', name: '经济' },
       { id: '2', name: '科技' },
     ],
-    difficulty: { id: '1', name: '简单' },
+
     winningRate: 80,
     comment_count: 275,
   },
@@ -70,15 +70,15 @@ const topicList: Topic[] = [
     id: 't005',
     title: '是否应立法禁止未成年人使用社交媒体？',
     desc: '社交媒体对青少年心理健康的负面影响日益凸显，但完全禁止可能阻碍其信息获取与社交能力发展。',
-    created_at: '2023-03-10 11:20:00',
+    created_at: '1754460487758',
     participant_count: 300,
-    status: '1',
+
     creator: { name: '孙七', avatar: 'https://avatars.githubusercontent.com/u/34567890?v=4' },
     type: [
       { id: '10', name: '社会' },
       { id: '7', name: '教育' },
     ],
-    difficulty: { id: '1', name: '简单' },
+
     winningRate: 80,
     comment_count: 410,
   },
@@ -86,15 +86,15 @@ const topicList: Topic[] = [
     id: 't006',
     title: '核能是否是应对气候危机的必要选择？',
     desc: '核能作为低碳能源可快速替代化石燃料，但核废料处理和事故风险让环保界存在严重分歧。',
-    created_at: '2023-08-25 10:05:00',
+    created_at: '1754460487758',
     participant_count: 170,
-    status: '1',
+
     creator: { name: '周八', avatar: 'https://avatars.githubusercontent.com/u/45678901?v=4' },
     type: [
       { id: '4', name: '环境' },
       { id: '2', name: '科技' },
     ],
-    difficulty: { id: '1', name: '简单' },
+
     winningRate: 80,
     comment_count: 195,
   },
@@ -102,15 +102,15 @@ const topicList: Topic[] = [
     id: 't007',
     title: '大学专业设置应完全市场化还是保留基础学科？',
     desc: '就业导向的专业设置能提高就业率，但过度市场化可能导致基础学科人才断层，影响长期创新。',
-    created_at: '2023-02-18 09:50:00',
+    created_at: '1754460487758',
     participant_count: 220,
-    status: '1',
+
     creator: { name: '吴九', avatar: 'https://avatars.githubusercontent.com/u/56789012?v=4' },
     type: [
       { id: '7', name: '教育' },
       { id: '5', name: '经济' },
     ],
-    difficulty: { id: '2', name: '中等' },
+
     winningRate: 80,
     comment_count: 290,
   },
@@ -118,15 +118,15 @@ const topicList: Topic[] = [
     id: 't008',
     title: '算法推荐是否应该受到内容多样性强制监管？',
     desc: '个性化算法导致信息茧房加剧社会分化，但强制多样性可能破坏用户体验和平台商业逻辑。',
-    created_at: '2023-09-03 15:30:00',
+    created_at: '1754460487758',
     participant_count: 210,
-    status: '1',
+
     creator: { name: '郑十', avatar: 'https://avatars.githubusercontent.com/u/67890123?v=4' },
     type: [
       { id: '2', name: '科技' },
       { id: '10', name: '社会' },
     ],
-    difficulty: { id: '2', name: '中等' },
+
     winningRate: 80,
     comment_count: 305,
   },
@@ -134,15 +134,15 @@ const topicList: Topic[] = [
     id: 't009',
     title: '动物是否应享有除生存权外的更多法律权利？',
     desc: '随着动物认知研究的深入，部分学者主张赋予高等动物情感权、自由权，但面临伦理与实践的双重挑战。',
-    created_at: '2023-01-22 13:10:00',
+    created_at: '1754460487758',
     participant_count: 160,
-    status: '1',
+
     creator: { name: '王十一', avatar: 'https://avatars.githubusercontent.com/u/78901234?v=4' },
     type: [
       { id: '1', name: '伦理' },
       { id: '10', name: '社会' },
     ],
-    difficulty: { id: '1', name: '简单' },
+
     winningRate: 80,
     comment_count: 180,
   },
@@ -150,15 +150,15 @@ const topicList: Topic[] = [
     id: 't010',
     title: '元宇宙中的虚拟财产是否应受法律明确保护？',
     desc: '虚拟土地、数字藏品等交易规模激增，但所有权界定、继承规则等法律空白引发大量纠纷。',
-    created_at: '2023-10-17 16:20:00',
+    created_at: '1754460487758',
     participant_count: 195,
-    status: '1',
+
     creator: { name: '赵十二', avatar: 'https://avatars.githubusercontent.com/u/89012345?v=4' },
     type: [
       { id: '2', name: '科技' },
       { id: '3', name: '未来' },
     ],
-    difficulty: { id: '2', name: '中等' },
+
     winningRate: 80,
     comment_count: 260,
   },
@@ -166,15 +166,15 @@ const topicList: Topic[] = [
     id: 't011',
     title: '是否应征收全球统一的碳关税以应对气候变暖？',
     desc: '碳关税可推动全球减排，但可能加剧发展中国家经济负担，引发对贸易公平性的争议。',
-    created_at: '2023-05-30 11:45:00',
+    created_at: '1754460487758',
     participant_count: 185,
-    status: '1',
+
     creator: { name: '孙十三', avatar: 'https://avatars.githubusercontent.com/u/90123456?v=4' },
     type: [
       { id: '4', name: '环境' },
       { id: '5', name: '经济' },
     ],
-    difficulty: { id: '2', name: '中等' },
+
     winningRate: 80,
     comment_count: 230,
   },
@@ -182,15 +182,15 @@ const topicList: Topic[] = [
     id: 't012',
     title: '传统手工艺失传是否是社会发展的必然代价？',
     desc: '工业化生产效率远超传统工艺，但手工艺承载的文化价值和非遗传承面临断裂危机。',
-    created_at: '2023-06-12 14:50:00',
+    created_at: '1754460487758',
     participant_count: 150,
-    status: '1',
+
     creator: { name: '周十四', avatar: 'https://avatars.githubusercontent.com/u/12378945?v=4' },
     type: [
       { id: '8', name: '文化' },
       { id: '9', name: '艺术' },
     ],
-    difficulty: { id: '2', name: '中等' },
+
     winningRate: 80,
     comment_count: 175,
   },
@@ -198,15 +198,15 @@ const topicList: Topic[] = [
     id: 't013',
     title: '义务教育阶段是否应引入编程作为必修课程？',
     desc: '数字时代编程能力日益重要，但可能挤占传统学科课时，且面临师资短缺等现实问题。',
-    created_at: '2023-04-05 09:20:00',
+    created_at: '1754460487758',
     participant_count: 230,
-    status: '1',
+
     creator: { name: '吴十五', avatar: 'https://avatars.githubusercontent.com/u/45612378?v=4' },
     type: [
       { id: '7', name: '教育' },
       { id: '2', name: '科技' },
     ],
-    difficulty: { id: '2', name: '中等' },
+
     winningRate: 80,
     comment_count: 330,
   },
@@ -214,15 +214,15 @@ const topicList: Topic[] = [
     id: 't014',
     title: '企业社会责任是否应纳入法律强制规范？',
     desc: '单纯依靠企业自觉难以保障社会责任履行，但强制规范可能增加企业负担影响市场活力。',
-    created_at: '2023-07-28 15:10:00',
+    created_at: '1754460487758',
     participant_count: 175,
-    status: '1',
+
     creator: { name: '郑十六', avatar: 'https://avatars.githubusercontent.com/u/78945612?v=4' },
     type: [
       { id: '6', name: '商业' },
       { id: '10', name: '社会' },
     ],
-    difficulty: { id: '3', name: '困难' },
+
     winningRate: 80,
     comment_count: 240,
   },
@@ -230,15 +230,15 @@ const topicList: Topic[] = [
     id: 't015',
     title: '脑机接口技术普及是否会导致人类能力差距扩大？',
     desc: '脑机接口可增强人类认知与运动能力，但高昂成本可能形成技术垄断，加剧社会不平等。',
-    created_at: '2023-08-14 10:35:00',
+    created_at: '1754460487758',
     participant_count: 165,
-    status: '1',
+
     creator: { name: '王十七', avatar: 'https://avatars.githubusercontent.com/u/23489056?v=4' },
     type: [
       { id: '2', name: '科技' },
       { id: '3', name: '未来' },
     ],
-    difficulty: { id: '4', name: '专家' },
+
     winningRate: 80,
     comment_count: 190,
   },
@@ -246,15 +246,15 @@ const topicList: Topic[] = [
     id: 't016',
     title: '是否应限制短视频平台的算法推荐时长？',
     desc: '短视频沉迷问题引发关注，尤其对青少年影响显著，但限制措施可能侵犯成年人自主选择权。',
-    created_at: '2023-03-25 13:40:00',
+    created_at: '1754460487758',
     participant_count: 240,
-    status: '1',
+
     creator: { name: '赵十八', avatar: 'https://avatars.githubusercontent.com/u/56723489?v=4' },
     type: [
       { id: '10', name: '社会' },
       { id: '2', name: '科技' },
     ],
-    difficulty: { id: '2', name: '中等' },
+
     winningRate: 80,
     comment_count: 350,
   },
@@ -262,33 +262,17 @@ const topicList: Topic[] = [
     id: 't017',
     title: '传统文化节日应保持原生态还是商业化创新？',
     desc: '商业化让传统节日焕发活力，但过度营销可能稀释文化内涵，失去其原本的精神价值。',
-    created_at: '2023-09-30 11:15:00',
+    created_at: '1754460487758',
     participant_count: 155,
-    status: '1',
+
     creator: { name: '孙十九', avatar: 'https://avatars.githubusercontent.com/u/89056723?v=4' },
     type: [
       { id: '8', name: '文化' },
       { id: '6', name: '商业' },
     ],
-    difficulty: { id: '2', name: '中等' },
+
     winningRate: 80,
     comment_count: 185,
-  },
-  {
-    id: 't018',
-    title: '气候变化背景下是否应限制高耗能奢侈品生产？',
-    desc: '奢侈品产业因原材料开采、精细加工及全球运输等环节，成为高能耗、高碳排放的典型代表，其生产过程中对稀有皮革、贵金属的过度消耗，以及为维持品牌溢价而采取的限量生产模式，进一步加剧了资源浪费与环境负担。然而，该产业作为全球经济的重要组成部分，不仅创造了巨额税收和高端就业岗位，更带动了设计、手工艺、物流等上下游产业链的发展，若贸然限制生产，可能引发连锁反应，导致大量从业者失业，尤其对依赖奢侈品出口的国家造成显著经济冲击，如何在生态保护与产业存续间找到平衡成为关键争议点。',
-    created_at: '2023-06-22 16:00:00',
-    participant_count: 170,
-    status: '1',
-    creator: { name: '周二十', avatar: 'https://avatars.githubusercontent.com/u/34590126?v=4' },
-    type: [
-      { id: '4', name: '环境' },
-      { id: '6', name: '商业' },
-    ],
-    difficulty: { id: '5', name: '大师' },
-    winningRate: 80,
-    comment_count: 220,
   },
 ]
 
@@ -325,5 +309,16 @@ mockjs.mock(/\/api\/topic\/.+/, 'get', (options) => {
     code: 0,
     msg: 'success',
     data,
+  }
+})
+
+mockjs.mock(/\/api\/topic/, 'post', (options) => {
+  console.log(options, 'mock')
+  return {
+    code: 0,
+    msg: 'success',
+    data: {
+      id: 't017',
+    },
   }
 })

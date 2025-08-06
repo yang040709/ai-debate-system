@@ -16,7 +16,6 @@ const params = ref<GetTopicListParams>({
   page: 0,
   limit: 5,
   type: '-2',
-  difficulty: '-1',
 }
 );
 
@@ -42,7 +41,7 @@ const { data, loading, fetchData } = useFetchData(getTopicApi, [id], {
   desc: "",
   created_at: "",
   participant_count: 0,
-  status: "",
+  // status: "",
   creator: {
     name: "",
     avatar: "",
@@ -53,10 +52,10 @@ const { data, loading, fetchData } = useFetchData(getTopicApi, [id], {
       name: "",
     }
   ],
-  difficulty: {
-    id: "",
-    name: "",
-  },
+  // difficulty: {
+  //   id: "",
+  //   name: "",
+  // },
   winningRate: 0,
   comment_count: 0,
 }, { isHandleErr: true })

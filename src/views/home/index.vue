@@ -12,13 +12,12 @@ import { getRankingListApi } from '@/api/ranking';
 import { useTagsStore } from '@/stores/tags'
 import { storeToRefs } from 'pinia'
 import type { GetTopicListParams } from '@/types/topic'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 const isShow = {
   comment: false,
   support: true,
   tags: true,
-  desc: false,
-  difficulty: true
+  desc: false
 }
 
 
@@ -26,7 +25,6 @@ const params = ref<GetTopicListParams>({
   page: 0,
   limit: 8,
   type: '-2',
-  difficulty: '-1',
 }
 );
 
@@ -39,17 +37,21 @@ const { tagListData, tagListLoading } = storeToRefs(useTagsStore())
 fetchTopicListData();
 fetchRankingListData();
 
+
+
+
+
 </script>
 
 <template>
   <div class='home-container'>
     <home-item>
-      <start-debate></start-debate>
+      <start-debate :list="topicListData.list"></start-debate>
     </home-item>
 
     <div class="home-content">
       <div class="content-left">
-        <home-item title="热门辩论话题" :link="{ text: '查看更多', routerName: 'topic' }">
+        <home-item title="热门辩论话题" :link="{ text: '查看更多', routerName: 'topic' }" :params="{ type: '-2' }">
           <topic-list :loading="topicListLoading" :list="topicListData.list" :is-show="isShow"></topic-list>
         </home-item>
         <home-item title="排行榜" :link="{ text: '查看更多', routerName: 'rank' }">
@@ -60,7 +62,7 @@ fetchRankingListData();
         <home-item title="创建辩论话题" :link="{ routerName: 'creative' }">
           <create-topic></create-topic>
         </home-item>
-        <home-item title="标签" :link="{ routerName: 'topic' }">
+        <home-item title="标签" :link="{ routerName: 'topic' }" :params="{ type: '-1' }">
           <tag-list :loading="tagListLoading" :list="tagListData.type" />
         </home-item>
       </div>

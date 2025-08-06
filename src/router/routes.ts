@@ -58,7 +58,7 @@ export default [
         },
       },
       {
-        path: '/topic/:type?/:difficulty?',
+        path: '/topic/:type?',
         name: 'topic',
         component: () => import('@/views/topic/index.vue'),
         meta: {
@@ -66,7 +66,6 @@ export default [
           layout: 'full',
           defaultParams: {
             type: '-1',
-            difficulty: '-1',
           },
         },
       },
@@ -108,18 +107,6 @@ export default [
         component: () => import('@/views/test/index2.vue'),
         meta: {
           onHeader: 'test2',
-        },
-      },
-      {
-        path: '/test3/:type/:difficulty',
-        name: 'test3',
-        component: () => import('@/views/test/index3.vue'),
-        meta: {
-          onHeader: 'test3',
-          defaultParams: {
-            type: '全部',
-            difficulty: '全部',
-          },
         },
       },
       {

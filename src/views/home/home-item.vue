@@ -5,7 +5,8 @@ interface HomeItemProps {
   link?: {
     text?: string,
     routerName: string,
-  }
+  },
+  params?: Record<string, string>
 }
 
 const props = defineProps<HomeItemProps>()
@@ -16,7 +17,12 @@ const router = useRouter();
 
 const toRouterName = () => {
   if (props.link && props.link.routerName) {
-    router.push({ name: props.link.routerName });
+    if (props.params) {
+      router.push({ name: props.link.routerName, params: props.params });
+    }
+    else {
+      router.push({ name: props.link.routerName });
+    }
   }
 }
 

@@ -28,10 +28,6 @@ const props = withDefaults(defineProps<{
 
 
 const router = useRouter();
-const handleClick = () => {
-  console.log("点击了XXXXXX,前往xxx", props.topic);
-}
-
 
 const gotoDebatePage = () => {
   router.push({
@@ -43,26 +39,13 @@ const gotoDebatePage = () => {
 }
 
 
-const route = useRoute();
-
-const gotoTopicPage = (tag: string, type: "type" | "difficulty") => {
-  if (type === "type") {
-    router.push({
-      name: 'topic',
-      params: {
-        type: tag,
-        difficulty: route.params.difficulty || "-1",
-      },
-    });
-  } else if (type === "difficulty") {
-    router.push({
-      name: 'topic',
-      params: {
-        type: route.params.type || "-1",
-        difficulty: tag
-      },
-    });
-  }
+const gotoTopicPage = (tag: string) => {
+  router.push({
+    name: 'topic',
+    params: {
+      type: tag,
+    },
+  });
 }
 
 </script>
@@ -92,17 +75,12 @@ const gotoTopicPage = (tag: string, type: "type" | "difficulty") => {
         </div>
         <div v-if="topic.type && topic.type.length && isShow?.tags" class="canJumpTo">
           <icon-tags :size="18" />
-          <p v-for="(item, index) in topic.type" :key="index" @click="gotoTopicPage(item.id, 'type')">
+          <p v-for="(item, index) in topic.type" :key="index" @click="gotoTopicPage(item.id)">
             {{ item.name }}
           </p>
         </div>
-        <div v-if="topic.difficulty && isShow?.difficulty" class="canJumpTo">
-          <icon-question-circle :size="18" />
-          <p @click="gotoTopicPage(topic.difficulty.id, 'difficulty')">
-            {{ topic.difficulty.name }}</p>
-        </div>
       </div>
-      <a @click.prevent="handleClick">参加辩论<icon-arrow-right :size="18" /></a>
+      <a @click.prevent="gotoDebatePage">参加辩论<icon-arrow-right :size="18" /></a>
     </div>
   </div>
 </template>

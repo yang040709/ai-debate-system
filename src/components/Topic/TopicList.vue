@@ -7,8 +7,7 @@ interface isShow {
   comment: boolean,
   support: boolean,
   tags: boolean,
-  desc: boolean,
-  difficulty: boolean
+  desc: boolean
 }
 
 defineProps<{ list: Topic[], isShow?: isShow, loading: boolean, mode?: "gray" | "border" }>()

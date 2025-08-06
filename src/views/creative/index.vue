@@ -1,24 +1,36 @@
 <script setup lang='ts'>
 import { Message } from '@arco-design/web-vue';
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import ReturnHome from '@/components/ReturnHome/ReturnHome.vue';
 import { useRouter } from 'vue-router';
-
+import { useTagsStore } from '@/stores/tags';
+import { storeToRefs } from 'pinia';
+import { CreateTopicRequest } from '@/types/topic';
+import { useFetchData } from '@/composables/useFetchData'
+import { createTopicApi } from '@/api/topic';
+import { useUserStore } from '@/stores/user';
+import type { Topic } from '@/types/topic';
 
 
 interface CreativeTopicForm {
   title: string;
   desc: string;
   tags: string[];
-  difficulty: string
 }
 
 
-const form = reactive<CreativeTopicForm>({
+
+const userStore = useUserStore();
+
+const form = ref<Omit<Topic, "id">>({
   title: '',
   desc: '',
-  difficulty: '',
-  tags: [],
+  type: [],
+  creator: { name: '', avatar: '' },
+  created_at: '',
+  participant_count: 0,
+  winningRate: 0,
+  comment_count: 0,
 });
 
 const rules = {
@@ -34,13 +46,7 @@ const rules = {
       message: '请输入话题描述',
     },
   ],
-  difficulty: [
-    {
-      required: true,
-      message: '请选择话题难度',
-    },
-  ],
-  tags: [
+  type: [
     {
       required: true,
       message: '请选择话题标签',
@@ -48,50 +54,43 @@ const rules = {
   ],
 }
 
-const options = [
-  { label: '简单', value: 'easy' },
-  { label: '中等', value: 'medium' },
-  { label: '困难', value: 'difficult' },
-];
+
+const { data, loading, fetchData } = useFetchData(createTopicApi, [form], { id: "" })
 
 
-const options2 = [
-  { label: '社会', value: '社会' },
-  { label: '伦理', value: '伦理' },
-  { label: '科技', value: '科技' },
-  { label: '环境', value: '环境' },
-  { label: '经济', value: '经济' },
-  { label: '商业', value: '商业' },
-  { label: '教育', value: '教育' },
-  { label: '文化', value: '文化' },
-  { label: '艺术', value: '艺术' }
-];
+const { tagListData, tagListLoading } = storeToRefs(useTagsStore());
 
+const typeList = computed(() => {
+  return tagListData.value.type.map((item) => {
+    return { label: item.name, value: item.id }
+
+  })
+})
 
 
 
 const router = useRouter();
 
 const handleSubmit = ({ values, errors }: any) => {
-  // console.log('values:', values, '\nerrors:', errors)
   if (errors) {
     Message.warning('请检查辩论话题表单填写是否完整');
   }
   else {
+    console.log(userStore.userInfo);
     console.log(values);
-    /* 
-    如果是真正的创建，那么
-    1. 发送请求创建话题
-    2. 等待请求返回
-    3. 提示创建成功
-    4. 跳转到首页
-    */
-    Message.success('辩论话题创建成功！');
-    setTimeout(() => {
+    form.value.created_at = Date.now().toString();
+    form.value.creator.name = userStore.userInfo.nickname;
+    form.value.creator.avatar = userStore.userInfo.avatar;
+    fetchData().then(() => {
+      console.log(data.value);
       router.push({
-        name: "home"
+        name: "topicDetail",
+        params: {
+          id: data.value.id
+        }
       })
-    }, 1000);
+      Message.success('辩论话题创建成功！');
+    });
   }
 }
 
@@ -113,13 +112,10 @@ const handleSubmit = ({ values, errors }: any) => {
       <a-form-item field="desc" label="描述" validate-trigger="blur">
         <a-input v-model="form.desc" placeholder="请输入您要创建的话题描述" />
       </a-form-item>
-      <span>难度</span>
-      <a-form-item field="difficulty" label="难度" validate-trigger="blur">
-        <a-radio-group v-model="form.difficulty" :options="options" />
-      </a-form-item>
       <span>标签</span>
-      <a-form-item field="tags" label="标签" validate-trigger="blur">
-        <a-checkbox-group v-model="form.tags" :options="options2" />
+      <p v-if="tagListLoading" class="await">...标签加载中,请稍等</p>
+      <a-form-item field="type" label="标签" validate-trigger="blur">
+        <a-checkbox-group v-model="form.type" :options="typeList" />
       </a-form-item>
       <a-form-item>
         <a-button size="large" class="submit-btn" type="primary" shape="round" html-type="submit">创建辩论话题</a-button>
@@ -175,57 +171,8 @@ const handleSubmit = ({ values, errors }: any) => {
   margin-top: 20px;
   width: 100%;
 }
+
+.await {
+  color: var(--color-text-secondary);
+}
 </style>
-
-<!-- 
-
-// password2: [
-  //   {
-  //     required: true,
-  //     message: 'password is required',
-  //   },
-  //   {
-  //     validator: (value, cb) => {
-  //       if (value !== form.password) {
-  //         cb('two passwords do not match')
-  //       } else {
-  //         cb()
-  //       }
-  //     }
-  //   }
-  // ],
-  // email: [
-  //   {
-  //     type: 'email',
-  //     required: true,
-  //   }
-  // ],
-  // ip: [
-  //   {
-  //     type: 'ip',
-  //     required: true,
-  //   }
-  // ],
-  // url: [
-  //   {
-  //     type: 'url',
-  //     required: true,
-  //   }
-  // ],
-  // match: [
-  //   {
-  //     required: true,
-  //     validator: (value, cb) => {
-  //       return new Promise((resolve) => {
-  //         if (!value) {
-  //           cb('Please enter match')
-  //         }
-  //         if (value !== 'match') {
-  //           cb('match must be match!')
-  //         }
-  //         resolve()
-  //       })
-  //     }
-  //   }
-  // ],
--->

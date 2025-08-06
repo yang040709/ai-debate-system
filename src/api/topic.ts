@@ -1,5 +1,5 @@
 import { request } from './request'
-import type { GetTopicListParams, TopicResponse, Topic } from '@/types/topic'
+import type { GetTopicListParams, TopicResponse, Topic, CreateTopicRequest } from '@/types/topic'
 
 // 获取话题列表
 export const getTopicListApi = (params: GetTopicListParams) => {
@@ -19,4 +19,16 @@ export const getTopicApi = (id: string) => {
       errMessage: '获取话题信息',
     },
   }) as Promise<Topic>
+}
+
+export const createTopicApi = (data: Omit<Topic, 'id'>) => {
+  return request({
+    url: '/topic',
+    method: 'post',
+    data,
+    meta: {
+      isShowMessage: true,
+      errMessage: '创建话题失败',
+    },
+  }) as Promise<CreateTopicRequest>
 }

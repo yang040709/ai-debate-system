@@ -35,7 +35,7 @@ onMounted(() => {
 <template>
   <div class="load-more-container">
     <img :src="loadingSvg" alt="" ref="load" :class="{ 'opacity': !hasMore }" />
-    <span v-show="!hasMore">
+    <span v-show="!hasMore && !loading">
       没有更多了
     </span>
   </div>

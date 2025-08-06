@@ -20,7 +20,6 @@ const params = ref<GetTopicListParams>({
   page: 0,
   limit: 10,
   type: route.params.type.toString(),
-  difficulty: route.params.difficulty.toString(),
 })
 
 changePage(params.value.page);
