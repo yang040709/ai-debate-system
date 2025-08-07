@@ -38,12 +38,6 @@ export default [
         },
       },
       {
-        path: '/debate/:id',
-        name: 'debate',
-        props: true,
-        component: () => import('@/views/debate/index.vue'),
-      },
-      {
         path: '/debate/result/:id',
         props: true,
         name: 'debateResult',
@@ -52,6 +46,7 @@ export default [
       {
         path: '/topic/detail/:id?',
         name: 'topicDetail',
+        props: true,
         component: () => import('@/views/topic-detail/index.vue'),
         meta: {
           layout: 'full',
@@ -115,6 +110,15 @@ export default [
         component: () => import('@/views/not-find/index.vue'),
       },
     ],
+  },
+  {
+    path: '/debate/:id?',
+    name: 'debate',
+    props: true,
+    component: () => import('@/views/debate/index.vue'),
+    meta: {
+      onHeader: '辩论',
+    },
   },
   {
     path: '/login',
