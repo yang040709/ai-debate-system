@@ -6,32 +6,40 @@ import { useFetchData } from '@/composables/useFetchData';
 import type { GetTopicListParams } from '@/types/topic';
 import LoadMore from '@/components/LoadMore/LoadMore.vue';
 import { useRoute } from 'vue-router';
-import { usePaging } from '@/composables/usePaging';
-
+import { usePagination } from '@/composables/usePagination';
+import type { Ref } from 'vue';
+import { TopicResponse } from '@/types/topic'
 
 const route = useRoute();
 const hasMoreFlag = ref(false);
 
 
-const { page, changePage, changeLimit, changeTotal, hasMore } = usePaging();
 
 
 const params = ref<GetTopicListParams>({
-  page: 0,
+  page: 1,
   limit: 10,
   type: route.params.type.toString(),
 })
 
-changePage(params.value.page);
-changeLimit(params.value.limit);
+
+const newDataFunc = (data: Ref<TopicResponse>, res: TopicResponse) => {
+  data.value.total = res.total;
+  if (data.value.list.length === 0) {
+    data.value = res;
+  } else {
+    data.value.list.push(...res.list);
+  }
+}
+
+
+const { data, loading, fetchData } = useFetchData(getTopicListApi, [params], { total: 0, list: [] }, { newData: "add", newDataFunc })
+const { page, changePage, hasMore } = usePagination(params, data);
+
 hasMoreFlag.value = hasMore.value;
 
 
-const { data, loading, fetchData } = useFetchData(getTopicListApi, [params], { total: 0, list: [] }, { newData: "add" })
-
-
 fetchData().then(() => {
-  changeTotal(data.value.total);
   hasMoreFlag.value = hasMore.value;
 })
 
@@ -40,9 +48,7 @@ const fetchMoreData = () => {
     return;
   }
   changePage(page.value + 1)
-  params.value.page = page.value;
   fetchData().then(() => {
-    changeTotal(data.value.total);
     hasMoreFlag.value = hasMore.value;
   });
 }

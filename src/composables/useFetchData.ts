@@ -5,75 +5,86 @@ type MakeRef<T extends any[]> = {
   [K in keyof T]: Ref<T[K]>
 }
 
-type DeepPartial<T> = {
-  [P in keyof T]?: DeepPartial<T[P]>
-}
-
-interface UseFetchDataConfig {
+/**
+ * 这是一个数据获取函数的配置项
+ * @param errMessage 错误信息
+ * @param handleErr 错误处理函数
+ * @param init 初始化方式
+ * @param newData 新数据处理方式
+ * @param newDataFunc 新数据处理函数
+ */
+interface UseFetchDataConfig<T> {
   errMessage: string
-  isHandleErr: boolean
+  handleErr: (err: any) => void
   init: 'lazy' | 'immediate'
   newData: 'reset' | 'add'
+  newDataFunc: (data: Ref<T>, res: T) => void
 }
 
+/**
+ * 这是一个数据获取函数，它可以根据参数获取数据，并根据配置项进行处理
+ * @param apiCall 调用的请求函数
+ * @param args 请求函数需要的参数
+ * @param initialValue 需要获取数据的初始值
+ * @param config 各种配置项
+ * @returns
+ */
 export const useFetchData = <P extends any[], T>(
   apiCall: (...args: P) => Promise<T>,
   args: MakeRef<P>,
   initialValue: T,
-  config?: Partial<UseFetchDataConfig>,
+  config?: Partial<UseFetchDataConfig<T>>,
 ) => {
   const data = ref<T>(initialValue)
   const loading = ref<boolean>(true)
   const error = ref<string | null>(null)
-  console.log('config=>1', config)
   const defaultConfig = {
     errMessage: '请求数据失败',
-    isHandleErr: false,
+    handleErr: null,
     init: 'lazy',
     newData: 'reset',
+    newDataFunc: null,
   }
+  /* 获取配置 */
   const finallyConfig = {
     ...defaultConfig,
     ...config,
   }
-  console.log('config=>2', finallyConfig)
-
   const fetchData = async () => {
     loading.value = true
     error.value = null
     try {
       let argsValue = []
-
+      // 参数不为空
       if (args.length !== 0) {
         argsValue = args.map((item) => item.value) as unknown as P
       } else {
         argsValue = args as P
       }
+      // 处理数据添加模式，获取数据
       if (finallyConfig.newData === 'reset') {
         data.value = await apiCall(...argsValue)
       } else if (finallyConfig.newData === 'add') {
-        const res = (await apiCall(...argsValue)) as { list: any[]; total: number }
-        if (res && !(res instanceof Array) && res.list && res.list instanceof Array) {
-          res.list.forEach((e) => {
-            data.value.list.push(e)
-          })
-          data.value.total = res.total
-        } else if (res instanceof Array) {
-          res.forEach((e) => {
-            data.value.push(e)
-          })
+        // 如果有处理新数据的函数就使用，不然就使用默认的处理函数
+        if (finallyConfig.newDataFunc) {
+          const res = await apiCall(...argsValue)
+          finallyConfig.newDataFunc(data as Ref<T>, res)
+        } else {
+          console.error('请传入处理新数据的函数')
         }
       }
     } catch (err) {
       error.value = finallyConfig.errMessage
       console.error(err)
-      if (finallyConfig.isHandleErr) {
-        throw new Error(error.value as string)
+      // 是否有自定义错误处理函数
+      if (finallyConfig.handleErr) {
+        finallyConfig.handleErr(err)
       }
     } finally {
       loading.value = false
     }
   }
+  // 初始化时是否立即请求数据
   if (finallyConfig.init === 'immediate') {
     fetchData()
   }

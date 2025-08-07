@@ -41,7 +41,6 @@ const { data, loading, fetchData } = useFetchData(getTopicApi, [id], {
   desc: "",
   created_at: "",
   participant_count: 0,
-  // status: "",
   creator: {
     name: "",
     avatar: "",
@@ -52,22 +51,20 @@ const { data, loading, fetchData } = useFetchData(getTopicApi, [id], {
       name: "",
     }
   ],
-  // difficulty: {
-  //   id: "",
-  //   name: "",
-  // },
   winningRate: 0,
   comment_count: 0,
-}, { isHandleErr: true })
+}, {
+  handleErr: (e) => {
+    console.log(e, "<==err")
+    Message.error("该话题的id无效，将跳转到404页面")
+    router.replace({ name: "not-find" })
+  }
+})
 
 
 const { data: topicListData, loading: topicListLoading, fetchData: fetchTopicListData } =
   useFetchData(getTopicListApi, [params], { total: 0, list: [] })
-fetchData().catch(e => {
-  console.log(e, "<==err")
-  Message.error("该话题的id无效，将跳转到404页面")
-  router.replace({ name: "not-find" })
-});
+fetchData()
 fetchTopicListData();
 
 </script>

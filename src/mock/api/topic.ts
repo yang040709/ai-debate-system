@@ -302,13 +302,20 @@ mockjs.mock(/\/api\/topics\?.+/, 'get', (options) => {
 
 mockjs.mock(/\/api\/topic\/.+/, 'get', (options) => {
   const id = options.url.split('/')[3]
-
   const data = topicList.find((item) => item.id === id)
-  console.log(options, data)
-  return {
-    code: 0,
-    msg: 'success',
-    data,
+  console.log(options, data, 'mock')
+  if (!data) {
+    return {
+      code: 404,
+      msg: '数据不存在',
+      data: null,
+    }
+  } else {
+    return {
+      code: 0,
+      msg: 'success',
+      data,
+    }
   }
 })
 

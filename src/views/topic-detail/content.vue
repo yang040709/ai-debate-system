@@ -34,7 +34,7 @@ const positionType = [
 // #优化 这里默认值应该想办法从数据获取 
 const form = ref({
   difficulty: "2",
-  position: "2",
+  position: "1",
 })
 
 
