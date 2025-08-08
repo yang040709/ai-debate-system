@@ -3,10 +3,11 @@ import { requestFun } from '../utils'
 import mockjs from 'mockjs'
 
 const fn = () => {
-  return mockjs.mock({
-    conversion_id: '@guid',
+  const randomId = `${Math.random().toString(36).substring(2)}-${Math.random().toString(36).substring(2)}`
+  return {
+    conversion_id: randomId,
     ctime: Date.now(),
-  })
+  }
 }
 
 mockjs.mock('/api/chat/coze/conversation', 'post', requestFun(fn))
@@ -22,7 +23,6 @@ mockjs.mock(/\/api\/chat\/coze\/conversation\/.+/, 'get', (options) => {
       desc: '部分国家试点四天工作制后生产力未降反升，但企业运营成本可能增加，引发对经济模式的讨论。',
       created_at: '1754460487758',
       participant_count: 250,
-
       creator: { name: '王五', avatar: 'https://avatars.githubusercontent.com/u/23456789?v=4' },
       type: [
         { id: '5', name: '经济' },
@@ -37,8 +37,9 @@ mockjs.mock(/\/api\/chat\/coze\/conversation\/.+/, 'get', (options) => {
       name: '简单',
     },
     position: {
-      id: '1',
-      name: 'positive',
+      id: '2',
+      // name: 'positive',
+      name: 'negative',
     },
     content: '',
     duration: 0,

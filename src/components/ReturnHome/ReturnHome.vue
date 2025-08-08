@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 
 interface Props {
   isFixed?: boolean
+  isPhone?: boolean
   // 确认函数
   confirm?: () => Promise<any>
 }
@@ -29,7 +30,7 @@ const handleReturnHome = () => {
 <template>
   <div class="return-home-container" @click="handleReturnHome" :class="{ 'fixed': isFixed }">
     <icon-import :size="20" />
-    <span>返回首页</span>
+    <span v-show="!isPhone">返回首页</span>
   </div>
 </template>
 

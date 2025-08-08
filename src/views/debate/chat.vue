@@ -1,146 +1,11 @@
 <script setup lang='ts'>
-import { onBeforeUnmount, ref } from 'vue'
-import { mockData } from './mockData'
-import { useUserStore } from '@/stores/user'
-import $bus from '@/eventBus'
-import type { Debate } from '@/types/debate'
-const loading = ref(false)
-// 流式数据加载中
-const isStreamLoad = defineModel("isStreamLoad")
-console.log(isStreamLoad, "<==isStreamLoad");
-
-const chatRef = ref(null)
-
-const userStore = useUserStore();
-
-const disabled = ref(false)
-
-const props = defineProps<{ debate: Debate }>()
+import { useDebateStore } from '@/stores/debate';
+import { storeToRefs } from 'pinia';
 
 
-const emit = defineEmits<{
-  "talk": [role: string, stage: number]
-}>()
+const store = useDebateStore();
+const { isStreamLoad, chatList, loading, disabled, inputVal } = storeToRefs(store);
 
-
-// // 倒序渲染
-// const chatList = ref([
-//   {
-//     avatar: 'https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/creation_agent/b9037d77f693431ca132880792810d72~tplv-a9rns2rl98-web-preview-watermark.png?rcl=20250802185706B057C467906175D5D4D4&rk3s=8e244e95&rrcfp=5057214b&x-expires=2069492251&x-signature=rzY%2FRf4V8J64rlz%2FrSYTL890wgk%3D',
-//     name: 'AI',
-//     datetime: '今天16:38',
-//     content:
-//       '哈哈，那肯定是基因的奇妙组合呀！你从家人那里继承了优秀的外貌特质，再加上独特的气质和自信，整个人就散发着魅力。而且呀，相由心生，内心的善良、有趣也为你的帅气加分不少呢！ ',
-//     role: 'assistant',
-//     duration: 10,
-//   },
-//   {
-//     avatar: 'https://tdesign.gtimg.com/site/avatar.jpg',
-//     name: '你',
-//     datetime: '今天16:38',
-//     content: 'yang为什么这么帅',
-//     role: 'user',
-//   },
-// ])
-
-const chatList = ref<any[]>([])
-
-
-
-const userChatTemplate = {
-  avatar: userStore.userInfo.avatar,
-  name: '你',
-  datetime: new Date().toLocaleDateString(),
-  content: "",
-  duration: 0,
-  role: 'user',
-}
-const assistantChatTemplate = {
-  avatar: '/ai_avatar.png',
-  name: 'AI',
-  datetime: new Date().toLocaleDateString(),
-  content: '',
-  role: 'assistant',
-  duration: 0,
-}
-
-
-
-const curStage = ref(0);
-
-
-
-
-
-const handleSend = function (inputValue: string) {
-  if (isStreamLoad.value) {
-    return
-  }
-  if (!inputValue) return
-  const params = { ...userChatTemplate, content: inputValue }
-  chatList.value.unshift(params)
-  emit("talk", "user", curStage.value)
-  // 空消息占位
-  // const params2 = { ...assistantChatTemplate }
-  // chatList.value.unshift(params2)
-  // handleData()
-}
-
-
-const userInput = async () => {
-  console.log("人类输入")
-}
-
-const assistantInput = async () => {
-  const params2 = { ...assistantChatTemplate }
-  chatList.value.unshift(params2)
-  loading.value = true
-  isStreamLoad.value = true
-  const lastItem = chatList.value[0]
-  loading.value = false
-  await mockData(lastItem);
-  lastItem.duration = 20
-  isStreamLoad.value = false
-}
-
-
-const str = `尊敬的评委、对方辩友：
-我方观点是全面推行四天工作制不会影响经济发展。
-定义：四天工作制指每周工作四天、每日工时适度延长的弹性制度；影响经济发展指导致 GDP 增速显著下滑或生产力衰退。评判标准为是否降低整体劳动效率与社会产出。
-第一，缩短工时能提升员工专注度，冰岛试点显示其 productivity 提高 15%.
-第二，消费与服务业因闲暇时间增加而提振，日本企业数据显示周末消费额增长 23%.
-综上，四天工作制通过效率提升与需求拉动，不会影响经济发展。`
-
-
-
-
-
-
-
-
-$bus.on("debate-control", ([turn, index,]: any[]) => {
-  // isBreak.value = willBreak;
-  console.log(turn, index, "<==$bus debate-control");
-  curStage.value = index;
-  if (turn.tip) {
-    chatList.value.unshift(turn.tip)
-  }
-  console.log(props.debate.position.name, "==>", turn.side);
-
-  if (props.debate.position.name === turn.side) {
-    disabled.value = false;
-    userInput();
-  }
-  else {
-    disabled.value = true;
-    assistantInput();
-  }
-})
-
-
-onBeforeUnmount(() => {
-  $bus.off("debate-control")
-})
 
 </script>
 
@@ -157,7 +22,7 @@ onBeforeUnmount(() => {
       <template #footer>
         <t-chat-sender :textarea-props="{
           placeholder: '请输入辩论论点...',
-        }" :loading="loading" @send="handleSend" :disabled="disabled">
+        }" :loading="loading" @send="store.handleSend" :disabled="disabled" v-model="inputVal">
           <!-- 自定义操作区域的内容，默认支持图片上传、附件上传和发送按钮 -->
           <template #suffix="{ renderPresets }">
             <component :is="renderPresets([])" />
