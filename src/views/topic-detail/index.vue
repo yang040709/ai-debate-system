@@ -10,6 +10,11 @@ import Content from './content.vue';
 import { Message } from '@arco-design/web-vue';
 import { useRouter } from 'vue-router';
 
+
+const props = defineProps<{
+  id: string
+}>()
+
 const router = useRouter();
 
 const params = ref<GetTopicListParams>({
@@ -28,11 +33,8 @@ const isShow = {
 }
 
 
-const route = useRoute();
-console.log(route);
-
 const id = computed(() => {
-  return route.params.id as string
+  return props.id as string
 })
 
 const { data, loading, fetchData } = useFetchData(getTopicApi, [id], {

@@ -67,6 +67,16 @@
   --theme-tag-3: #f3e8ff;
   --theme-tag-4: #fee2e2;
   --theme-tag-5: #fef9c3;
+
+  /*
+  ai辩论页面的css辩论 
+   */
+  --theme-white-3: #f3f4f6;
+  --theme-gray-6: #353535;
+  --theme-border-1: rgba(0, 0, 0, 0.1);
+
+  --theme-chat-user: #c8dffe;
+  --theme-chat-assistant: #f3f3f3;
 }
 
 /* header头部区域的高度 */
@@ -179,4 +189,13 @@ html.dark {
   --theme-tag-3: #5b21b6; /* 宝石紫色（提升饱和度避免沉闷） */
   --theme-tag-4: #7f1d1d; /* 深绯红色（降低亮度保留警示性） */
   --theme-tag-5: #854d0e; /* 琥珀金色（模拟暗光下的金属质感） */
+
+  /*
+  ai辩论页面的css辩论 
+   */
+  --theme-white-3: #1f2937; /* 替代亮色的 #f3f4f6（浅灰背景），使用深灰作为暗黑模式下的"浅色"背景 */
+  --theme-gray-6: #e5e7eb; /* 替代亮色的 #353535（深灰文本），使用浅灰作为暗黑模式下的主要文本色 */
+
+  --theme-chat-user: #3283fd;
+  --theme-chat-assistant: #46484d;
 }

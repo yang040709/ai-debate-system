@@ -1,23 +1,41 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+
+
+interface Props {
+  isFixed?: boolean
+  isPhone?: boolean
+  // 确认函数
+  confirm?: () => Promise<any>
+}
+
+
+const props = withDefaults(defineProps<Props>(), {
+  isFixed: true,
+})
+
+
 const router = useRouter()
 const handleReturnHome = () => {
-  router.push({ name: 'home' })
+  if (props.confirm) {
+    props.confirm().then(() => {
+      router.push({ name: 'home' })
+    })
+  } else {
+    router.push({ name: 'home' })
+  }
 }
 </script>
 
 <template>
-  <div class="return-home-container" @click="handleReturnHome">
+  <div class="return-home-container" @click="handleReturnHome" :class="{ 'fixed': isFixed }">
     <icon-import :size="20" />
-    <span>返回首页</span>
+    <span v-show="!isPhone">返回首页</span>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .return-home-container {
-  position: fixed;
-  top: 10px;
-  left: 10px;
   height: 50px;
   padding: 0 10px;
   border-radius: 10px;
@@ -30,6 +48,12 @@ const handleReturnHome = () => {
 
   &:hover {
     background-color: var(--btn-bg-hover);
+  }
+
+  &.fixed {
+    position: fixed;
+    top: 10px;
+    left: 10px;
   }
 }
 </style>

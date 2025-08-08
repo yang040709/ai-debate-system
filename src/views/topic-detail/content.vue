@@ -8,7 +8,9 @@ import dayjs from 'dayjs'
 import { useTagsStore } from '@/stores/tags';
 import { storeToRefs } from 'pinia';
 import { useQrcode } from '@/composables/useQrcode';
-
+import { createDebate } from '@/api/debate'
+import { useFetchData } from '@/composables/useFetchData';
+import { CreateDebateRequest } from '@/types/debate';
 const props = defineProps<{
   item: Topic,
   loading: boolean,
@@ -32,9 +34,10 @@ const positionType = [
 ]
 
 // #优化 这里默认值应该想办法从数据获取 
-const form = ref({
-  difficulty: "2",
-  position: "1",
+const form = ref<CreateDebateRequest>({
+  topic_id: "",
+  difficulty_id: "2",
+  position_id: "1",
 })
 
 
@@ -51,11 +54,48 @@ const { tagListData, tagListLoading } = storeToRefs(useTagsStore())
 console.log(tagListData.value.difficulty);
 
 
-const joinDebate = () => {
+
+const joinDebate = async () => {
   console.log("joinDebate", form.value);
+  form.value.topic_id = props.item.id;
+  const { data, loading, fetchData } = useFetchData(createDebate, [form], {
+    conversion_id: '',
+    ctime: 0
+  })
+  fetchData().then(() => {
+    router.push({
+      name: "debate",
+      params: {
+        id: data.value.conversion_id
+      }
+    })
+  })
 }
 
 const { QRcodeUrl } = useQrcode()
+
+
+
+const debateRule = [
+  {
+    title: "立论陈词",
+    content: "正反方各1.5分钟，仅需提出1个核心论点+1个论据（超时10秒即扣分）。",
+  },
+  {
+    title: "质询对抗",
+    content: "单轮混合质询（共3分钟）： - 反方提问→正方回答（1.5分钟）→立即切换正方提问→反方回答（1.5分钟）。",
+  },
+  {
+    title: "自由辩论",
+    content: "正方先发言，双方交替攻防，每次发言≤1 分钟。共 5分钟",
+  },
+  {
+    title: "总结陈词",
+    content: "反方→正方各2分钟，需融合反驳与立论，禁止新论据。",
+  },
+
+]
+
 
 </script>
 
@@ -86,13 +126,13 @@ const { QRcodeUrl } = useQrcode()
         <div class="select">
           <div class="select-item" v-loading="tagListLoading">
             <span>难度:</span>
-            <a-radio-group type="button" v-model="form.difficulty">
+            <a-radio-group type="button" v-model="form.difficulty_id">
               <a-radio v-for="item in tagListData.difficulty" :value="item.id" :key="item.id">{{ item.name }}</a-radio>
             </a-radio-group>
           </div>
           <div class="select-item">
             <span>立场:</span>
-            <a-radio-group type="button" v-model="form.position">
+            <a-radio-group type="button" v-model="form.position_id">
               <a-radio v-for="item in positionType" :value="item.id" :key="item.id">{{ item.name }}</a-radio>
             </a-radio-group>
           </div>
@@ -140,6 +180,15 @@ const { QRcodeUrl } = useQrcode()
       </div>
       <div class="time" v-if="!loading">
         <p>创建于：{{ formatDay }}</p>
+      </div>
+      <div class="rule">
+        <div class="title">规则:</div>
+        <p v-for="rule in debateRule" :key="rule.title">
+          <strong>
+            {{ rule.title }}:
+          </strong>
+          {{ rule.content }}
+        </p>
       </div>
       <Skeleton v-if="loading" :loading="loading" :animation="true" :rows="6" />
     </div>
@@ -277,6 +326,8 @@ const { QRcodeUrl } = useQrcode()
         }
 
       }
+
+
     }
 
   }
@@ -316,6 +367,28 @@ const { QRcodeUrl } = useQrcode()
     p {
       padding-top: 20px;
       font-size: 16px;
+
+    }
+
+
+  }
+
+  .rule {
+    margin-top: 80px;
+
+    .title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    p {
+      line-height: 1.2em;
+      margin-bottom: 8px;
+
+      strong {
+        display: block;
+      }
     }
   }
 
