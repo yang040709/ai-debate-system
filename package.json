@@ -17,7 +17,7 @@
     "@bytemd/plugin-gfm": "^1.22.0",
     "@bytemd/plugin-highlight": "^1.22.0",
     "@bytemd/vue-next": "^1.22.0",
-    "@tdesign-vue-next/chat": "^0.3.0",
+    "@tdesign-vue-next/chat": "^0.4.5",
     "@vueuse/core": "^13.2.0",
     "axios": "^1.9.0",
     "bytemd": "^1.22.0",
@@ -29,7 +29,7 @@
     "mitt": "^3.0.1",
     "pinia": "^3.0.1",
     "qrcode": "^1.5.4",
-    "tdesign-vue-next": "^1.13.0",
+    "tdesign-vue-next": "^1.15.2",
     "unplugin-vue-components": "^28.5.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"

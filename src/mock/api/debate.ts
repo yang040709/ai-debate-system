@@ -38,7 +38,7 @@ mockjs.mock(/\/api\/chat\/coze\/conversation\/.+/, 'get', (options) => {
     },
     position: {
       id: '1',
-      name: '正方',
+      name: 'positive',
     },
     content: '',
     duration: 0,

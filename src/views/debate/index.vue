@@ -5,9 +5,10 @@ import ToggleDark from '@/components/ToggleDark/ToggleDark.vue';
 import { getDebateInfo } from '@/api/debate';
 import type { Debate } from '@/types/debate';
 import { useFetchData } from '@/composables/useFetchData';
-import { useRoute } from 'vue-router';
-import { computed, onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { computed, onMounted, ref, nextTick, toRef } from 'vue';
 import { createDebateStages } from './config'
+import $bus from '@/eventBus'
 const route = useRoute();
 const id = computed(() => {
   return route.params.id.toString();
@@ -56,21 +57,22 @@ fetchData().then(() => {
 });
 
 
-/* 当前的阶段 */
+
+/* 当前的辩论阶段 */
 const currentStageIndex = ref(0);
 
 
-
 const debateStages = createDebateStages();
+
+const isStreamLoad = ref(false)
+
 
 
 
 /* 倒计时 */
 const countDown = ref(0);
-
 const isPause = ref(false);
-
-const isTimeOut = ref(false);
+// const isTimeOut = ref(false);
 
 const countDownRun = async () => {
   const stages = currentStageIndex.value;
@@ -78,7 +80,6 @@ const countDownRun = async () => {
   如果倒计时不为0且当前还在这个阶段就一直倒计时
   */
   while (countDown.value >= 0 && stages === currentStageIndex.value) {
-
     await new Promise(resolve => setTimeout(resolve, 1000));
     if (isPause.value) {
       continue;
@@ -86,21 +87,25 @@ const countDownRun = async () => {
     if (countDown.value === 0) {
       // 如果时间为0，则进入下一个阶段
       // console.log("进入下一个阶段");
-      if (currentStageIndex.value === 2) {
-        currentStageIndex.value++;
-        break;
+      if (currentStageIndex.value === 2 && isStreamLoad.value === false) {
+        // currentStageIndex.value++;
+        handleDebateStage("timeOut", currentStageIndex.value)
       }
-      console.log("已经超时，警告！！！");
+      else {
+        console.log("已经超时，警告！！！");
+      }
       continue;
     }
     countDown.value--;
   }
 }
 
-
-
-
+const router = useRouter();
+/* 
+开启辩论，遍历每一个阶段，开启计时
+*/
 const startDebate = async () => {
+  $bus.emit("debate-control", [debateStages[0].turns[0], currentStageIndex.value, false])
   for (const stage of debateStages) {
     countDown.value = stage.remainingTime;
     await countDownRun()
@@ -108,28 +113,44 @@ const startDebate = async () => {
   console.log("恭喜你，辩论结束");
 }
 
-
-const handleDebateStage = (role: string) => {
+/* 
+处理子阶段的输入
+*/
+const handleDebateStage = (role: string, stage: number) => {
   console.log("role:", role, currentStageIndex.value);
-  const curStage = debateStages[currentStageIndex.value]
-  if (role === "assistant") {
-    isPause.value = false;
-  }
-  else if (role === "user") {
-    isPause.value = true;
-  }
-  if (curStage.rules.freeMode === true) {
+  let curStage = debateStages[currentStageIndex.value];
+  let curTurn = curStage.turns[curStage.currentTurnIndex];
+  let willBreak = false
+  if (stage != currentStageIndex.value) {
     return;
   }
+
+  console.log(curStage, curStage.currentTurnIndex, curStage.turns.length);
+  if (role === 'timeOut') {
+    currentStageIndex.value++;
+    willBreak = true;
+  }
   else {
-    console.log(curStage.currentTurnIndex, curStage.turns.length - 1);
-    if (curStage.currentTurnIndex < curStage.turns.length - 1) {
+    if (curStage.currentTurnIndex < curStage.turns.length && !curStage.rules.freeMode) {
       curStage.currentTurnIndex++;
     }
-    else {
+    if (curStage.currentTurnIndex >= curStage.turns.length && !curStage.rules.freeMode) {
       currentStageIndex.value++;
     }
+    if (curStage.rules.freeMode) {
+      curStage.currentTurnIndex++;
+      if (curStage.currentTurnIndex >= curStage.turns.length) {
+        curStage.currentTurnIndex = 1;
+      }
+    }
   }
+  if (currentStageIndex.value >= debateStages.length) {
+    return;
+  }
+  curStage = debateStages[currentStageIndex.value]
+  curTurn = curStage.turns[curStage.currentTurnIndex];
+  console.log(curStage, curTurn, "<===");
+  $bus.emit("debate-control", [curTurn, currentStageIndex.value, willBreak])
 }
 
 
@@ -139,6 +160,16 @@ onMounted(() => {
     startDebate();
   }, 1000)
 })
+
+const toDebateResult = () => {
+  router.push({
+    name: "debateResult",
+    params: {
+      id: data.value.id
+    }
+  })
+};
+
 
 
 </script>
@@ -181,7 +212,8 @@ onMounted(() => {
         <toggle-dark />
       </div>
     </div>
-    <chat @talk="handleDebateStage" />
+    <chat :debate="data" @talk="handleDebateStage" v-model:isStreamLoad="isStreamLoad" />
+    <!-- <button @click="toDebateResult">到结果页</button> -->
   </div>
 
 </template>

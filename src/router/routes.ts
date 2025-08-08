@@ -38,7 +38,7 @@ export default [
         },
       },
       {
-        path: '/debate/result/:id',
+        path: '/debate/result/:id?',
         props: true,
         name: 'debateResult',
         component: () => import('@/views/debate/result.vue'),

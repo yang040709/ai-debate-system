@@ -6,7 +6,6 @@ const mockedData = {
 }
 
 export const mockData = async (lastItem: any) => {
-  let j = 0
   for (let i = 0; i < mockedData.content.length; i++) {
     await addContent(lastItem, i)
   }

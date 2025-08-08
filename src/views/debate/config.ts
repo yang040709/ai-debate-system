@@ -14,8 +14,34 @@ export const createDebateStages = () => {
       },
       // 轮次配置（统一字段）
       turns: [
-        { side: 'positive', action: 'speak', status: 'pending', usedTime: 0 }, // 正方发言
-        { side: 'negative', action: 'speak', status: 'pending', usedTime: 0 }, // 反方发言
+        {
+          side: 'positive',
+          action: 'speak',
+          status: 'pending',
+          usedTime: 0,
+          tip: {
+            avatar: '/referee.png',
+            name: '裁判',
+            datetime: '今天16:40',
+            content: '请正方先发表立论陈词，围绕核心论点展开，限时1分30秒。',
+            role: 'assistant',
+            duration: 0,
+          },
+        }, // 正方发言
+        {
+          side: 'negative',
+          action: 'speak',
+          status: 'pending',
+          usedTime: 0,
+          tip: {
+            avatar: '/referee.png',
+            name: '裁判',
+            datetime: '今天16:42',
+            content: '请反方发表立论陈词，明确核心论点及论据，限时1分30秒。',
+            role: 'assistant',
+            duration: 0,
+          },
+        }, // 反方发言
       ],
       // 规则约束（统一字段）
       rules: {
@@ -40,9 +66,36 @@ export const createDebateStages = () => {
         overtimePenalty: 0,
       },
       turns: [
-        { side: 'negative', action: 'question', status: 'pending', usedTime: 0 }, // 反方提问
+        {
+          side: 'negative',
+          action: 'question',
+          status: 'pending',
+          usedTime: 0,
+          tip: {
+            avatar: '/referee.png',
+            name: '裁判',
+            datetime: '今天16:45',
+            content:
+              '质询对抗环节开始，首先由反方对正方进行提问，双方共计3分钟，当前反方提问、正方回答时间1分30秒。',
+            role: 'assistant',
+            duration: 0,
+          },
+        }, // 反方提问
         { side: 'positive', action: 'answer', status: 'pending', usedTime: 0 }, // 正方回答
-        { side: 'positive', action: 'question', status: 'pending', usedTime: 0 }, // 正方提问
+        {
+          side: 'positive',
+          action: 'question',
+          status: 'pending',
+          usedTime: 0,
+          tip: {
+            avatar: '/referee.png',
+            name: '裁判',
+            datetime: '今天16:47',
+            content: '质询环节切换，现在由正方对反方进行提问，反方回答，剩余1分30秒。',
+            role: 'assistant',
+            duration: 0,
+          },
+        }, // 正方提问
         { side: 'negative', action: 'answer', status: 'pending', usedTime: 0 }, // 反方回答
       ],
       rules: {
@@ -65,12 +118,33 @@ export const createDebateStages = () => {
         overtimePenalty: 0,
       },
       turns: [
-        { side: 'positive', action: 'debate', status: 'pending', usedTime: 0 },
-        { side: 'negative', action: 'debate', status: 'pending', usedTime: 0 },
-        { side: 'positive', action: 'debate', status: 'pending', usedTime: 0 },
-        { side: 'negative', action: 'debate', status: 'pending', usedTime: 0 },
-        { side: 'positive', action: 'debate', status: 'pending', usedTime: 0 },
-        { side: 'negative', action: 'debate', status: 'pending', usedTime: 0 },
+        {
+          side: 'positive',
+          action: 'debate',
+          status: 'pending',
+          usedTime: 0,
+          tip: {
+            avatar: '/referee.png',
+            name: '裁判',
+            datetime: '今天16:50',
+            content:
+              '自由辩论环节开始，正方先发言，双方交替进行，每次发言不超过1分钟，总时长5分钟。',
+            role: 'assistant',
+            duration: 0,
+          },
+        },
+        {
+          side: 'negative',
+          action: 'debate',
+          status: 'pending',
+          usedTime: 0,
+        },
+        {
+          side: 'positive',
+          action: 'debate',
+          status: 'pending',
+          usedTime: 0,
+        },
       ],
       rules: {
         freeMode: true,
@@ -78,7 +152,7 @@ export const createDebateStages = () => {
       },
       status: 'pending',
       currentTurnIndex: 0,
-      remainingTime: 30,
+      remainingTime: 15,
     },
     {
       id: 4,
@@ -92,8 +166,35 @@ export const createDebateStages = () => {
         overtimePenalty: 0,
       },
       turns: [
-        { side: 'negative', action: 'conclude', status: 'pending', usedTime: 0 }, // 反方总结
-        { side: 'positive', action: 'conclude', status: 'pending', usedTime: 0 }, // 正方总结
+        {
+          side: 'negative',
+          action: 'conclude',
+          status: 'pending',
+          usedTime: 0,
+          tip: {
+            avatar: '/referee.png',
+            name: '裁判',
+            datetime: '今天16:55',
+            content:
+              '自由辩论时间结束，接下来进入总结陈词环节，请反方首先发言，需融合反驳与立论，禁止提出新论据，限时2分钟。',
+            role: 'assistant',
+            duration: 0,
+          },
+        }, // 反方总结
+        {
+          side: 'positive',
+          action: 'conclude',
+          status: 'pending',
+          usedTime: 0,
+          tip: {
+            avatar: '/referee.png',
+            name: '裁判',
+            datetime: '今天16:58',
+            content: '请正方进行总结陈词，结合之前辩论内容展开，限时2分钟，禁止新论据。',
+            role: 'assistant',
+            duration: 0,
+          },
+        }, // 正方总结
       ],
       rules: {
         freeMode: false,
@@ -105,3 +206,72 @@ export const createDebateStages = () => {
     },
   ]
 }
+
+export const debateProcess = [
+  {
+    avatar: '/referee.png',
+    name: '裁判',
+    datetime: '今天16:40',
+    content: '请正方先发表立论陈词，围绕核心论点展开，限时1分30秒。',
+    role: 'assistant',
+    duration: 0,
+  },
+  {
+    avatar: '/referee.png',
+    name: '裁判',
+    datetime: '今天16:42',
+    content: '请反方发表立论陈词，明确核心论点及论据，限时1分30秒。',
+    role: 'assistant',
+    duration: 0,
+  },
+  {
+    avatar: '/referee.png',
+    name: '裁判',
+    datetime: '今天16:45',
+    content:
+      '质询对抗环节开始，首先由反方对正方进行提问，双方共计3分钟，当前反方提问、正方回答时间1分30秒。',
+    role: 'assistant',
+    duration: 0,
+  },
+  {
+    avatar: '/referee.png',
+    name: '裁判',
+    datetime: '今天16:47',
+    content: '质询环节切换，现在由正方对反方进行提问，反方回答，剩余1分30秒。',
+    role: 'assistant',
+    duration: 0,
+  },
+  {
+    avatar: '/referee.png',
+    name: '裁判',
+    datetime: '今天16:50',
+    content: '自由辩论环节开始，正方先发言，双方交替进行，每次发言不超过1分钟，总时长5分钟。',
+    role: 'assistant',
+    duration: 0,
+  },
+  {
+    avatar: '/referee.png',
+    name: '裁判',
+    datetime: '今天16:55',
+    content:
+      '自由辩论时间结束，接下来进入总结陈词环节，请反方首先发言，需融合反驳与立论，禁止提出新论据，限时2分钟。',
+    role: 'assistant',
+    duration: 0,
+  },
+  {
+    avatar: '/referee.png',
+    name: '裁判',
+    datetime: '今天16:58',
+    content: '请正方进行总结陈词，结合之前辩论内容展开，限时2分钟，禁止新论据。',
+    role: 'assistant',
+    duration: 0,
+  },
+  {
+    avatar: '/referee.png',
+    name: '裁判',
+    datetime: '今天17:00',
+    content: '本次辩论所有环节结束，感谢双方的精彩表现，评判结果将稍后公布。',
+    role: 'assistant',
+    duration: 0,
+  },
+]
