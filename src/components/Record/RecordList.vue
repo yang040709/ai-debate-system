@@ -1,15 +1,15 @@
 <script setup lang='ts'>
 import RecordItem from './RecordItem.vue';
-import type { Record } from '@/types/record';
+import type { Result } from '@/types/result';
 
 defineProps<{
-  items: Record[];
+  items: Result[];
 }>();
 </script>
 
 <template>
   <div class='record-list-container'>
-    <record-item v-for="item in items" :item="item" :key="item.recordId" />
+    <record-item v-for="item in items" :item="item" :key="item.id" />
   </div>
 </template>
 

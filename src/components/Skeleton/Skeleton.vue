@@ -28,6 +28,10 @@ withDefaults(defineProps<SkeletonProps>(), {
 </template>
 
 <style scoped lang="scss">
+.skeleton-container {
+  width: 100%;
+}
+
 .space {
   width: 100%;
 }

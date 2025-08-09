@@ -1,18 +1,64 @@
 <script setup lang='ts'>
 import ReturnHome from '@/components/ReturnHome/ReturnHome.vue'
 import ToggleDark from '@/components/ToggleDark/ToggleDark.vue'
-defineProps(["data", "curFlow", "debateStages", "countDown"])
+import Skeleton from '@/components/Skeleton/Skeleton.vue';
+import { ref, computed } from 'vue';
+import { Modal } from '@arco-design/web-vue';
+import { useRouter } from 'vue-router';
+import { useDebateStore } from '@/stores/debate';
+import { storeToRefs } from 'pinia';
+// interface Props {
+//   data: any;
+//   loading: boolean;
+//   curFlow: number;
+//   debateStages: any[];
+//   countDown: number;
+//   isDebateEnd: boolean;
+// }
 
+const { data, dataLoading: loading, debateStages, countDown, isDebateEnd, currentStageIndex } = storeToRefs(useDebateStore());
+
+
+
+const curFlow = computed(() => {
+  return currentStageIndex.value + 1 > debateStages.value.length ?
+    debateStages.value.length : currentStageIndex.value + 1
+})
+
+
+const router = useRouter()
+
+const visible = ref(false);
+
+
+
+const confirmReturnHome = async () => {
+  visible.value = true;
+  Modal.confirm({
+    title: '提示',
+    content: '是否确认返回主页，当前的辩论记录将不会被保存',
+    okText: '确认',
+    cancelText: '取消',
+    onOk: () => {
+      router.push({ name: 'home' })
+      isDebateEnd.value = true;
+    },
+  })
+}
 </script>
 
 <template>
   <div class='top-bar-pc-container'>
     <div class="top-bar-left">
       <div class="top-bar-title">
-        <return-home :is-fixed="false" />
-        <h2>{{ data.topic.title }}</h2>
+        <!-- <return-home :is-fixed="false" class="return-home" :confirm="confirmReturnHome"/> -->
+        <div class="icon">
+          <icon-import :size="20" @click="confirmReturnHome" />
+        </div>
+        <h2 v-if="!loading">{{ data.topic.title }}</h2>
+        <skeleton v-else :loading="loading" :rows="1" class="skeleton" />
       </div>
-      <div class="top-bar-content">
+      <div v-if="!loading" class="top-bar-content">
         <div class="flow-item">
           <p>当前环节:</p>
           <strong>{{ curFlow }} /{{ debateStages.length }}</strong>
@@ -36,9 +82,11 @@ defineProps(["data", "curFlow", "debateStages", "countDown"])
           <strong>{{ data.difficulty.name }}</strong>
         </div>
       </div>
+      <skeleton v-else :loading="loading" :rows="1" class="skeleton" />
     </div>
+
     <div class="top-bar-right">
-      <icon-question-circle :size="24" />
+      <!-- <icon-question-circle :size="24" /> -->
       <toggle-dark />
     </div>
   </div>
@@ -46,17 +94,23 @@ defineProps(["data", "curFlow", "debateStages", "countDown"])
 
 <style scoped lang="scss">
 .top-bar-pc-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 100px;
   padding: 10px 15px;
 
   .top-bar-title {
     display: flex;
     align-items: center;
 
+    .icon {
+      padding: 10px;
+      cursor: pointer;
+      background: var(--body-bg-2);
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+
     h2 {
-      padding-left: 20px;
       color: var(--theme-gray-6);
       font-size: 20px;
       flex: 1;
@@ -96,9 +150,19 @@ defineProps(["data", "curFlow", "debateStages", "countDown"])
 
 
 .top-bar-right {
+  justify-self: flex-end;
   color: var(--color-text-secondary);
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.skeleton {
+  // margin-left: 10px;
+  width: 100%;
+}
+
+.return-home {
+  margin-right: 20px;
 }
 </style>

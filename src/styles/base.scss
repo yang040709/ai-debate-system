@@ -164,4 +164,10 @@ select {
   .topic-detail-container .topic-detail-recommend .topic-item-container {
     padding: 20px 0 !important;
   }
+  .top-bar-phone-container {
+    display: grid !important;
+  }
+  .top-bar-pc-container {
+    display: none !important;
+  }
 }

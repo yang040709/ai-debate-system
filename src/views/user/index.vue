@@ -5,80 +5,57 @@ import Info from './info.vue'
 import RecordList from '@/components/Record/RecordList.vue'
 import Head from './head.vue';
 import ScrollTop from '@/components/ScrollTop/ScrollTop.vue';
-import type { Record } from '@/types/record';
+import type { Result, ResultListResponse } from '@/types/result';
+import { getResultListApi } from '@/api/result';
+import { useFetchData } from '@/composables/useFetchData';
+import { usePagination } from '@/composables/usePagination';
+import { ref } from 'vue';
+import LoadMore from '@/components/LoadMore/LoadMore.vue';
+import type { Ref } from 'vue';
+const defaultValue: ResultListResponse = {
+  total: 0,
+  list: []
+};
+const pageInfo = ref({
+  page: 0,
+  limit: 5,
+})
+const hasMoreFlag = ref(false);
 
-const items1: Record[] = [
-  {
-    recordId: '1',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '胜利',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: 100
-  },
-  {
-    recordId: '2',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '失败',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: -20
-  },
-  {
-    recordId: '3',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '胜利',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: 100
-  },
-  {
-    recordId: '4',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '失败',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: -20
-  },
-  {
-    recordId: '5',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '胜利',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: 150
-  },
-  {
-    recordId: '4',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '失败',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: -20
-  },
-  {
-    recordId: '5',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '胜利',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: 150
+
+const newDataFunc = (data: Ref<ResultListResponse>, res: ResultListResponse) => {
+  data.value.total = res.total;
+  if (data.value.list.length === 0) {
+    data.value = res;
+  } else {
+    data.value.list.push(...res.list);
   }
-]
+}
+
+
+
+const { data, loading, fetchData } = useFetchData(getResultListApi, [pageInfo], defaultValue, {
+  newData: "add",
+  newDataFunc
+});
+const { page, changePage, hasMore } = usePagination(pageInfo, data)
+
+
+fetchData().then(() => {
+  hasMoreFlag.value = hasMore.value;
+});
+
+
+
+const fetchMoreData = () => {
+  if (!hasMore.value) {
+    return;
+  }
+  changePage(page.value + 1)
+  fetchData().then(() => {
+    hasMoreFlag.value = hasMore.value;
+  });
+}
 
 
 const items = [
@@ -96,7 +73,6 @@ const items = [
   }
 ]
 
-
 </script>
 
 <template>
@@ -106,7 +82,8 @@ const items = [
 
         <Head></Head>
         <Info :items="items"></Info>
-        <RecordList :items="items1" />
+        <RecordList :items="data.list" />
+        <LoadMore :hasMore="hasMoreFlag" :loading="loading" :call-back="fetchMoreData" />
         <ScrollTop />
       </div>
     </div>

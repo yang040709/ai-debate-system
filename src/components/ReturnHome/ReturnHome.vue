@@ -20,6 +20,9 @@ const handleReturnHome = () => {
   if (props.confirm) {
     props.confirm().then(() => {
       router.push({ name: 'home' })
+    }).catch(() => {
+      // 取消返回首页
+      console.log('取消返回首页');
     })
   } else {
     router.push({ name: 'home' })

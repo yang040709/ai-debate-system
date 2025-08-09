@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia';
 
 
 const store = useDebateStore();
-const { isStreamLoad, chatList, loading, disabled, inputVal } = storeToRefs(store);
+const { isStreamLoad, chatList, loading, disabled, inputVal, isDebateEnd } = storeToRefs(store);
 
 
 </script>
@@ -28,6 +28,11 @@ const { isStreamLoad, chatList, loading, disabled, inputVal } = storeToRefs(stor
             <component :is="renderPresets([])" />
           </template>
         </t-chat-sender>
+        <div class="debate-input-mask" v-if="isDebateEnd">
+          <div class="to-result-page" @click="store.toResultPage">
+            前往辩论结果页
+          </div>
+        </div>
       </template>
     </t-chat>
   </div>
@@ -157,5 +162,33 @@ const { isStreamLoad, chatList, loading, disabled, inputVal } = storeToRefs(stor
 
 :deep(.assistant .t-chat__detail) {
   background: var(--theme-chat-assistant);
+}
+
+.debate-input-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .to-result-page {
+    cursor: pointer;
+    width: 200px;
+    height: 40px;
+    background: var(--theme-blue-1);
+    color: var(--theme-white-2);
+    font-size: 16px;
+    border-radius: 20px;
+    line-height: 40px;
+    text-align: center;
+  }
+
+  border-radius: 20px;
 }
 </style>

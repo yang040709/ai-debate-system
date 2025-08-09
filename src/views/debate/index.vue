@@ -2,18 +2,17 @@
 import { storeToRefs } from 'pinia';
 import chat from './chat.vue'
 import { useDebateStore } from '@/stores/debate'
-import { onBeforeMount, onMounted, computed } from 'vue';
+import { onMounted, computed } from 'vue';
 import topBarPc from './top-bar-pc.vue';
 import topBarPhone from './top-bar-phone.vue';
-
 const store = useDebateStore();
 const {
   data,
   debateStages,
   currentStageIndex,
-  isStreamLoad,
   countDown,
-  isPause
+  dataLoading,
+  isDebateEnd,
 } = storeToRefs(store);
 
 onMounted(() => {
@@ -27,14 +26,14 @@ const curFlow = computed(() => {
     debateStages.value.length : currentStageIndex.value + 1
 })
 
-
+// const dataLoading = ref(true)
 </script>
 
 <template>
   <div class="debate-container">
     <div class="top-bar">
-      <!-- <topBarPc :data="data" :count-down="countDown" :cur-flow="curFlow" :debate-stages="debateStages" /> -->
-      <top-bar-phone :data="data" :count-down="countDown" :cur-flow="curFlow" :debate-stages="debateStages" />
+      <topBarPc />
+      <top-bar-phone />
     </div>
     <chat />
   </div>

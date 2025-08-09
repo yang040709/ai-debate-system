@@ -41,7 +41,7 @@ export default [
         path: '/debate/result/:id?',
         props: true,
         name: 'debateResult',
-        component: () => import('@/views/debate/result.vue'),
+        component: () => import('@/views/result/index.vue'),
       },
       {
         path: '/topic/detail/:id?',

@@ -7,7 +7,7 @@ import { computed, onMounted, ref, onBeforeUnmount, shallowRef } from 'vue'
 import { createDebateStages } from '@/views/debate/config'
 import { mockData } from '@/views/debate/mockData'
 import { useUserStore } from '@/stores/user'
-import { Message } from '@arco-design/web-vue'
+import { Modal } from '@arco-design/web-vue'
 
 export const useDebateStore = defineStore('debate', () => {
   const route = useRoute()
@@ -98,6 +98,8 @@ export const useDebateStore = defineStore('debate', () => {
 
   const inputVal = ref('')
 
+  const isDebateEnd = ref(false)
+
   /* user模板 */
   const userChatTemplate = {
     avatar: userStore.userInfo.avatar,
@@ -127,6 +129,9 @@ export const useDebateStore = defineStore('debate', () => {
       如果倒计时不为0且当前还在这个阶段就一直倒计时
     */
     while (countDown.value >= 0 && stages === currentStageIndex.value) {
+      if (isDebateEnd.value === true) {
+        break
+      }
       await new Promise((resolve) => setTimeout(resolve, 1000))
       if (isPause.value) {
         continue
@@ -137,9 +142,7 @@ export const useDebateStore = defineStore('debate', () => {
       }
       if (countDown.value === 0) {
         // 如果时间为0，则进入下一个阶段
-        // console.log("进入下一个阶段");
         const res = freeModeIndexArr.find((e) => e === currentStageIndex.value)
-        console.log(res)
         if (typeof res === 'number') {
           if (isStreamLoad.value === false) {
             handleDebateStage('timeOut')
@@ -149,31 +152,64 @@ export const useDebateStore = defineStore('debate', () => {
         }
         continue
       }
+
       countDown.value--
     }
   }
   /* 
 开启辩论，遍历每一个阶段，开启计时
 */
+
+  /* 
+
+是否跳过辩论的标记
+*/
+  const toResultPage = () => {
+    router.push({ name: 'debateResult', params: { id: data.value.id } })
+  }
+
+  const isJumpDebateFlag = ref(false)
+  // isJumpDebateFlag.value = true
+
   const startDebate = async () => {
     /* 处理辩论开始的逻辑 */
     reset()
     console.log('该辩论已经开始')
     await fetchData()
     /* 处理就可以处理是不是开启辩论的问题，以后再处理 */
-    // console.log(data, '<==debate=>data')
-    if (true) {
+    if (isJumpDebateFlag.value) {
       console.log('暂时跳过辩论过程，看看其他的')
-
       return
     }
+    if (debateStages.value.length === 0 && debateStages.value[0].turns.length === 0) {
+      console.log('没有阶段或者没有轮次,麻烦联系管理员')
+      return
+    }
+    debateControl(debateStages.value[0].turns[0])
+    for (const stage of debateStages.value) {
+      countDown.value = stage.remainingTime
+      if (isDebateEnd.value === true) {
+        return
+      }
+      await countDownRun()
+    }
+    console.log('恭喜你，辩论结束')
+    isDebateEnd.value = true
+    Modal.confirm({
+      title: '提示',
+      content: '是否确认前往辩论结果页，查看您的辩论结果分析',
+      okText: '确认',
+      cancelText: '取消',
+      onOk: () => {
+        toResultPage()
+      },
+    })
   }
 
   /* 
   处理子阶段的输入
   */
   const handleDebateStage = (role: string) => {
-    console.log('role:', role, currentStageIndex.value)
     let curStage = debateStages.value[currentStageIndex.value]
     let curTurn = curStage.turns[curStage.currentTurnIndex]
     let willBreak = false
@@ -181,7 +217,7 @@ export const useDebateStore = defineStore('debate', () => {
     //   return
     // }
 
-    console.log(curStage, curStage.currentTurnIndex, curStage.turns.length)
+    // console.log(curStage, curStage.currentTurnIndex, curStage.turns.length)
     if (role === 'timeOut') {
       currentStageIndex.value++
       willBreak = true
@@ -204,7 +240,7 @@ export const useDebateStore = defineStore('debate', () => {
     }
     curStage = debateStages.value[currentStageIndex.value]
     curTurn = curStage.turns[curStage.currentTurnIndex]
-    console.log(curStage, curTurn, '<===')
+    // console.log(curStage, curTurn, '<===')
     debateControl(curTurn)
   }
 
@@ -259,7 +295,7 @@ export const useDebateStore = defineStore('debate', () => {
     if (turn.tip) {
       chatList.value.unshift(turn.tip)
     }
-    console.log(data.value.position.name, '==>', turn.side)
+    // console.log(data.value.position.name, '==>', turn.side)
     if (data.value.position.name === turn.side) {
       userInput()
     } else {
@@ -268,8 +304,9 @@ export const useDebateStore = defineStore('debate', () => {
   }
 
   const reset = () => {
-    console.log('正在卸载组件')
+    // console.log('正在卸载组件')
     isStreamLoad.value = false
+    isDebateEnd.value = false
     debateStages.value = createDebateStages()
     currentStageIndex.value = 0
     /* 是自由模式的环节由 */
@@ -302,5 +339,8 @@ export const useDebateStore = defineStore('debate', () => {
     disabled,
     handleSend,
     reset,
+    dataLoading,
+    isDebateEnd,
+    toResultPage,
   }
 })

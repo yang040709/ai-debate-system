@@ -35,7 +35,8 @@ require.interceptors.response.use(
       return Promise.reject(new Error(res.msg || '未授权'))
     } 
     */
-    console.log(res, '<==res.data')
+    // console.log(res, '<==res.data')
+    console.log(JSON.stringify(res.data), '<==res.data')
     return res.data || 'request success!!'
   },
   (err) => {

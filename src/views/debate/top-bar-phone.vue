@@ -1,18 +1,114 @@
 <script setup lang='ts'>
-import ReturnHome from '@/components/ReturnHome/ReturnHome.vue'
 import ToggleDark from '@/components/ToggleDark/ToggleDark.vue'
-defineProps(["data", "curFlow", "debateStages", "countDown"])
+import { useRouter } from 'vue-router';
+import Skeleton from '@/components/Skeleton/Skeleton.vue';
+import { Modal } from '@arco-design/web-vue';
+import ReturnHome from '@/components/ReturnHome/ReturnHome.vue'
+import { ref, computed } from 'vue';
+import { useDebateStore } from '@/stores/debate';
+import { storeToRefs } from 'pinia';
+
+
+const { data, dataLoading: loading, debateStages, countDown, isDebateEnd, currentStageIndex } = storeToRefs(useDebateStore());
+
+
+
+const curFlow = computed(() => {
+  return currentStageIndex.value + 1 > debateStages.value.length ?
+    debateStages.value.length : currentStageIndex.value + 1
+})
+
+
+const visible = ref(false);
+
+const router = useRouter();
+
+const handleClick = () => {
+  visible.value = true;
+};
+const handleOk = () => {
+  visible.value = false;
+};
+const handleCancel = () => {
+  visible.value = false;
+}
+
+const confirmReturnHome = async () => {
+  visible.value = true;
+  Modal.confirm({
+    title: '提示',
+    content: '是否确认返回主页，当前的辩论记录将不会被保存',
+    okText: '确认',
+    cancelText: '取消',
+    onOk: () => {
+      router.push({ name: 'home' })
+      isDebateEnd.value = true;
+    },
+  })
+}
+
+
 
 </script>
 
 <template>
-  <div class='top-bar-pc-container'>
+  <div class='top-bar-phone-container'>
     <div class="top-bar-left">
+      <icon-menu-unfold :size="30" @click="handleClick" />
+      <a-drawer :width="340" :footer="false" :height="340" :mask-closable="true" :visible="visible" placement="left"
+        @cancel="handleCancel">
+        <template #title>
+          操作和辩题信息
+        </template>
+        <div>
+          <div class="action">
+            <div class="title">
+              操作
+            </div>
+            <div class="action-item">
+              <span>返回首页</span>
+              <div class="content" @click="confirmReturnHome">
+                <icon-import :size="20" />
+              </div>
+            </div>
+            <div class="action-item">
+              <span>切换主题</span>
+              <div class="content">
+                <toggle-dark trigger="click" />
+              </div>
+            </div>
+          </div>
+          <div v-if="!loading" class="info">
+            <div class="title">辩题的信息</div>
+            <div class="flow-item">
+              <p>辩题：</p>
+              <strong>{{ data.topic.title }}</strong>
+            </div>
+            <div class="flow-item">
+              <p>正方：</p>
+              <strong v-if="data.position.id === '1'">用户</strong>
+              <strong v-else>AI</strong>
+            </div>
+            <div class="flow-item">
+              <p>反方:</p>
+              <strong v-if="data.position.id === '2'">用户</strong>
+              <strong v-else>AI</strong>
+            </div>
+            <div class="flow-item">
+              <p>难度:</p>
+              <strong>{{ data.difficulty.name }}</strong>
+            </div>
+          </div>
+          <skeleton v-else :loading="loading" :rows="3" />
+        </div>
+      </a-drawer>
+    </div>
+    <div class="top-bar-right">
       <div class="top-bar-title">
-        <!-- <return-home :is-fixed="false" /> -->
-        <h2>{{ data.topic.title }}</h2>
+        <h2 v-if="!loading">{{ data.topic.title }}</h2>
+        <skeleton v-else :loading="loading" :rows="1" class="skeleton" />
       </div>
-      <div class="top-bar-content">
+      <div class="top-bar-content" v-if="!loading">
         <div class="flow-item">
           <p>当前环节:</p>
           <strong>{{ curFlow }} /{{ debateStages.length }}</strong>
@@ -21,42 +117,25 @@ defineProps(["data", "curFlow", "debateStages", "countDown"])
           <p>发言倒计时:</p>
           <strong>{{ countDown }} 秒</strong>
         </div>
-        <div class="flow-item">
-          <p>正方：</p>
-          <strong v-if="data.position.id === '1'">用户</strong>
-          <strong v-else>AI</strong>
-        </div>
-        <div class="flow-item">
-          <p>反方:</p>
-          <strong v-if="data.position.id === '2'">用户</strong>
-          <strong v-else>AI</strong>
-        </div>
-        <!-- <div class="flow-item">
-          <p>难度:</p>
-          <strong>{{ data.difficulty.name }}</strong>
-        </div> -->
       </div>
+      <skeleton v-else :loading="loading" :rows="1" class="skeleton" />
     </div>
-    <!-- <div class="top-bar-right">
-      <icon-question-circle :size="24" />
-      <toggle-dark />
-    </div> -->
   </div>
 </template>
 
 <style scoped lang="scss">
-.top-bar-pc-container {
-  display: flex;
+.top-bar-phone-container {
+  display: none;
+  // align-items: center;
+  // justify-content: center;
+  grid-template-columns: 50px 1fr;
   align-items: center;
-  justify-content: center;
+  height: 100%;
+
   // justify-content: space-between;
   // padding: 10px 15px;
-  padding-top: 10px;
-
+  // padding-top: 10px;
   .top-bar-title {
-    display: flex;
-    align-items: center;
-
     h2 {
       // padding-left: 20px;
       color: var(--theme-gray-6);
@@ -103,10 +182,61 @@ defineProps(["data", "curFlow", "debateStages", "countDown"])
 }
 
 
-.top-bar-right {
-  color: var(--color-text-secondary);
-  display: flex;
-  align-items: center;
-  gap: 10px;
+
+
+.info {
+  // border: 1px solid var(--theme-blue-3);
+
+  .title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .flow-item {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+
+    p {
+      font-size: 14px;
+    }
+
+    strong {
+      font-size: 14px;
+      color: var(--theme-blue-3);
+    }
+  }
+}
+
+.top-bar-left {
+  padding: 8px;
+}
+
+
+.action {
+  .title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .action-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    margin-bottom: 10px;
+    // justify-items: center;
+
+    span {
+      justify-self: flex-start;
+      font-size: 14px;
+    }
+
+    .content {
+      width: 100%;
+      text-align: center;
+      background: var(--theme-white-1);
+      border-radius: 10px;
+    }
+  }
 }
 </style>
