@@ -39,7 +39,7 @@ router.beforeEach((to, from) => {
 <template>
   <div class='topic-container'>
     <div class="topic-switch">
-      <switch3 :loading="tagListLoading" promptText="请选择类型：" :current-route="typeRoute" :list="tagListData.type"
+      <switch3 :loading="tagListLoading" promptText="请选择类型：" :current-route="typeRoute" :list="tagListData.tag"
         :select-item="selectType" :is-show-all="true" :is-show-hot="true">
       </switch3>
     </div>

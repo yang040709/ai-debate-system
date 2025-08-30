@@ -92,19 +92,6 @@ export default [
         },
       },
       {
-        path: '/test1',
-        name: 'test',
-        component: () => import('@/views/test/index.vue'),
-      },
-      {
-        path: '/test2',
-        name: 'test2',
-        component: () => import('@/views/test/index2.vue'),
-        meta: {
-          onHeader: 'test2',
-        },
-      },
-      {
         path: '/404',
         name: 'not-find',
         component: () => import('@/views/not-find/index.vue'),

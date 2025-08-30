@@ -30,7 +30,6 @@ mockjs.mock(/\/api\/chat\/coze\/conversation\/.+/, 'get', (options) => {
       ],
 
       winningRate: 80,
-      comment_count: 320,
     },
     difficulty: {
       id: '1',
@@ -41,7 +40,7 @@ mockjs.mock(/\/api\/chat\/coze\/conversation\/.+/, 'get', (options) => {
       // name: 'positive',
       name: 'negative',
     },
-    content: '',
+    created_at: Date.now(),
     duration: 0,
     state: 1, //1 未开始 2 进行中 3 已结束
   }

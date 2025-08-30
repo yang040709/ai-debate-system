@@ -11,7 +11,7 @@ const require = axios.create({
 require.interceptors.request.use(
   (config) => {
     const userStore = useUserStore()
-    let token = userStore.token
+    const token = userStore.token
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`
     }

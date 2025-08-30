@@ -103,14 +103,14 @@ const debounceFun = debounce(() => {
   test()
 }, 1000);
 
-onMounted(() => {
-  window.addEventListener("resize", debounceFun)
-  test();
-})
+// onMounted(() => {
+//   window.addEventListener("resize", debounceFun)
+//   test();
+// })
 
-onUnmounted(() => {
-  window.removeEventListener("resize", debounceFun);
-})
+// onUnmounted(() => {
+//   window.removeEventListener("resize", debounceFun);
+// })
 
 </script>
 

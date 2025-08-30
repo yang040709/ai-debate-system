@@ -30,7 +30,6 @@ const form = ref<Omit<Topic, "id">>({
   created_at: '',
   participant_count: 0,
   winningRate: 0,
-  comment_count: 0,
 });
 
 const rules = {
@@ -61,11 +60,12 @@ const { data, loading, fetchData } = useFetchData(createTopicApi, [form], { id: 
 const { tagListData, tagListLoading } = storeToRefs(useTagsStore());
 
 const typeList = computed(() => {
-  return tagListData.value.type.map((item) => {
+  return tagListData.value.tag.map((item) => {
     return { label: item.name, value: item.id }
 
   })
 })
+
 
 
 

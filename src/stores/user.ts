@@ -21,7 +21,7 @@ export const useUserStore = defineStore('user', () => {
 
   const login = async (data: LoginForm) => {
     submitLoading.value = true
-    let res = await loginApi(data).catch((err) => {
+    const res = await loginApi(data).catch((err) => {
       console.log(err)
       return null
     })

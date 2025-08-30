@@ -1,6 +1,4 @@
-import type { Tag } from './tag'
-import type { Topic } from './topic'
-
+import type { Debate } from './debate'
 interface DebateAnalysis {
   isWin: boolean
   comprehensiveScore: number
@@ -19,13 +17,7 @@ export interface GetResultListParams {
   limit: number
 }
 
-export interface Result {
-  id: string
-  topic: Topic
-  difficulty: Tag
-  position: Tag
-  duration: number
-  created_at: number
+export interface Result extends Debate {
   result: ResultItem
 }
 

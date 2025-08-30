@@ -20,7 +20,7 @@ export const useDebateStore = defineStore('debate', () => {
   输入框的默认值
   */
   const defaultValue: Debate = {
-    id: '',
+    debate_id: '',
     topic: {
       id: '',
       title: '',
@@ -38,7 +38,6 @@ export const useDebateStore = defineStore('debate', () => {
         },
       ],
       winningRate: 0,
-      comment_count: 0,
     },
     difficulty: {
       id: '',
@@ -48,8 +47,8 @@ export const useDebateStore = defineStore('debate', () => {
       id: '',
       name: '',
     },
-    content: '',
     duration: 0,
+    created_at: 0,
     state: -1,
   }
 
@@ -61,9 +60,9 @@ export const useDebateStore = defineStore('debate', () => {
   // fetchData()
 
   /* 当前的辩论阶段 */
-  let currentStageIndex = ref(0)
+  const currentStageIndex = ref(0)
   /* 工厂函数获取辩论的阶段 */
-  let debateStages = shallowRef(createDebateStages())
+  const debateStages = shallowRef(createDebateStages())
 
   /* 是自由模式的环节由 */
   let freeModeIndexArr: number[] = []
@@ -165,7 +164,7 @@ export const useDebateStore = defineStore('debate', () => {
 是否跳过辩论的标记
 */
   const toResultPage = () => {
-    router.push({ name: 'debateResult', params: { id: data.value.id } })
+    router.push({ name: 'debateResult', params: { id: data.value.debate_id } })
   }
 
   const isJumpDebateFlag = ref(false)

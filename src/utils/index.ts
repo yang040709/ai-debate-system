@@ -1,12 +1,12 @@
 // debounce
-export function debounce(fn: Function, delay: number) {
+export function debounce(fn: (...args1: any[]) => any, delay: number) {
   let timer: any = null
-  return () => {
+  return (...args2: any[]) => {
     if (timer) {
       clearTimeout(timer)
     }
     timer = setTimeout(() => {
-      fn()
+      fn(...args2)
     }, delay)
   }
 }

@@ -3,7 +3,7 @@ import { useRouter, useRoute } from 'vue-router';
 import type { Topic } from '@/types/topic'
 
 
-interface isShow {
+interface isShowInterface {
   comment: boolean,
   support: boolean,
   tags: boolean,
@@ -14,11 +14,11 @@ interface isShow {
 
 const props = withDefaults(defineProps<{
   topic: Topic
-  isShow?: Partial<isShow>  // 使用 Partial 使属性可选
+  isShow?: Partial<isShowInterface>  // 使用 Partial 使属性可选
   mode?: "gray" | "border"
 }>(), {
   isShow: () => ({
-    comment: true,
+    comment: false,
     support: true,
     tags: true,
     desc: true,
@@ -65,12 +65,6 @@ const gotoTopicPage = (tag: string) => {
           <icon-user-group :size="18" />
           <p>
             胜率 {{ topic.winningRate }}%
-          </p>
-        </div>
-        <div v-if="topic.comment_count && isShow?.comment">
-          <icon-message :size="18" />
-          <p>
-            {{ topic.comment_count }}条评论
           </p>
         </div>
         <div v-if="topic.type && topic.type.length && isShow?.tags" class="canJumpTo">

@@ -51,7 +51,6 @@ const formatDay = computed(() => {
 
 const { tagListData, tagListLoading } = storeToRefs(useTagsStore())
 
-console.log(tagListData.value.difficulty);
 
 
 
@@ -110,7 +109,7 @@ const debateRule = [
             {{ item.creator.name }}
           </p>
           <ul>
-            <li v-for="type in item.type" @click="selectType(type)">{{ type.name }}</li>
+            <li v-for="type in item.type" @click="selectType(type)" :key="type.id">{{ type.name }}</li>
             <!-- <li class="difficulty" @click="selectType(item.difficulty, 'difficulty')">{{ item.difficulty.name }}</li> -->
           </ul>
         </div>

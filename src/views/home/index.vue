@@ -63,7 +63,7 @@ fetchRankingListData();
           <create-topic></create-topic>
         </home-item>
         <home-item title="标签" :link="{ routerName: 'topic' }" :params="{ type: '-1' }">
-          <tag-list :loading="tagListLoading" :list="tagListData.type" />
+          <tag-list :loading="tagListLoading" :list="tagListData.tag" />
         </home-item>
       </div>
     </div>

@@ -15,7 +15,7 @@ const { isStreamLoad, chatList, loading, disabled, inputVal, isDebateEnd } = sto
       role="model-change"></t-chat-item> -->
     <t-chat ref="chatRef" class="chat-content" :clear-history="false" :data="chatList" :text-loading="loading"
       :is-stream-load="isStreamLoad" style="height: 100%">
-      <template #content="{ item, index }">
+      <template #content="{ item }">
         <t-chat-content v-if="item.content.length > 0" :content="item.content" />
         <!-- <p>123123123123123123123</p> -->
       </template>

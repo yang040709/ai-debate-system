@@ -54,7 +54,6 @@ const { data, loading, fetchData } = useFetchData(getTopicApi, [id], {
     }
   ],
   winningRate: 0,
-  comment_count: 0,
 }, {
   handleErr: (e) => {
     console.log(e, "<==err")

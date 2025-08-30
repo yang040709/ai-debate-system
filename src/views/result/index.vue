@@ -33,7 +33,6 @@ const defaultValue: Result = {
       },
     ],
     winningRate: 0,
-    comment_count: 0,
   },
   difficulty: {
     id: '',
@@ -45,6 +44,7 @@ const defaultValue: Result = {
   },
   created_at: 0,
   duration: 0,
+  state: 2,
   result: {
     debateAnalysis: {
       isWin: true,
