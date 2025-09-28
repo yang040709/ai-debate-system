@@ -16,7 +16,7 @@ mockjs.mock(/\/api\/chat\/coze\/conversation\/.+/, 'get', (options) => {
   const id = options.url.split('/')[5]
   console.log(id)
   const data: Debate = {
-    id,
+    debate_id: id,
     topic: {
       id: 't003',
       title: '全面推行四天工作制是否会影响经济发展？',

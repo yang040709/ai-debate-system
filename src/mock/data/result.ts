@@ -2,7 +2,8 @@ import type { Result } from '@/types/result'
 
 export const resultList: Result[] = [
   {
-    id: 'd001',
+    debate_id: 'd001',
+    state: 3,
     topic: {
       id: 't003',
       title: '全面推行四天工作制是否会影响经济发展？',
@@ -15,7 +16,6 @@ export const resultList: Result[] = [
         { id: '10', name: '社会' },
       ],
       winningRate: 80,
-      comment_count: 320,
     },
     difficulty: { id: '1', name: '简单' },
     position: { id: '2', name: 'negative' },
@@ -44,7 +44,8 @@ export const resultList: Result[] = [
     },
   },
   {
-    id: 'd002',
+    debate_id: 'd002',
+    state: 3,
     topic: {
       id: 't004',
       title: '线上教育是否会取代传统课堂教学？',
@@ -57,7 +58,6 @@ export const resultList: Result[] = [
         { id: '10', name: '社会' },
       ],
       winningRate: 65,
-      comment_count: 280,
     },
     difficulty: { id: '2', name: '中等' },
     position: { id: '1', name: 'positive' },
@@ -86,7 +86,8 @@ export const resultList: Result[] = [
     },
   },
   {
-    id: 'd003',
+    debate_id: 'd003',
+    state: 3,
     topic: {
       id: 't005',
       title: '加密货币应被纳入正规金融监管体系吗？',
@@ -99,7 +100,6 @@ export const resultList: Result[] = [
         { id: '7', name: '法律' },
       ],
       winningRate: 52,
-      comment_count: 450,
     },
     difficulty: { id: '3', name: '困难' },
     position: { id: '2', name: 'negative' },
@@ -128,7 +128,8 @@ export const resultList: Result[] = [
     },
   },
   {
-    id: 'd004',
+    debate_id: 'd004',
+    state: 3,
     topic: {
       id: 't006',
       title: '基因编辑技术应用于人类胚胎是否应该被禁止？',
@@ -141,7 +142,6 @@ export const resultList: Result[] = [
         { id: '9', name: '伦理' },
       ],
       winningRate: 68,
-      comment_count: 520,
     },
     difficulty: { id: '3', name: '困难' },
     position: { id: '1', name: 'positive' },
@@ -170,7 +170,8 @@ export const resultList: Result[] = [
     },
   },
   {
-    id: 'd005',
+    debate_id: 'd005',
+    state: 3,
     topic: {
       id: 't007',
       title: '社交媒体算法推荐是否应当受到限制？',
@@ -183,7 +184,6 @@ export const resultList: Result[] = [
         { id: '10', name: '社会' },
       ],
       winningRate: 73,
-      comment_count: 680,
     },
     difficulty: { id: '2', name: '中等' },
     position: { id: '1', name: 'positive' },
@@ -212,7 +212,8 @@ export const resultList: Result[] = [
     },
   },
   {
-    id: 'd006',
+    debate_id: 'd006',
+    state: 3,
     topic: {
       id: 't008',
       title: '核能发电应成为未来能源转型的核心选择吗？',
@@ -225,7 +226,6 @@ export const resultList: Result[] = [
         { id: '5', name: '经济' },
       ],
       winningRate: 49,
-      comment_count: 390,
     },
     difficulty: { id: '2', name: '中等' },
     position: { id: '2', name: 'negative' },
@@ -254,7 +254,8 @@ export const resultList: Result[] = [
     },
   },
   {
-    id: 'd007',
+    debate_id: 'd007',
+    state: 3,
     topic: {
       id: 't009',
       title: '大学专业设置应更注重市场需求还是学术传承？',
@@ -267,7 +268,6 @@ export const resultList: Result[] = [
         { id: '5', name: '经济' },
       ],
       winningRate: 63,
-      comment_count: 510,
     },
     difficulty: { id: '2', name: '中等' },
     position: { id: '1', name: 'positive' },
@@ -296,7 +296,8 @@ export const resultList: Result[] = [
     },
   },
   {
-    id: 'd009',
+    debate_id: 'd009',
+    state: 3,
     topic: {
       id: 't011',
       title: '人工智能创作物应享有著作权保护吗？',
@@ -309,7 +310,6 @@ export const resultList: Result[] = [
         { id: '7', name: '法律' },
       ],
       winningRate: 61,
-      comment_count: 480,
     },
     difficulty: { id: '3', name: '困难' },
     position: { id: '2', name: 'negative' },
@@ -338,7 +338,8 @@ export const resultList: Result[] = [
     },
   },
   {
-    id: 'd010',
+    debate_id: 'd010',
+    state: 3,
     topic: {
       id: 't012',
       title: '城市化进程中应优先保护历史建筑还是发展城市空间？',
@@ -351,7 +352,6 @@ export const resultList: Result[] = [
         { id: '6', name: '文化' },
       ],
       winningRate: 72,
-      comment_count: 350,
     },
     difficulty: { id: '2', name: '中等' },
     position: { id: '1', name: 'positive' },
@@ -380,7 +380,8 @@ export const resultList: Result[] = [
     },
   },
   {
-    id: 'd011',
+    debate_id: 'd011',
+    state: 3,
     topic: {
       id: 't013',
       title: '是否应该对含糖饮料征收高额消费税？',
@@ -393,7 +394,6 @@ export const resultList: Result[] = [
         { id: '4', name: '健康' },
       ],
       winningRate: 66,
-      comment_count: 420,
     },
     difficulty: { id: '2', name: '中等' },
     position: { id: '1', name: 'positive' },
@@ -422,7 +422,8 @@ export const resultList: Result[] = [
     },
   },
   {
-    id: 'd012',
+    debate_id: 'd012',
+    state: 3,
     topic: {
       id: 't014',
       title: '远程办公应成为永久性工作模式吗？',
@@ -435,7 +436,6 @@ export const resultList: Result[] = [
         { id: '10', name: '社会' },
       ],
       winningRate: 78,
-      comment_count: 610,
     },
     difficulty: { id: '1', name: '简单' },
     position: { id: '1', name: 'positive' },
@@ -464,7 +464,8 @@ export const resultList: Result[] = [
     },
   },
   {
-    id: 'd013',
+    debate_id: 'd013',
+    state: 3,
     topic: {
       id: 't015',
       title: '是否应该全面禁止野生动物贸易？',
@@ -477,7 +478,6 @@ export const resultList: Result[] = [
         { id: '10', name: '社会' },
       ],
       winningRate: 83,
-      comment_count: 570,
     },
     difficulty: { id: '2', name: '中等' },
     position: { id: '1', name: 'positive' },
@@ -506,7 +506,8 @@ export const resultList: Result[] = [
     },
   },
   {
-    id: 'd014',
+    debate_id: 'd014',
+    state: 3,
     topic: {
       id: 't016',
       title: '中小学应全面取消家庭作业吗？',
@@ -519,7 +520,6 @@ export const resultList: Result[] = [
         { id: '10', name: '社会' },
       ],
       winningRate: 58,
-      comment_count: 730,
     },
     difficulty: { id: '1', name: '简单' },
     position: { id: '2', name: 'negative' },
@@ -548,7 +548,8 @@ export const resultList: Result[] = [
     },
   },
   {
-    id: 'd015',
+    debate_id: 'd015',
+    state: 3,
     topic: {
       id: 't017',
       title: '是否应该限制大型科技公司的数据收集行为？',
@@ -561,7 +562,6 @@ export const resultList: Result[] = [
         { id: '7', name: '法律' },
       ],
       winningRate: 75,
-      comment_count: 690,
     },
     difficulty: { id: '3', name: '困难' },
     position: { id: '1', name: 'positive' },

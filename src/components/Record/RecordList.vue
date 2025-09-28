@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
   <div class='record-list-container'>
-    <record-item v-for="item in items" :item="item" :key="item.id" />
+    <record-item v-for="item in items" :item="item" :key="item.debate_id" />
   </div>
 </template>
 

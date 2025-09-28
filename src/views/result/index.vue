@@ -15,7 +15,7 @@ const id = computed(() => {
 
 
 const defaultValue: Result = {
-  id: '',
+  debate_id: '',
   topic: {
     id: '',
     title: '',

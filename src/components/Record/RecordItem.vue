@@ -45,7 +45,7 @@ defineProps<{
       <router-link :to="{
         name: 'debateResult',
         params: {
-          id: item.id
+          id: item.debate_id
         }
       }">查看记录<icon-caret-right :size="18" /></router-link>
     </div>
