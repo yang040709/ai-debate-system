@@ -1,6 +1,13 @@
 import Layout from '@/Layout/index.vue'
 import Home from '@/views/home/index.vue'
+import type { RouteRecordRaw } from 'vue-router'
 /* 
+可以看出我们的路由分为:
+1.默认Layout的子路由，这个Layout有header和footer栏
+2.全屏Layout的子路由，这个Layout除了全屏，没有其他内容
+
+
+
 layout下面的子路由有下列的规则决定：
 meta里面的onHeader是在header组件中显示的文字，
 name属性必须书写，是决定路由的唯一标识，否则无法出现在header组件中
@@ -23,7 +30,7 @@ meta.layout属性可以写你的想要的布局，但是如果不写的话，默
 childHasOnHeader
 */
 
-export default [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Layout',
@@ -99,31 +106,40 @@ export default [
     ],
   },
   {
-    path: '/debate/:id?',
-    name: 'debate',
-    props: true,
-    component: () => import('@/views/debate/index.vue'),
-    meta: {
-      onHeader: '辩论',
-    },
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/views/user-login/index.vue'),
-  },
-  {
-    path: '/register',
-    name: 'register',
-    component: () => import('@/views/user-register/index.vue'),
-  },
-  {
     path: '/creative',
-    name: 'creative',
-    component: () => import('@/views/creative/index.vue'),
+    component: () => import('@/Layout/Full.vue'),
+    children: [
+      {
+        path: '/creative',
+        name: 'creative',
+        component: () => import('@/views/creative/index.vue'),
+      },
+      {
+        path: '/debate/:id?',
+        name: 'debate',
+        props: true,
+        component: () => import('@/views/debate/index.vue'),
+        meta: {
+          onHeader: '辩论',
+        },
+      },
+      {
+        path: '/login',
+        name: 'login',
+        component: () => import('@/views/user-login/index.vue'),
+      },
+      {
+        path: '/register',
+        name: 'register',
+        component: () => import('@/views/user-register/index.vue'),
+      },
+    ],
   },
+
   {
     path: '/:pathMatch(.*)*',
     redirect: '/404',
   },
 ]
+
+export default routes

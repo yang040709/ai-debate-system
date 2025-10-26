@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, Ref, ref } from 'vue'
 // import { getItem } from '@/utils/storage.ts'
 import { loginApi, registerApi, getUserInfoApi, updateUserInfoApi } from '@/api/user'
 import { useLocalStorage } from '@vueuse/core'
-import type { UserInfo, LoginForm, RegisterForm, CanModifyUserInfo } from '@/types/user'
+import type { UserInfo, LoginForm, RegisterForm, ModifyUserInfo } from '@/types/user'
 import { handleResponseError } from '@/utils/error'
+import AppConfig from '@/config/app.config'
 
 export const useUserStore = defineStore('user', () => {
   const userInfo = ref<UserInfo>({
@@ -12,12 +13,13 @@ export const useUserStore = defineStore('user', () => {
     nickname: '',
     avatar: '',
   })
-  const token = useLocalStorage('token', '')
+  const token: Ref<string | undefined> = useLocalStorage(AppConfig.TOKEN_KEY, undefined)
   const submitLoading = ref(false)
   const isLogin = computed(
     () =>
       userInfo.value && JSON.stringify(userInfo.value) != '{}' && userInfo.value.nickname !== '',
   )
+  const isTryGetUserInfo = ref(false)
 
   const login = async (data: LoginForm) => {
     submitLoading.value = true
@@ -43,10 +45,15 @@ export const useUserStore = defineStore('user', () => {
       return null
     })
     if (registerRes) {
-      await login({ account: data.account, password: data.password }).catch((err) => {
-        console.log(err)
+      const loginRes = await login({ account: data.account, password: data.password }).catch(
+        (err) => {
+          console.log(err)
+          return null
+        },
+      )
+      if (!loginRes) {
         return null
-      })
+      }
     }
     submitLoading.value = false
     return registerRes
@@ -54,17 +61,16 @@ export const useUserStore = defineStore('user', () => {
 
   const getUserInfo = async () => {
     submitLoading.value = true
-    if (token.value === '') {
+    if (!token.value || token.value.trim() === '') {
       submitLoading.value = false
       console.log('没有token，请先登录')
       return
     }
-    // console.log();
+    console.log('获取用户信息')
     const res = await getUserInfoApi().catch((err) => {
       console.log(err)
       return null
     })
-    console.log(res, token.value, '<===getUserInfoApi===')
     if (res) {
       userInfo.value = {
         user_id: res.user_id,
@@ -75,7 +81,7 @@ export const useUserStore = defineStore('user', () => {
     submitLoading.value = false
     return res
   }
-  const updateUserInfo = async (userInfo: CanModifyUserInfo) => {
+  const updateUserInfo = async (userInfo: ModifyUserInfo) => {
     const res = await updateUserInfoApi(userInfo).catch((err) => {
       console.log(err)
       return null
@@ -95,6 +101,7 @@ export const useUserStore = defineStore('user', () => {
     login,
     logout,
     register,
+    isTryGetUserInfo,
     userInfo,
     token,
     isLogin,

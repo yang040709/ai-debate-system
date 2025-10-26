@@ -15,6 +15,7 @@ const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 
+//注册表单
 const registerForm = reactive<RegisterFromState>({
   account: '',
   password: '',
@@ -23,6 +24,8 @@ const registerForm = reactive<RegisterFromState>({
 })
 const submitLoading = storeToRefs(userStore).submitLoading
 
+
+// ！！开发环境模拟账号密码
 if (import.meta.env.DEV) {
   registerForm.account = 'admin'
   registerForm.nickname = 'yang'
@@ -43,7 +46,6 @@ const registerFormRef = useTemplateRef('registerFormRef')
 
 const handleClickRegisterBtn = async () => {
   const res = await registerFormRef.value.validate()
-  console.log(res)
   if (res) {
     Message.error('请输入正确的账号密码')
     return
@@ -55,9 +57,14 @@ const handleClickRegisterBtn = async () => {
 
   submitLoading.value = true
   const result = await userStore.register(registerForm)
+  //失败就返回
   if (!result) {
+    setTimeout(() => {
+      Message.error('注册失败')
+    }, 200)
     return
   }
+  //成功就跳转首页
   router.push({
     name: 'home',
   })
@@ -111,7 +118,7 @@ const handleClickRegisterBtn = async () => {
           <a-link @click="toLogin">用户登录</a-link>
         </div>
       </a-form-item> -->
-      <div class="login-btn" @click="handleClickRegisterBtn">注册</div>
+      <button class="login-btn" @click="handleClickRegisterBtn">注册</button>
       <div class="prompt">已有账号？<a @click.prevent="toLogin">立即登录</a></div>
     </a-form>
   </div>
@@ -165,6 +172,7 @@ const handleClickRegisterBtn = async () => {
     color: var(--color-text-white);
     border-radius: 8px;
     outline: none;
+    border: none;
   }
 
   .login-btn:hover {

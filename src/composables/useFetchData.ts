@@ -19,6 +19,7 @@ interface UseFetchDataConfig<T> {
   init: 'lazy' | 'immediate'
   newData: 'reset' | 'add'
   newDataFunc: (data: Ref<T>, res: T) => void
+  afterSuccessFetchData: (data: Ref<T>) => void
 }
 
 /**
@@ -35,7 +36,7 @@ export const useFetchData = <P extends any[], T>(
   initialValue: T,
   config?: Partial<UseFetchDataConfig<T>>,
 ) => {
-  const data = ref<T>(initialValue)
+  const data = ref<T>(initialValue) as Ref<T>
   const loading = ref<boolean>(true)
   const error = ref<string | null>(null)
   const defaultConfig = {
@@ -44,6 +45,7 @@ export const useFetchData = <P extends any[], T>(
     init: 'lazy',
     newData: 'reset',
     newDataFunc: null,
+    afterSuccessFetchData: null,
   }
   /* 获取配置 */
   const finallyConfig = {
@@ -69,10 +71,14 @@ export const useFetchData = <P extends any[], T>(
         // 如果有处理新数据的函数就使用，不然就使用默认的处理函数
         if (finallyConfig.newDataFunc) {
           const res = await apiCall(...argsValue)
-          finallyConfig.newDataFunc(data as Ref<T>, res)
+          finallyConfig.newDataFunc(data, res)
         } else {
           console.error('请传入处理新数据的函数')
         }
+      }
+      // 是否有自定义后续处理函数
+      if (finallyConfig.afterSuccessFetchData) {
+        finallyConfig.afterSuccessFetchData(data)
       }
     } catch (err) {
       error.value = finallyConfig.errMessage

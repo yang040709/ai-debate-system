@@ -1,5 +1,4 @@
 import QRCode from 'qrcode'
-import { Message } from 'tdesign-vue-next'
 import { onMounted, ref } from 'vue'
 
 export const useQrcode = (text?: string) => {
@@ -9,8 +8,8 @@ export const useQrcode = (text?: string) => {
   const generateQRcode = async () => {
     try {
       QRcodeUrl.value = await QRCode.toDataURL(QRcodeText.value)
-    } catch (error) {
-      console.log(error, '<==qrcode error')
+    } catch {
+      throw new Error('生成二维码失败')
     }
   }
 

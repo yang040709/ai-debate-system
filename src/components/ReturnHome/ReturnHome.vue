@@ -9,20 +9,14 @@ interface Props {
   confirm?: () => Promise<any>
 }
 
-
-const props = withDefaults(defineProps<Props>(), {
-  isFixed: true,
-})
+const { isFixed = true, isPhone = false, confirm } = defineProps<Props>()
 
 
 const router = useRouter()
 const handleReturnHome = () => {
-  if (props.confirm) {
-    props.confirm().then(() => {
+  if (confirm) {
+    confirm().then(() => {
       router.push({ name: 'home' })
-    }).catch(() => {
-      // 取消返回首页
-      console.log('取消返回首页');
     })
   } else {
     router.push({ name: 'home' })
@@ -31,10 +25,10 @@ const handleReturnHome = () => {
 </script>
 
 <template>
-  <div class="return-home-container" @click="handleReturnHome" :class="{ 'fixed': isFixed }">
+  <button class="return-home-container" @click="handleReturnHome" :class="{ 'fixed': isFixed }">
     <icon-import :size="20" />
     <span v-show="!isPhone">返回首页</span>
-  </div>
+  </button>
 </template>
 
 <style lang="scss" scoped>
@@ -42,15 +36,22 @@ const handleReturnHome = () => {
   height: 50px;
   padding: 0 10px;
   border-radius: 10px;
-  // background-color: #f9f9fe;
-  background-color: var(--body-bg-2);
+  background-color: var(--theme-gray-2);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  border: 1px solid var(--color-border-light);
+  transition: background-color 0.3s ease-in-out;
+  // border:none;
+  color: var(--color-text-primary);
 
   &:hover {
-    background-color: var(--btn-bg-hover);
+    background-color: var(--theme-gray-2-hover);
+  }
+
+  &:active {
+    background-color: var(--theme-gray-2-active);
   }
 
   &.fixed {

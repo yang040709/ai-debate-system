@@ -2,10 +2,10 @@
 import { ref, reactive, watchEffect } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { Message } from '@arco-design/web-vue'
-import { useModalVisible } from '@/composables/useModelVisible'
+import { useVisible } from '@/composables/useVisible'
 
 // 处理可见性
-const { visible, handleClick, handleCancel, handleOk } = useModalVisible()
+const { visible, openModal, closeModal } = useVisible()
 
 
 // 回显数据
@@ -91,8 +91,8 @@ const handleBeforeOk = async () => {
 
 <template>
   <div class="edit-modal-container">
-    <a-button type="outline" @click="handleClick">编辑资料</a-button>
-    <a-modal v-model:visible="visible" @cancel="handleCancel" @ok="handleOk" :on-before-ok="handleBeforeOk"
+    <a-button type="outline" @click="openModal">编辑资料</a-button>
+    <a-modal v-model:visible="visible" @cancel="closeModal" @ok="openModal" :on-before-ok="handleBeforeOk"
       unmountOnClose ok-text="修改">
       <template #title> 修改资料 </template>
       <a-form :model="form">

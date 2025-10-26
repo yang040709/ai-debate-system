@@ -2,9 +2,8 @@
 import GlobalHeader from './global-header/index.vue'
 import GlobalFooter from './global-footer/index.vue'
 import { useRoute } from 'vue-router';
-import { computed, onMounted, onUnmounted } from 'vue'
-import { debounce } from '@/utils';
-import $bus from '@/eventBus'
+import { computed } from 'vue'
+
 /* 
 下面是处理路由元信息带来的布局问题
 */
@@ -18,59 +17,6 @@ const routerViewClass = computed(() => {
   }
   return "router-default-container"
 })
-
-/* 有两种写法，上面和下面都可以
-
-const routerViewClass = ref("router-default-container")
-const setClass = (route: any) => {
-  if (route?.meta?.layout) {
-    routerViewClass.value = ""
-    console.log("!!!");
-  }
-  else {
-    routerViewClass.value = "router-default-container"
-  }
-}
-
-
-router.beforeEach((to, from) => {
-  setClass(to)
-})
-
-setClass(route) */
-
-
-/* 
-处理滚动到顶部的事件总线的问题
-*/
-
-onMounted(() => {
-
-  /* 处理滚动到顶部的事件 */
-  $bus.on("scrollTop", () => {
-    document.documentElement.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
-  })
-  document.addEventListener("scroll", debounceHandleScroll)
-})
-
-onUnmounted(() => {
-  $bus.off("scrollTop")
-  document.documentElement.removeEventListener("scroll", debounceHandleScroll)
-})
-
-
-const handleScroll = (e: Event) => {
-  const scrollTop = document.documentElement.scrollTop;
-  $bus.emit("scroll", scrollTop)
-}
-
-const debounceHandleScroll = debounce(handleScroll, 50)
-
-
-
 
 
 
@@ -98,7 +44,7 @@ const debounceHandleScroll = debounce(handleScroll, 50)
 @use 'sass:map';
 
 .router-default-container {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -120,29 +66,24 @@ const debounceHandleScroll = debounce(handleScroll, 50)
     left: 0;
     right: 0;
     z-index: map.get($z-index-map, navbar);
-    // background-color: $test;
   }
 
   .main {
     margin-top: $header-height;
     flex: 1;
+    background-color: var(--theme-gray-7);
+    // background: var(--body-bg-2);
     // padding: 28px;
-    background: linear-gradient(to right, var(--body-bg-1), var(--body-bg-2));
+    // background: linear-gradient(to right, var(--body-bg-1), var(--body-bg-2));
     // margin-bottom: 28px;
   }
 
   .footer {
     flex: 0;
-    // background-color: #f9f8f8;
-    // padding: 16px;
-    // height: 92px;
-    // background-color: var(--body-bg-2);
-    background: linear-gradient(to right, var(--body-bg-1), var(--body-bg-2));
     bottom: 0;
     left: 0;
     right: 0;
     text-align: center;
-    // border-top: 1px solid rgba(5, 5, 5, 0.06);
   }
 }
 </style>

@@ -16,7 +16,7 @@ defineProps<{
 <template>
   <div class='tag-list-container'>
     <Skeleton v-if="loading && list.length === 0" :loading="true" :animation="true" :rows="8" />
-    <div v-if="!loading && list.length > 0" class="tag-list">
+    <div v-if="list.length > 0" class="tag-list">
       <tag-item v-for="(item, index) in list" :color="colors[index % colors.length]" :id="item.id" :name="item.name"
         :key="item.id"></tag-item>
     </div>
@@ -31,7 +31,5 @@ defineProps<{
   min-height: 300px;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
-  // background: var(--theme-gray-2);
-  // border-radius: 20px;
 }
 </style>

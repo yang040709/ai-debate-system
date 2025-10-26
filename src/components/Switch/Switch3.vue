@@ -4,9 +4,8 @@ import type { Tag } from '@/types/tag'
 
 defineProps<{
   list: Tag[],
-  loading: boolean,
+  loading: boolean,//是否正在加载
   currentRoute: string,
-  bottomBorder?: boolean,
   promptText?: string,
   isShowAll?: boolean,
   isShowHot?: boolean,
@@ -27,7 +26,7 @@ const hotType: Tag = {
 </script>
 
 <template>
-  <div class='switch-container' :class="{ 'bottom-border': bottomBorder }">
+  <div class='switch-container'>
     <ul ref="switch">
       <li class="prompt-text" v-if="promptText">{{ promptText }}</li>
       <Skeleton v-if="loading && list.length === 0" :loading="loading" :animation="true" :rows="1"
@@ -48,6 +47,7 @@ const hotType: Tag = {
 <style scoped lang="scss">
 .switch-container {
   background: var(--header-bg);
+  border-bottom: 1px solid var(--color-border-light);
 
   ul {
     max-width: 1200px;
@@ -66,15 +66,14 @@ const hotType: Tag = {
   li {
     display: flex;
     align-items: center;
-
-    // line-height: 30px;
     height: 30px;
     font-size: 16px;
     padding: 0 15px;
     cursor: pointer;
     color: var(--color-text-secondary);
     flex: 0 0 auto;
-
+    border-radius: 30px;
+    transition: all 0.3s ease-in-out;
 
     &.prompt-text {
       padding-right: 0px;
@@ -83,26 +82,12 @@ const hotType: Tag = {
     &.active {
       background: var(--theme-blue-1);
       color: #fff;
-      border-radius: 30px;
     }
 
-    // &.switch-more {
-    //   text-align: center;
-    //   position: absolute;
-    //   top: 50%;
-    //   width: 100px;
-    //   // border: 1px solid red;
-    //   transform: translateY(-50%);
-    //   // bottom: 0;
-    //   right: 0px;
-    //   opacity: 1;
-    //   background: var(--header-bg);
-    // }
+    &:hover {
+      background: var(--theme-blue-3);
+      color: #fff;
+    }
   }
-}
-
-
-.bottom-border {
-  border-bottom: 1px solid var(--color-border-light);
 }
 </style>

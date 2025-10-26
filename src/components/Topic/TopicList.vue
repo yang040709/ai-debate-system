@@ -3,14 +3,10 @@ import TopicItem from './TopicItem.vue';
 import type { Topic } from '@/types/topic'
 import Empty from '@/components/Empty/Empty.vue';
 import Skeleton from '@/components/Skeleton/Skeleton.vue';
-interface isShowInterface {
-  comment: boolean,
-  support: boolean,
-  tags: boolean,
-  desc: boolean
-}
+import { isShowInterface } from './type.d'
 
-defineProps<{ list: Topic[], isShow?: isShowInterface, loading: boolean, mode?: "gray" | "border" }>()
+
+defineProps<{ list: Topic[], isShow?: Partial<isShowInterface>, loading: boolean, mode?: "no-border" }>()
 
 </script>
 

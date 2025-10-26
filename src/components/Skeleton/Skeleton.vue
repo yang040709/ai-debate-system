@@ -8,12 +8,7 @@ interface SkeletonProps {
   animation?: boolean;
 }
 
-
-withDefaults(defineProps<SkeletonProps>(), {
-  rows: 3,
-  size: 20,
-  animation: true
-})
+const { loading, rows = 3, size = 20, animation = true } = defineProps<SkeletonProps>()
 
 </script>
 

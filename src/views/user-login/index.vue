@@ -7,6 +7,7 @@ import { useUserStore } from '@/stores/user'
 import { useRouter, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
+
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
@@ -19,7 +20,7 @@ if (import.meta.env.DEV) {
   loginForm.password = '123456'
 }
 
-
+//前往注册页
 const toRegister = () => {
   router.push({
     name: 'register',
@@ -30,6 +31,7 @@ const toRegister = () => {
 }
 
 const loginFormRef = useTemplateRef('loginFormRef')
+
 
 const handleClickLoginBtn = async () => {
   const res = await loginFormRef.value.validate()
@@ -45,6 +47,7 @@ const handleClickLoginBtn = async () => {
   submitLoading.value = true
   const result = await userStore.login(loginForm)
   if (!result) {
+    Message.error('登录失败，请检查账号密码')
     return
   }
   router.push({
@@ -71,7 +74,7 @@ const handleClickLoginBtn = async () => {
       ]" :validate-trigger="['change', 'input']">
         <a-input-password v-model="loginForm.password" size="large" placeholder="请输入密码" />
       </a-form-item>
-      <div class="login-btn" @click="handleClickLoginBtn">登录</div>
+      <button class="login-btn" @click="handleClickLoginBtn">登录</button>
       <div class="prompt">还没有账号？<a @click.prevent="toRegister">立即注册</a></div>
     </a-form>
   </div>
@@ -118,6 +121,7 @@ const handleClickLoginBtn = async () => {
   }
 
   .login-btn {
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;

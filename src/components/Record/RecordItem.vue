@@ -62,6 +62,7 @@ defineProps<{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border: 1px solid var(--color-border-light);
   // cursor: pointer;
 
   .record-top {

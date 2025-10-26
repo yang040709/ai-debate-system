@@ -8,7 +8,7 @@ import type { AppConfig } from '@/config/app.config'
 const userStore = useUserStore()
 const router = useRouter()
 
-const isLogin = storeToRefs(userStore).isLogin
+const { isLogin } = storeToRefs(userStore)
 
 const handleLoginOut = async () => {
   await userStore.logout()

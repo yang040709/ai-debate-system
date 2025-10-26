@@ -126,6 +126,8 @@ const handleSubmit = ({ values, errors }: any) => {
 
 <style scoped lang="scss">
 .creative-container {
+  // width: 100vw;
+  // height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -134,6 +136,7 @@ const handleSubmit = ({ values, errors }: any) => {
   width: 80%;
   max-width: 600px;
   margin: 0 auto;
+  background: var(--theme-gray-2);
 
   .form-title {
     margin-bottom: 50px;

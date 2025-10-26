@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import TopicList from '@/components/Topic/TopicList.vue';
 import { getTopicListApi } from '@/api/topic';
 import { useFetchData } from '@/composables/useFetchData';
@@ -11,20 +11,25 @@ import type { Ref } from 'vue';
 import { TopicResponse } from '@/types/topic'
 
 const route = useRoute();
-const hasMoreFlag = ref(false);
 
 
+const { page, changePage, hasMore, limit, changeTotal } = usePagination();
 
+const listHasMore = ref(hasMore.value);
 
-const params = ref<GetTopicListParams>({
-  page: 1,
-  limit: 10,
-  type: route.params.type.toString(),
+const params = computed<GetTopicListParams>(() => {
+  return {
+    page: page.value,
+    limit: limit.value,
+    type: route.params.type.toString(),
+  }
 })
+
 
 
 const newDataFunc = (data: Ref<TopicResponse>, res: TopicResponse) => {
   data.value.total = res.total;
+  changeTotal(res.total);
   if (data.value.list.length === 0) {
     data.value = res;
   } else {
@@ -32,15 +37,17 @@ const newDataFunc = (data: Ref<TopicResponse>, res: TopicResponse) => {
   }
 }
 
+const handleErr = () => {
+  listHasMore.value = false;
+}
 
-const { data, loading, fetchData } = useFetchData(getTopicListApi, [params], { total: 0, list: [] }, { newData: "add", newDataFunc })
-const { page, changePage, hasMore } = usePagination(params, data);
+const { data, loading, fetchData } = useFetchData(getTopicListApi, [params], { total: 0, list: [] }, { newData: "add", newDataFunc, handleErr })
 
-hasMoreFlag.value = hasMore.value;
+
 
 
 fetchData().then(() => {
-  hasMoreFlag.value = hasMore.value;
+  listHasMore.value = hasMore.value;
 })
 
 const fetchMoreData = () => {
@@ -49,8 +56,8 @@ const fetchMoreData = () => {
   }
   changePage(page.value + 1)
   fetchData().then(() => {
-    hasMoreFlag.value = hasMore.value;
-  });
+    listHasMore.value = hasMore.value;
+  })
 }
 
 
@@ -60,7 +67,7 @@ const fetchMoreData = () => {
 <template>
   <div class='topic-detail-container'>
     <topic-list :list="data.list" :loading="loading"></topic-list>
-    <LoadMore :hasMore="hasMoreFlag" :loading="loading" :call-back="fetchMoreData" />
+    <LoadMore :hasMore="listHasMore" :loading="loading" :call-back="fetchMoreData" />
   </div>
 </template>
 

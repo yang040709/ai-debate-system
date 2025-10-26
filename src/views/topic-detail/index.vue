@@ -76,7 +76,8 @@ fetchTopicListData();
       <Content :item="data" :loading="loading" />
       <div class="topic-detail-recommend">
         <p>相关推荐</p>
-        <topic-list :loading="topicListLoading" mode="border" :list="topicListData.list" :is-show="isShow"></topic-list>
+        <topic-list :loading="topicListLoading" mode="no-border" :list="topicListData.list"
+          :is-show="isShow"></topic-list>
       </div>
     </div>
   </div>

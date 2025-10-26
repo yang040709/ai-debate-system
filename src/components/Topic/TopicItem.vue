@@ -1,21 +1,15 @@
 <script setup lang='ts'>
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import type { Topic } from '@/types/topic'
+import { isShowInterface } from './type.d'
 
 
-interface isShowInterface {
-  comment: boolean,
-  support: boolean,
-  tags: boolean,
-  desc: boolean,
-  difficulty: boolean
-}
 
 
 const props = withDefaults(defineProps<{
   topic: Topic
   isShow?: Partial<isShowInterface>  // 使用 Partial 使属性可选
-  mode?: "gray" | "border"
+  mode?: "no-border"
 }>(), {
   isShow: () => ({
     comment: false,
@@ -51,10 +45,10 @@ const gotoTopicPage = (tag: string) => {
 </script>
 
 <template>
-  <div class='topic-item-container' :class="{ border: mode === 'border' }">
+  <div class='topic-item-container' :class="{ 'item-border': mode === 'no-border' ? false : true }">
     <div class="topic-top">
       <h4 @click="gotoDebatePage">{{ topic.title }}</h4>
-      <span>{{ topic.participant_count }}人参与</span>
+      <span v-if="isShow?.numberOfParticipants">{{ topic.participant_count }}人参与</span>
     </div>
     <div class="topic-desc" v-if="isShow?.desc">
       {{ topic.desc }}
@@ -89,7 +83,10 @@ const gotoTopicPage = (tag: string) => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  // cursor: pointer;
+
+  &.item-border {
+    border: 1px solid var(--color-border-light);
+  }
 
   .topic-top {
     display: flex;
@@ -150,6 +147,7 @@ const gotoTopicPage = (tag: string) => {
 
   }
 
+  transition: background-color 0.2s ease-in-out;
 
   &:hover {
     background: var(--theme-gray-2-hover);
@@ -167,7 +165,6 @@ const gotoTopicPage = (tag: string) => {
 }
 
 .topic-item-container.border {
-  background: transparent;
   border-radius: 0;
   border-bottom: 1px solid var(--theme-gray-5);
 }

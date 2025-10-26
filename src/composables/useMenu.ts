@@ -26,7 +26,6 @@ export const useMenu = () => {
       }
     })
     let defaultParams = {}
-    // console.log("点击了菜单", route);
     if (targetRoute?.meta?.defaultParams) {
       defaultParams = { ...targetRoute.meta.defaultParams }
       router.push({
@@ -38,7 +37,6 @@ export const useMenu = () => {
         name: e,
       })
     }
-    selectedKey.value = [e]
   }
 
   const selectedKey = ref([route.name])
