@@ -3,15 +3,23 @@ import { getDebateInfo } from '@/api/debate'
 import type { Debate } from '@/types/debate'
 import { useFetchData } from '@/composables/useFetchData'
 import { useRoute, useRouter } from 'vue-router'
-import { computed, onMounted, ref, onBeforeUnmount, shallowRef } from 'vue'
+import { computed, onMounted, ref, onBeforeUnmount, shallowRef, watch } from 'vue'
 import { createDebateStages } from '@/views/debate/config'
 import { mockData } from '@/views/debate/mockData'
 import { useUserStore } from '@/stores/user'
 import { Modal } from '@arco-design/web-vue'
+import { useWebSocket } from '@/composables/useWebSocket'
 
 export const useDebateStore = defineStore('debate', () => {
   const route = useRoute()
   const router = useRouter()
+  let lastItem = ''
+  const { connect, sendMessage, message, isReceivingMsg } = useWebSocket('/socket.io', () => {
+    lastItem = ''
+    handleDebateStage('assistant')
+    isStreamLoad.value = false
+  })
+
   const id = computed(() => {
     return route.params.id.toString()
   })
@@ -56,6 +64,13 @@ export const useDebateStore = defineStore('debate', () => {
   获取辩论话题的数据：主要是获取id,position
   */
   const { data, loading: dataLoading, fetchData } = useFetchData(getDebateInfo, [id], defaultValue)
+
+  watch(message, () => {
+    // console.log('message', message.value)
+    lastItem += message.value
+    chatList.value[0].content = lastItem
+    // console.log(chatList.value[0].content)
+  })
 
   // fetchData()
 
@@ -171,6 +186,7 @@ export const useDebateStore = defineStore('debate', () => {
   // isJumpDebateFlag.value = true
 
   const startDebate = async () => {
+    connect()
     /* 处理辩论开始的逻辑 */
     reset()
     console.log('该辩论已经开始')
@@ -275,17 +291,22 @@ export const useDebateStore = defineStore('debate', () => {
 
   const assistantInput = async () => {
     disabled.value = true
+    console.log()
+
+    sendMessage('发送消息')
     console.log('ai请输入:')
     const params2 = { ...assistantChatTemplate }
     chatList.value.unshift(params2)
     loading.value = true
     isStreamLoad.value = true
-    const lastItem = chatList.value[0]
+    // lastItem = chatList.value[0]
+    // chatList.value
     loading.value = false
-    await mockData(lastItem)
-    handleDebateStage('assistant')
-    lastItem.duration = 20
-    isStreamLoad.value = false
+    // await mockData(lastItem)
+    // await
+    // lastItem.duration = 20
+    // handleDebateStage('assistant')
+    // isStreamLoad.value = false
   }
 
   const debateControl = (turn: any) => {
