@@ -66,6 +66,8 @@
   --theme-blue-8: #3e80ea;
   --theme-blue-9: #2064d3;
   --theme-blue-10: #1c5cc4;
+  --theme-blue-11: #5f92e4;
+  --theme-blue-12: #2c3e50;
   --theme-yellow-1: #eab308;
   --theme-yellow-2: #eab308;
   --theme-yellow-3: #fef9c3;
@@ -86,6 +88,8 @@
 
   --theme-chat-user: #c8dffe;
   --theme-chat-assistant: #f3f3f3;
+
+  // --theme-blue-11:
 }
 
 /* header头部区域的高度 */
@@ -191,6 +195,8 @@ html.dark {
   --theme-blue-5-hover: #465fa1; //浅蓝色盒子
   --theme-blue-6: rgb(58, 107, 245); /* 深蓝色盒子 */
   --theme-blue-7: #dbe9ff;
+  --theme-blue-11: #dbe9ff;
+  --theme-blue-12: #acc0d4;
   --theme-yellow-1: #eab308;
   --theme-yellow-2: #fff;
   --theme-yellow-3: #ccbf35;

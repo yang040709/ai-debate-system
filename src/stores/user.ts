@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia'
 import { computed, Ref, ref } from 'vue'
-// import { getItem } from '@/utils/storage.ts'
 import { loginApi, registerApi, getUserInfoApi, updateUserInfoApi } from '@/api/user'
 import { useLocalStorage } from '@vueuse/core'
 import type { UserInfo, LoginForm, RegisterForm, ModifyUserInfo } from '@/types/user'
-import { handleResponseError } from '@/utils/error'
 import AppConfig from '@/config/app.config'
 
 export const useUserStore = defineStore('user', () => {
@@ -22,11 +20,18 @@ export const useUserStore = defineStore('user', () => {
   const isTryGetUserInfo = ref(false)
 
   const login = async (data: LoginForm) => {
+    if (submitLoading.value) {
+      return
+    }
     submitLoading.value = true
-    const res = await loginApi(data).catch((err) => {
-      console.log(err)
-      return null
-    })
+    const res = await loginApi(data)
+      .catch((err) => {
+        console.log(err)
+        return null
+      })
+      .finally(() => {
+        submitLoading.value = false
+      })
     if (res) {
       token.value = res.token
       userInfo.value = {
@@ -35,31 +40,37 @@ export const useUserStore = defineStore('user', () => {
         avatar: res.avatar,
       }
     }
-    submitLoading.value = false
     return res
   }
 
   const register = async (data: RegisterForm) => {
+    if (submitLoading.value) {
+      return
+    }
     const registerRes = await registerApi(data).catch((err) => {
       console.log(err)
       return null
     })
     if (registerRes) {
-      const loginRes = await login({ account: data.account, password: data.password }).catch(
-        (err) => {
+      const loginRes = await login({ account: data.account, password: data.password })
+        .catch((err) => {
           console.log(err)
           return null
-        },
-      )
+        })
+        .finally(() => {
+          submitLoading.value = false
+        })
       if (!loginRes) {
         return null
       }
     }
-    submitLoading.value = false
     return registerRes
   }
 
   const getUserInfo = async () => {
+    if (submitLoading.value) {
+      return
+    }
     submitLoading.value = true
     if (!token.value || token.value.trim() === '') {
       submitLoading.value = false
@@ -67,10 +78,14 @@ export const useUserStore = defineStore('user', () => {
       return
     }
     console.log('获取用户信息')
-    const res = await getUserInfoApi().catch((err) => {
-      console.log(err)
-      return null
-    })
+    const res = await getUserInfoApi()
+      .catch((err) => {
+        console.log(err)
+        return null
+      })
+      .finally(() => {
+        submitLoading.value = false
+      })
     if (res) {
       userInfo.value = {
         user_id: res.user_id,
@@ -78,14 +93,21 @@ export const useUserStore = defineStore('user', () => {
         avatar: res.avatar,
       }
     }
-    submitLoading.value = false
     return res
   }
   const updateUserInfo = async (userInfo: ModifyUserInfo) => {
-    const res = await updateUserInfoApi(userInfo).catch((err) => {
-      console.log(err)
-      return null
-    })
+    if (submitLoading.value) {
+      return
+    }
+    submitLoading.value = true
+    const res = await updateUserInfoApi(userInfo)
+      .catch((err) => {
+        console.log(err)
+        return null
+      })
+      .finally(() => {
+        submitLoading.value = false
+      })
     return res
   }
   const logout = () => {

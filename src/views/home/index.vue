@@ -13,7 +13,6 @@ import { storeToRefs } from 'pinia'
 import type { GetTopicListParams } from '@/types/topic'
 import { ref } from 'vue'
 import { TOPIC_TYPE } from '@/constant/topic'
-import Skeleton from '@/components/Skeleton/Skeleton.vue'
 
 const isShow = {
   tags: true,

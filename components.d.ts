@@ -46,6 +46,7 @@ declare module 'vue' {
     Switch: typeof import('./src/components/Switch/Switch.vue')['default']
     Switch2: typeof import('./src/components/Switch/Switch2.vue')['default']
     Switch3: typeof import('./src/components/Switch/Switch3.vue')['default']
+    SwitchOld: typeof import('./src/components/Switch/Switch-old.vue')['default']
     TagItem: typeof import('./src/components/Tag/TagItem.vue')['default']
     TagList: typeof import('./src/components/Tag/TagList.vue')['default']
     ToggleDark: typeof import('./src/components/ToggleDark/ToggleDark.vue')['default']

@@ -11,7 +11,6 @@ const userStore = useUserStore()
 <template>
   <div class='head-container'>
     <a-avatar class="avatar" :style="{ backgroundColor: '#3370ff' }" :size="85">
-      <!-- <IconUser /> -->
       <img v-placeholder-img class="avatar-img" :data-src="userStore.userInfo.avatar" alt="" />
     </a-avatar>
     <div class="user-info">

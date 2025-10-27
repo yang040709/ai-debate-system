@@ -1,6 +1,6 @@
 export interface isShowInterface {
   comment: boolean
-  support: boolean
+  winRate: boolean
   tags: boolean
   desc: boolean
   difficulty: boolean

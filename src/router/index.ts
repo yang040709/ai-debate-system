@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import routes from './routes.ts'
 import { useUserStore } from '@/stores/user.ts'
 import { Message } from '@arco-design/web-vue'
+import { BLACK_LIST, WHITE_LIST } from '@/constant/router.ts'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,14 +13,6 @@ const router = createRouter({
   },
 })
 
-// 下面两个都是匹配的是路由名。要求拦截的路由必须带name属性
-// 下面是未登录不能再访问的页面
-const blackList = ['user', 'debate']
-
-// 下面是登录后不能再访问的页面
-const whiteList = ['login', 'register']
-// let isTryGetUserInfo = false
-
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
   if (!userStore.isLogin && !userStore.isTryGetUserInfo) {
@@ -28,7 +21,7 @@ router.beforeEach(async (to, from, next) => {
     userStore.isTryGetUserInfo = true
   }
   if (userStore.isLogin) {
-    if (to.name && whiteList.includes(to.name as string)) {
+    if (to.name && WHITE_LIST.includes(to.name as string)) {
       next({
         path: to.query?.redirect ? to.query.redirect.toString() : '/',
       })
@@ -36,7 +29,7 @@ router.beforeEach(async (to, from, next) => {
     }
     next()
   } else {
-    if (to.name && blackList.includes(to.name as string)) {
+    if (to.name && BLACK_LIST.includes(to.name as string)) {
       Message.error('请先登录')
       next({
         path: '/login',

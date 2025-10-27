@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// import { useUserStore } from '@/stores/user'
-// import EditModal from './edit-modal.vue'
 import Info from './info.vue'
 import RecordList from '@/components/Record/RecordList.vue'
 import Head from './head.vue';
@@ -18,11 +16,8 @@ const defaultValue: ResultListResponse = {
 };
 
 
-
 // 这个是否有更多要等数据加载要再更新
 const listHasMore = ref(false);
-
-
 
 const { page, limit, changePage, hasMore, changeTotal } = usePagination({
   page: 0,

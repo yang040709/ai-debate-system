@@ -4,12 +4,10 @@ import { useFetchData } from '@/composables/useFetchData'
 import { getTopicListApi } from '@/api/topic';
 import type { GetTopicListParams } from '@/types/topic'
 import { getTopicApi } from '@/api/topic'
-import { useRoute } from 'vue-router';
 import { ref, computed } from 'vue'
 import Content from './content.vue';
 import { Message } from '@arco-design/web-vue';
 import { useRouter } from 'vue-router';
-
 
 const props = defineProps<{
   id: string
@@ -21,8 +19,7 @@ const params = ref<GetTopicListParams>({
   page: 0,
   limit: 5,
   type: '-2',
-}
-);
+});
 
 const isShow = {
   comment: false,
@@ -55,8 +52,7 @@ const { data, loading, fetchData } = useFetchData(getTopicApi, [id], {
   ],
   winningRate: 0,
 }, {
-  handleErr: (e) => {
-    console.log(e, "<==err")
+  handleErr: () => {
     Message.error("该话题的id无效，将跳转到404页面")
     router.replace({ name: "not-find" })
   }

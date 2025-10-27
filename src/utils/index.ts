@@ -10,3 +10,9 @@ export function debounce(fn: (...args1: any[]) => any, delay: number) {
     }, delay)
   }
 }
+
+export function delayFn(delay: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay)
+  })
+}

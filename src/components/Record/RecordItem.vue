@@ -1,10 +1,14 @@
 <script setup lang='ts'>
-
 import type { Result } from '@/types/result';
-
-defineProps<{
+import dayjs from 'dayjs'
+import { computed } from 'vue'
+const { item } = defineProps<{
   item: Result;
 }>();
+
+const itemDate = computed(() => {
+  return dayjs(item.created_at).fromNow()
+})
 
 </script>
 
@@ -19,7 +23,7 @@ defineProps<{
       您 vs AI助手 · {{ item.timeAgo }}
     </div> -->
     <div class="record-who">
-      {{ item.created_at }}
+      {{ itemDate }}
     </div>
     <div class="record-desc">
       {{ item.topic.desc }}

@@ -3,7 +3,7 @@ import { requestFun } from '../utils'
 
 const generateAvatar = () => {
   const baseTemplate = {
-    url: 'https://ui-avatars.com/api/?name=@word(1)&background=random',
+    url: 'https://ui-avatars.com/api/?name=@word(2)&background=random',
   }
   const rankings = mockjs.mock(baseTemplate)
   return rankings

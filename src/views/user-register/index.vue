@@ -110,14 +110,6 @@ const handleClickRegisterBtn = async () => {
       ]" :validate-trigger="['change', 'input']">
         <a-input-password v-model="registerForm.confirmPassword" placeholder="请再次输入密码" />
       </a-form-item>
-      <!-- <a-form-item>
-        <div class="login-btn">
-          <a-button type="primary" :loading="submitLoading" html-type="submit" style="width: 120px">
-            注册
-          </a-button>
-          <a-link @click="toLogin">用户登录</a-link>
-        </div>
-      </a-form-item> -->
       <button class="login-btn" @click="handleClickRegisterBtn">注册</button>
       <div class="prompt">已有账号？<a @click.prevent="toLogin">立即登录</a></div>
     </a-form>

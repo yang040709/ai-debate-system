@@ -37,7 +37,7 @@ export const useFetchData = <P extends any[], T>(
   config?: Partial<UseFetchDataConfig<T>>,
 ) => {
   const data = ref<T>(initialValue) as Ref<T>
-  const loading = ref<boolean>(true)
+  const loading = ref<boolean>(false)
   const error = ref<string | null>(null)
   const defaultConfig = {
     errMessage: '请求数据失败',

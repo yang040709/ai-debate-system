@@ -4,19 +4,17 @@ import type { Topic } from '@/types/topic'
 import { isShowInterface } from './type.d'
 
 
-
-
 const props = withDefaults(defineProps<{
   topic: Topic
   isShow?: Partial<isShowInterface>  // 使用 Partial 使属性可选
   mode?: "no-border"
 }>(), {
   isShow: () => ({
-    comment: false,
-    support: true,
-    tags: true,
-    desc: true,
-    difficulty: false
+    comment: false, //评论数
+    winRate: false, //胜率 
+    tags: true,//标签
+    desc: true,//描述
+    difficulty: false//难度
   })
 })
 
@@ -55,7 +53,7 @@ const gotoTopicPage = (tag: string) => {
     </div>
     <div class="topic-bottom">
       <div class="topic-info">
-        <div v-if="topic.winningRate && isShow?.support">
+        <div v-if="topic.winningRate && isShow?.winRate">
           <icon-user-group :size="18" />
           <p>
             胜率 {{ topic.winningRate }}%

@@ -3,7 +3,7 @@ import type { Topic } from '@/types/topic';
 import Skeleton from '@/components/Skeleton/Skeleton.vue';
 import { useRouter } from 'vue-router';
 import type { Tag } from '@/types/tag';
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import { useTagsStore } from '@/stores/tags';
 import { storeToRefs } from 'pinia';
@@ -92,7 +92,6 @@ const debateRule = [
     title: "总结陈词",
     content: "反方→正方各2分钟，需融合反驳与立论，禁止新论据。",
   },
-
 ]
 
 

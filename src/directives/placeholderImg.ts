@@ -54,6 +54,15 @@ export default {
     // 7. 开始加载（放在最后确保事件监听器已设置）
     image.src = src
   },
+  updated(el: HTMLImageElement) {
+    // 9. 更新处理
+    // 验证src是否有效
+    if (!el.dataset.src || typeof el.dataset.src !== 'string' || el.dataset.src.trim() === '') {
+      console.warn('Invalid image src:', el.dataset.src)
+      return
+    }
+    el.src = el.dataset.src
+  },
 
   // 8. 添加卸载处理
   unmounted(el: HTMLImageElement) {
