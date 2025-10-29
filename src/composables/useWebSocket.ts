@@ -5,11 +5,17 @@ interface WebsocketResponse {
   code: -1 | 0 | 1
 }
 
-export const useWebSocket = (
-  url: string,
-  msgEndCallBack?: () => void,
-  protocols?: string | string[],
-) => {
+interface WebSocketQuery {
+  conversion_id: string
+}
+
+interface WebSocketOptions {
+  msgEndCallBack?: () => void
+  connectSuccessCallBack?: () => void
+  protocol?: string | string[]
+}
+
+export const useWebSocket = (url: string, query: WebSocketQuery, options?: WebSocketOptions) => {
   const ws = ref<WebSocket | null>(null)
   const isConnected = ref(false)
   const message = ref<string | null>(null)
@@ -18,12 +24,14 @@ export const useWebSocket = (
 
   // 创建连接
   const connect = () => {
-    ws.value = new WebSocket(url, protocols)
-
+    ws.value = new WebSocket(`${url}?conversion_id=${query.conversion_id}`, options?.protocol)
     ws.value.onopen = () => {
       console.log('WebSocket connected')
       isConnected.value = true
       error.value = null
+      if (options && options.connectSuccessCallBack) {
+        options.connectSuccessCallBack()
+      }
     }
 
     ws.value.onmessage = (event: MessageEvent) => {
@@ -33,8 +41,8 @@ export const useWebSocket = (
         message.value = response.msg
       } else if (response.code === 1) {
         isReceivingMsg.value = false
-        if (msgEndCallBack) {
-          msgEndCallBack()
+        if (options && options.msgEndCallBack) {
+          options.msgEndCallBack()
         }
         console.log(response.msg, 'ws回答结束')
         // disconnect()

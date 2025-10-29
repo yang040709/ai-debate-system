@@ -14,11 +14,19 @@ export const useDebateStore = defineStore('debate', () => {
   const route = useRoute()
   const router = useRouter()
   let lastItem = ''
-  const { connect, sendMessage, message, isReceivingMsg } = useWebSocket('/socket.io', () => {
-    lastItem = ''
-    handleDebateStage('assistant')
-    isStreamLoad.value = false
-  })
+  const { connect, sendMessage, message, isReceivingMsg } = useWebSocket(
+    '/socket.io',
+    {
+      conversion_id: '123456789',
+    },
+    {
+      connectSuccessCallBack: () => {
+        lastItem = ''
+        handleDebateStage('assistant')
+        isStreamLoad.value = false
+      },
+    },
+  )
 
   const id = computed(() => {
     return route.params.id.toString()

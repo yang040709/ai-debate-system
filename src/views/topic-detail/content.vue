@@ -11,6 +11,8 @@ import { useQrcode } from '@/composables/useQrcode';
 import { createDebate } from '@/api/debate'
 import { useFetchData } from '@/composables/useFetchData';
 import { CreateDebateRequest } from '@/types/debate';
+import { Message } from '@arco-design/web-vue';
+import { useDebateStore } from '@/stores/debate2';
 const props = defineProps<{
   item: Topic,
   loading: boolean,
@@ -29,17 +31,18 @@ const selectType = (item: Tag) => {
 
 
 const positionType = [
-  { name: '正方', id: "1" },
-  { name: '反方', id: "2" },
+  { name: 'positive', id: "1" },
+  { name: 'negative', id: "2" },
 ]
 
-// #优化 这里默认值应该想办法从数据获取 
 const form = ref<CreateDebateRequest>({
-  topic_id: "",
-  difficulty_id: "2",
-  position_id: "1",
+  topic: {
+    title: '',
+    desc: '',
+  },
+  difficulty: '中等',
+  position: 'positive',
 })
-
 
 
 const formatDay = computed(() => {
@@ -47,26 +50,36 @@ const formatDay = computed(() => {
 })
 
 
-
-
 const { tagListData, tagListLoading } = storeToRefs(useTagsStore())
 
+const submitFrom = computed(() => {
+  /* 格式化为字符串或者进行其他处理 */
+  return {
+    theme: JSON.stringify(form.value),
+  }
+})
 
+const { data, loading: submitFromLoading, fetchData } = useFetchData(createDebate, [submitFrom], {
+  conversion_id: '',
+  ctime: 0
+})
 
+const debateStore = useDebateStore();
 
 const joinDebate = async () => {
-  console.log("joinDebate", form.value);
-  form.value.topic_id = props.item.id;
-  const { data, loading, fetchData } = useFetchData(createDebate, [form], {
-    conversion_id: '',
-    ctime: 0
-  })
+  form.value.topic = {
+    title: props.item.title,
+    desc: props.item.desc,
+  };
+  if (submitFromLoading.value) {
+    Message.warning('正在提交，请稍后再试');
+    return;
+  }
   fetchData().then(() => {
+    debateStore.setConversionId(data.value.conversion_id);
+    debateStore.setDebateData(form.value);
     router.push({
-      name: "debate",
-      params: {
-        id: data.value.conversion_id
-      }
+      name: "debate2"
     })
   })
 }
@@ -124,14 +137,15 @@ const debateRule = [
         <div class="select">
           <div class="select-item" v-loading="tagListLoading">
             <span>难度:</span>
-            <a-radio-group type="button" v-model="form.difficulty_id">
-              <a-radio v-for="item in tagListData.difficulty" :value="item.id" :key="item.id">{{ item.name }}</a-radio>
+            <a-radio-group type="button" v-model="form.difficulty">
+              <a-radio v-for="item in tagListData.difficulty" :value="item.name" :key="item.id">{{ item.name
+              }}</a-radio>
             </a-radio-group>
           </div>
           <div class="select-item">
             <span>立场:</span>
-            <a-radio-group type="button" v-model="form.position_id">
-              <a-radio v-for="item in positionType" :value="item.id" :key="item.id">{{ item.name }}</a-radio>
+            <a-radio-group type="button" v-model="form.position">
+              <a-radio v-for="item in positionType" :value="item.name" :key="item.id">{{ item.name }}</a-radio>
             </a-radio-group>
           </div>
         </div>

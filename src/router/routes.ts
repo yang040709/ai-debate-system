@@ -119,9 +119,11 @@ const routes: RouteRecordRaw[] = [
         name: 'debate',
         props: true,
         component: () => import('@/views/debate/index.vue'),
-        meta: {
-          onHeader: '辩论',
-        },
+      },
+      {
+        path: '/debate2',
+        name: 'debate2',
+        component: () => import('@/views/debate/Debate.vue'),
       },
       {
         path: '/login',
@@ -137,6 +139,26 @@ const routes: RouteRecordRaw[] = [
         path: '/test-ws',
         name: 'testWs',
         component: () => import('@/views/test/test-ws.vue'),
+      },
+      {
+        path: '/test-debate',
+        name: 'testDebate',
+        component: () => import('@/views/test/test-debate.vue'),
+      },
+      {
+        path: '/test-debate2',
+        name: 'testDebate2',
+        component: () => import('@/views/test/test-debate2.vue'),
+      },
+      {
+        path: '/debate-test',
+        name: 'debateTest',
+        component: () => import('@/views/test/debate-test.vue'),
+      },
+      {
+        path: '/debate-component',
+        name: 'debateComponent',
+        component: () => import('@/views/test/debate-component.vue'),
       },
     ],
   },

@@ -1,5 +1,6 @@
 import type { Tag } from './tag'
 import type { Topic } from './topic'
+
 export interface Debate {
   debate_id: string
   topic: Topic
@@ -11,9 +12,16 @@ export interface Debate {
 }
 
 export interface CreateDebateRequest {
-  topic_id: string
-  difficulty_id: string
-  position_id: string
+  topic: {
+    title: string
+    desc: string
+  }
+  difficulty: string
+  position: 'positive' | 'negative'
+}
+
+export interface CreateDebateRequestParams {
+  theme: string
 }
 
 export interface CreateDebateResponse {

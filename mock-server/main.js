@@ -24,7 +24,7 @@ const mockedData = {
 wss.on('connection', (ws) => {
   console.log('✅ 新客户端已连接')
   ws.on('message', async (message) => {
-    console.log('msg')
+    console.log('msg__start')
     console.log(message.toString())
     for (let i = 0; i < mockedData.content.length; ) {
       await delay(100)
@@ -39,6 +39,7 @@ wss.on('connection', (ws) => {
       console.log('send', msg)
       i += number
     }
+    console.log('msg__end')
     ws.send(
       JSON.stringify({
         code: 1,

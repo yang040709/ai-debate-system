@@ -1,11 +1,13 @@
 <script setup lang='ts'>
 import { useDebateStore } from '@/stores/debate';
+// import { watch } from 'fs';
 import { storeToRefs } from 'pinia';
 
 
 const store = useDebateStore();
 const { isStreamLoad, chatList, loading, disabled, inputVal, isDebateEnd } = storeToRefs(store);
 
+// watch
 
 </script>
 

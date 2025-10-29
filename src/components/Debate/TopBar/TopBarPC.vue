@@ -1,12 +1,13 @@
 <script setup lang='ts'>
-import ReturnHome from '@/components/ReturnHome/ReturnHome.vue'
 import ToggleDark from '@/components/ToggleDark/ToggleDark.vue'
 import Skeleton from '@/components/Skeleton/Skeleton.vue';
-import { ref, computed } from 'vue';
-import { Modal } from '@arco-design/web-vue';
 import { useRouter } from 'vue-router';
-import { useDebateStore } from '@/stores/debate';
-import { storeToRefs } from 'pinia';
+// import ReturnHome from '@/components/ReturnHome/ReturnHome.vue'
+// import { ref, computed } from 'vue';
+// import { Modal } from '@arco-design/web-vue';
+// import { useRouter } from 'vue-router';
+// import { useDebateStore } from '@/stores/debate';
+// import { storeToRefs } from 'pinia';
 // interface Props {
 //   data: any;
 //   loading: boolean;
@@ -16,35 +17,41 @@ import { storeToRefs } from 'pinia';
 //   isDebateEnd: boolean;
 // }
 
-const { data, dataLoading: loading, debateStages, countDown, isDebateEnd, currentStageIndex } = storeToRefs(useDebateStore());
+// const { data, dataLoading: loading, debateStages, countDown, isDebateEnd, currentStageIndex } = storeToRefs(useDebateStore());
 
 
 
-const curFlow = computed(() => {
-  return currentStageIndex.value + 1 > debateStages.value.length ?
-    debateStages.value.length : currentStageIndex.value + 1
-})
+// const curFlow = computed(() => {
+//   return currentStageIndex.value + 1 > debateStages.value.length ?
+//     debateStages.value.length : currentStageIndex.value + 1
+// })
 
 
-const router = useRouter()
+// const router = useRouter()
 
-const visible = ref(false);
+// const visible = ref(false);
 
 
 
-const confirmReturnHome = async () => {
-  visible.value = true;
-  Modal.confirm({
-    title: '提示',
-    content: '是否确认返回主页，当前的辩论记录将不会被保存',
-    okText: '确认',
-    cancelText: '取消',
-    onOk: () => {
-      router.push({ name: 'home' })
-      isDebateEnd.value = true;
-    },
-  })
+// const confirmReturnHome = async () => {
+//   visible.value = true;
+//   Modal.confirm({
+//     title: '提示',
+//     content: '是否确认返回主页，当前的辩论记录将不会被保存',
+//     okText: '确认',
+//     cancelText: '取消',
+//     onOk: () => {
+//       router.push({ name: 'home' })
+//       isDebateEnd.value = true;
+//     },
+//   })
+// }
+
+const router = useRouter();
+const returnHome = () => {
+  router.push({ name: 'home' })
 }
+
 </script>
 
 <template>
@@ -52,37 +59,41 @@ const confirmReturnHome = async () => {
     <div class="top-bar-left">
       <div class="top-bar-title">
         <!-- <return-home :is-fixed="false" class="return-home" :confirm="confirmReturnHome"/> -->
-        <div class="icon">
-          <icon-import :size="20" @click="confirmReturnHome" />
+        <div class="icon" @click="returnHome">
+          <icon-import :size="20" />
         </div>
-        <h2 v-if="!loading">{{ data.topic.title }}</h2>
-        <skeleton v-else :loading="loading" :rows="1" class="skeleton" />
+        <h2>标题</h2>
+        <!-- <h2 v-if="!loading">{{ data.topic.title }}</h2> -->
+        <!-- <skeleton v-else :loading="loading" :rows="1" class="skeleton" /> -->
       </div>
-      <div v-if="!loading" class="top-bar-content">
+      <div class="top-bar-content">
         <div class="flow-item">
           <p>当前环节:</p>
-          <strong>{{ curFlow }} /{{ debateStages.length }}</strong>
+          <strong>1/2</strong>
         </div>
         <div class="flow-item">
           <p>发言倒计时:</p>
-          <strong>{{ countDown }} 秒</strong>
+          <strong>45 秒</strong>
         </div>
         <div class="flow-item">
           <p>正方：</p>
-          <strong v-if="data.position.id === '1'">用户</strong>
-          <strong v-else>AI</strong>
+          <strong>用户</strong>
+          <!-- <strong v-if="data.position.id === '1'">用户</strong> -->
+          <!-- <strong v-else>AI</strong> -->
         </div>
         <div class="flow-item">
           <p>反方:</p>
-          <strong v-if="data.position.id === '2'">用户</strong>
-          <strong v-else>AI</strong>
+          <strong>AI</strong>
+          <!-- <strong v-if="data.position.id === '2'">用户</strong>
+          <strong v-else>AI</strong> -->
         </div>
         <div class="flow-item">
           <p>难度:</p>
-          <strong>{{ data.difficulty.name }}</strong>
+          <strong>中等</strong>
+          <!-- <strong>{{ data.difficulty.name }}</strong> -->
         </div>
       </div>
-      <skeleton v-else :loading="loading" :rows="1" class="skeleton" />
+      <!-- <skeleton v-else :loading="loading" :rows="1" class="skeleton" /> -->
     </div>
 
     <div class="top-bar-right">
@@ -97,7 +108,8 @@ const confirmReturnHome = async () => {
   display: grid;
   grid-template-columns: 1fr 100px;
   padding: 10px 15px;
-  // height: 90px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  height: 90px;
 
   .top-bar-title {
     display: flex;

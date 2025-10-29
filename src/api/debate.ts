@@ -1,7 +1,7 @@
 import { request } from './request'
-import type { Debate, CreateDebateRequest, CreateDebateResponse } from '@/types/debate'
+import type { Debate, CreateDebateRequestParams, CreateDebateResponse } from '@/types/debate'
 
-export const createDebate = (data: CreateDebateRequest) => {
+export const createDebate = (data: CreateDebateRequestParams) => {
   return request({
     url: '/chat/coze/conversation',
     method: 'POST',

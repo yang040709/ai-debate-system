@@ -22,6 +22,7 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/no-unused-vars': 'warn', // 未使用变量警告
       'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/ban-ts-comment': 'off',
     },
   },
   skipFormatting,

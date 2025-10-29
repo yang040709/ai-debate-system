@@ -6,14 +6,14 @@ import { onMounted, computed } from 'vue';
 import topBarPc from './top-bar-pc.vue';
 import topBarPhone from './top-bar-phone.vue';
 const store = useDebateStore();
-const {
-  data,
-  debateStages,
-  currentStageIndex,
-  countDown,
-  dataLoading,
-  isDebateEnd,
-} = storeToRefs(store);
+// const {
+//   data,
+//   debateStages,
+//   currentStageIndex,
+//   countDown,
+//   dataLoading,
+//   isDebateEnd,
+// } = storeToRefs(store);
 
 onMounted(() => {
   setTimeout(() => {
@@ -21,10 +21,10 @@ onMounted(() => {
   }, 1000)
 })
 
-const curFlow = computed(() => {
-  return currentStageIndex.value + 1 > debateStages.value.length ?
-    debateStages.value.length : currentStageIndex.value + 1
-})
+// const curFlow = computed(() => {
+//   return currentStageIndex.value + 1 > debateStages.value.length ?
+//     debateStages.value.length : currentStageIndex.value + 1
+// })
 
 // const dataLoading = ref(true)
 </script>
@@ -33,7 +33,7 @@ const curFlow = computed(() => {
   <div class="debate-container">
     <div class="top-bar">
       <topBarPc />
-      <top-bar-phone />
+      <topBarPhone />
     </div>
     <chat />
   </div>
