@@ -6,39 +6,35 @@ import RankingList from '@/components/Ranking/RankingList.vue'
 import createTopic from '@/components/CreateTopic/CreateTopic.vue'
 import TagList from '@/components/Tag/TagList.vue'
 import { useFetchData } from '@/composables/useFetchData'
-import { getTagListApi } from '@/api/tag'
 import { getTopicListApi } from '@/api/topic';
 import { getRankingListApi } from '@/api/ranking';
 import { useTagsStore } from '@/stores/tags'
 import { storeToRefs } from 'pinia'
 import type { GetTopicListParams } from '@/types/topic'
-import { ref, computed } from 'vue'
-const isShow = {
-  comment: false,
-  support: true,
-  tags: true,
-  desc: false
-}
+import { ref } from 'vue'
+import { TOPIC_TYPE } from '@/constant/topic'
 
+const isShow = {
+  tags: true,
+}
 
 const params = ref<GetTopicListParams>({
   page: 0,
   limit: 8,
-  type: '-2',
-}
-);
+  type: TOPIC_TYPE.RECOMMEND_TYPE
+});
 
-
-// const { data: tagListData, loading: tagListLoading, fetchData: fetchTagData } = useFetchData(getTagListApi, '获取标签失败', [], [])
+// 获取推荐的话题
 const { data: topicListData, loading: topicListLoading, fetchData: fetchTopicListData } = useFetchData(getTopicListApi, [params], { total: 0, list: [] })
-const { data: rankingListData, loading: rankingListLoading, fetchData: fetchRankingListData } = useFetchData(getRankingListApi, [], [])
+// 获取排行榜
+const { data: rankingListData, loading: rankingListLoading, fetchData: fetchRankingListData } = useFetchData(getRankingListApi, [], { list: [] })
+// 获取标签
 const { tagListData, tagListLoading } = storeToRefs(useTagsStore())
 
+// 获取推荐的话题数据
 fetchTopicListData();
+// 获取排行榜数据
 fetchRankingListData();
-
-
-
 
 
 </script>
@@ -48,14 +44,13 @@ fetchRankingListData();
     <home-item>
       <start-debate :list="topicListData.list"></start-debate>
     </home-item>
-
     <div class="home-content">
       <div class="content-left">
         <home-item title="热门辩论话题" :link="{ text: '查看更多', routerName: 'topic' }" :params="{ type: '-2' }">
           <topic-list :loading="topicListLoading" :list="topicListData.list" :is-show="isShow"></topic-list>
         </home-item>
         <home-item title="排行榜" :link="{ text: '查看更多', routerName: 'rank' }">
-          <ranking-list :loading="rankingListLoading" :list="rankingListData"></ranking-list>
+          <ranking-list :loading="rankingListLoading" :list="rankingListData.list"></ranking-list>
         </home-item>
       </div>
       <div class="content-right">
@@ -63,15 +58,12 @@ fetchRankingListData();
           <create-topic></create-topic>
         </home-item>
         <home-item title="标签" :link="{ routerName: 'topic' }" :params="{ type: '-1' }">
-          <tag-list :loading="tagListLoading" :list="tagListData.type" />
+          <tag-list :loading="tagListLoading" :list="tagListData.tag" />
         </home-item>
       </div>
     </div>
-    <div>
-      <router-link to="/test1">去往测试页1</router-link>
-      <br>
-      <router-link to="/test2">去往测试页2</router-link>
-    </div>
+    <router-link to="/debate2"> debate2</router-link>
+    <!-- <Skeleton :loading="true" /> -->
   </div>
 </template>
 

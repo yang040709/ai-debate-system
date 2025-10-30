@@ -1,17 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useMenu } from '@/composables/useMenu';
-// 处理菜单的控制问题
-const visible = ref(false)
-const handleClick = () => {
-  visible.value = true
-}
-const handleOk = () => {
-  visible.value = false
-}
-const handleCancel = () => {
-  visible.value = false
-}
+import { useVisible } from '@/composables/useVisible'
+
+const { visible, openModal, closeModal } = useVisible();
 
 const { routes, selectedKey, handleMenuClick } = useMenu()
 
@@ -19,9 +10,9 @@ const { routes, selectedKey, handleMenuClick } = useMenu()
 
 <template>
   <div class="mobile-menu-container">
-    <icon-menu-unfold :size="28" v-show="!visible" @click="handleClick" class="menu-icon" />
+    <icon-menu-unfold :size="28" v-show="!visible" @click="openModal" class="menu-icon" />
     <icon-menu-fold :size="28" v-show="visible" class="menu-icon" />
-    <a-drawer placement="left" width="40%" :visible="visible" @ok="handleOk" @cancel="handleCancel" unmountOnClose
+    <a-drawer placement="left" width="40%" :visible="visible" @ok="openModal" @cancel="closeModal" unmountOnClose
       hide-cancel :footer="false">
       <template #title>菜单</template>
       <a-menu :selected-keys="selectedKey" @menu-item-click="handleMenuClick">

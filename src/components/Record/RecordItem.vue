@@ -1,28 +1,32 @@
 <script setup lang='ts'>
-
-import type { Record } from '@/types/record';
-
-
-defineProps<{
-  item: Record
+import type { Result } from '@/types/result';
+import dayjs from 'dayjs'
+import { computed } from 'vue'
+const { item } = defineProps<{
+  item: Result;
 }>();
+
+const itemDate = computed(() => {
+  return dayjs(item.created_at).fromNow()
+})
 
 </script>
 
 <template>
   <div class='record-item-container'>
     <div class="record-top">
-      <h4>{{ item.title }}</h4>
-      <span :class="item.status === '胜利' ? 'win' : 'lose'">{{ item.status }}</span>
+      <h4>{{ item.topic.title }}</h4>
+      <span :class="item.result.debateAnalysis.isWin === true ? 'win' : 'lose'">{{ item.result.debateAnalysis.isWin ===
+        true ? '胜利' : '失败' }}</span>
     </div>
     <!-- <div class="record-who">
       您 vs AI助手 · {{ item.timeAgo }}
     </div> -->
     <div class="record-who">
-      {{ item.timeAgo }}
+      {{ itemDate }}
     </div>
     <div class="record-desc">
-      {{ item.description }}
+      {{ item.topic.desc }}
     </div>
     <!-- 下面是可扩展内容，这里先不写 -->
     <!-- <div class="record-bottom">
@@ -40,8 +44,14 @@ defineProps<{
       </div>
     </div> -->
     <div class="record-result">
-      <span :class="item.status === '胜利' ? 'win' : 'lose'">得分{{ item.scoreChange }}</span>
-      <a>查看记录<icon-caret-right :size="18" /></a>
+      <span :class="item.result.debateAnalysis.isWin === true ? 'win' : 'lose'">得分{{
+        item.result.debateAnalysis.comprehensiveScore }}</span>
+      <router-link :to="{
+        name: 'debateResult',
+        params: {
+          id: item.debate_id
+        }
+      }">查看记录<icon-caret-right :size="18" /></router-link>
     </div>
   </div>
 </template>
@@ -56,6 +66,7 @@ defineProps<{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border: 1px solid var(--color-border-light);
   // cursor: pointer;
 
   .record-top {

@@ -8,14 +8,24 @@ import ArcoIcon from '@arco-design/web-vue/es/icon'
 import TDesignChat from '@tdesign-vue-next/chat'
 import installDirectives from '@/directives/index.ts'
 import ConfigPlugin from '@/plugins/config'
+import dayjs from 'dayjs'
+import relative from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/zh-cn.js'
+
 // import 'highlight.js/styles/atom-one-dark.min.css'
+import 'highlight.js/styles/github.css'
 import '@arco-design/web-vue/dist/arco.css'
-import 'juejin-markdown-themes/dist/channing-cyan.min.css'
+// import 'juejin-markdown-themes/dist/channing-cyan.min.css'
 import './styles/base.scss'
 import './styles/arco-override.scss'
 import 'default-passive-events'
 import 'tdesign-vue-next/es/style/index.css'
 import '@/mock/index.js'
+import 'github-markdown-css/github-markdown-light.css'
+
+// 引入dayjs
+dayjs.locale('zh-cn')
+dayjs.extend(relative)
 
 // 创建vue实例
 const app = createApp(App)

@@ -1,28 +1,20 @@
 <script setup lang='ts'>
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import type { Topic } from '@/types/topic'
-
-
-interface isShow {
-  comment: boolean,
-  support: boolean,
-  tags: boolean,
-  desc: boolean,
-  difficulty: boolean
-}
+import { isShowInterface } from './type.d'
 
 
 const props = withDefaults(defineProps<{
   topic: Topic
-  isShow?: Partial<isShow>  // 使用 Partial 使属性可选
-  mode?: "gray" | "border"
+  isShow?: Partial<isShowInterface>  // 使用 Partial 使属性可选
+  mode?: "no-border"
 }>(), {
   isShow: () => ({
-    comment: true,
-    support: true,
-    tags: true,
-    desc: true,
-    difficulty: false
+    comment: false, //评论数
+    winRate: false, //胜率 
+    tags: true,//标签
+    desc: true,//描述
+    difficulty: false//难度
   })
 })
 
@@ -51,26 +43,20 @@ const gotoTopicPage = (tag: string) => {
 </script>
 
 <template>
-  <div class='topic-item-container' :class="{ border: mode === 'border' }">
+  <div class='topic-item-container' :class="{ 'item-border': mode === 'no-border' ? false : true }">
     <div class="topic-top">
       <h4 @click="gotoDebatePage">{{ topic.title }}</h4>
-      <span>{{ topic.participant_count }}人参与</span>
+      <span v-if="isShow?.numberOfParticipants">{{ topic.participant_count }}人参与</span>
     </div>
     <div class="topic-desc" v-if="isShow?.desc">
       {{ topic.desc }}
     </div>
     <div class="topic-bottom">
       <div class="topic-info">
-        <div v-if="topic.winningRate && isShow?.support">
+        <div v-if="topic.winningRate && isShow?.winRate">
           <icon-user-group :size="18" />
           <p>
             胜率 {{ topic.winningRate }}%
-          </p>
-        </div>
-        <div v-if="topic.comment_count && isShow?.comment">
-          <icon-message :size="18" />
-          <p>
-            {{ topic.comment_count }}条评论
           </p>
         </div>
         <div v-if="topic.type && topic.type.length && isShow?.tags" class="canJumpTo">
@@ -95,7 +81,10 @@ const gotoTopicPage = (tag: string) => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  // cursor: pointer;
+
+  &.item-border {
+    border: 1px solid var(--color-border-light);
+  }
 
   .topic-top {
     display: flex;
@@ -156,6 +145,7 @@ const gotoTopicPage = (tag: string) => {
 
   }
 
+  transition: background-color 0.2s ease-in-out;
 
   &:hover {
     background: var(--theme-gray-2-hover);
@@ -173,7 +163,6 @@ const gotoTopicPage = (tag: string) => {
 }
 
 .topic-item-container.border {
-  background: transparent;
   border-radius: 0;
   border-bottom: 1px solid var(--theme-gray-5);
 }

@@ -1,6 +1,6 @@
 import request from './index'
 
-let myRequest = request
+const myRequest = request
 
 export { request as initRequest, myRequest as request }
 

@@ -4,7 +4,7 @@ import { requestFun } from '../utils'
 import type { TagResponse } from '@/types/tag'
 
 const tagObj: TagResponse = {
-  type: [
+  tag: [
     { id: '1', name: '伦理' },
     { id: '2', name: '科技' },
     { id: '3', name: '未来' },

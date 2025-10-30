@@ -1,10 +1,9 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
-// import { getItem } from '@/utils/storage.ts'
+import { computed, Ref, ref } from 'vue'
 import { loginApi, registerApi, getUserInfoApi, updateUserInfoApi } from '@/api/user'
 import { useLocalStorage } from '@vueuse/core'
-import type { UserInfo, LoginForm, RegisterForm, CanModifyUserInfo } from '@/types/user'
-import { handleResponseError } from '@/utils/error'
+import type { UserInfo, LoginForm, RegisterForm, ModifyUserInfo } from '@/types/user'
+import AppConfig from '@/config/app.config'
 
 export const useUserStore = defineStore('user', () => {
   const userInfo = ref<UserInfo>({
@@ -12,19 +11,27 @@ export const useUserStore = defineStore('user', () => {
     nickname: '',
     avatar: '',
   })
-  const token = useLocalStorage('token', '')
+  const token: Ref<string | undefined> = useLocalStorage(AppConfig.TOKEN_KEY, undefined)
   const submitLoading = ref(false)
   const isLogin = computed(
     () =>
       userInfo.value && JSON.stringify(userInfo.value) != '{}' && userInfo.value.nickname !== '',
   )
+  const isTryGetUserInfo = ref(false)
 
   const login = async (data: LoginForm) => {
+    if (submitLoading.value) {
+      return
+    }
     submitLoading.value = true
-    let res = await loginApi(data).catch((err) => {
-      console.log(err)
-      return null
-    })
+    const res = await loginApi(data)
+      .catch((err) => {
+        console.log(err)
+        return null
+      })
+      .finally(() => {
+        submitLoading.value = false
+      })
     if (res) {
       token.value = res.token
       userInfo.value = {
@@ -33,38 +40,52 @@ export const useUserStore = defineStore('user', () => {
         avatar: res.avatar,
       }
     }
-    submitLoading.value = false
     return res
   }
 
   const register = async (data: RegisterForm) => {
+    if (submitLoading.value) {
+      return
+    }
     const registerRes = await registerApi(data).catch((err) => {
       console.log(err)
       return null
     })
     if (registerRes) {
-      await login({ account: data.account, password: data.password }).catch((err) => {
-        console.log(err)
+      const loginRes = await login({ account: data.account, password: data.password })
+        .catch((err) => {
+          console.log(err)
+          return null
+        })
+        .finally(() => {
+          submitLoading.value = false
+        })
+      if (!loginRes) {
         return null
-      })
+      }
     }
-    submitLoading.value = false
     return registerRes
   }
 
   const getUserInfo = async () => {
+    if (submitLoading.value) {
+      return
+    }
     submitLoading.value = true
-    if (token.value === '') {
+    if (!token.value || token.value.trim() === '') {
       submitLoading.value = false
       console.log('没有token，请先登录')
       return
     }
-    // console.log();
-    const res = await getUserInfoApi().catch((err) => {
-      console.log(err)
-      return null
-    })
-    console.log(res, token.value, '<===getUserInfoApi===')
+    console.log('获取用户信息')
+    const res = await getUserInfoApi()
+      .catch((err) => {
+        console.log(err)
+        return null
+      })
+      .finally(() => {
+        submitLoading.value = false
+      })
     if (res) {
       userInfo.value = {
         user_id: res.user_id,
@@ -72,14 +93,21 @@ export const useUserStore = defineStore('user', () => {
         avatar: res.avatar,
       }
     }
-    submitLoading.value = false
     return res
   }
-  const updateUserInfo = async (userInfo: CanModifyUserInfo) => {
-    const res = await updateUserInfoApi(userInfo).catch((err) => {
-      console.log(err)
-      return null
-    })
+  const updateUserInfo = async (userInfo: ModifyUserInfo) => {
+    if (submitLoading.value) {
+      return
+    }
+    submitLoading.value = true
+    const res = await updateUserInfoApi(userInfo)
+      .catch((err) => {
+        console.log(err)
+        return null
+      })
+      .finally(() => {
+        submitLoading.value = false
+      })
     return res
   }
   const logout = () => {
@@ -95,6 +123,7 @@ export const useUserStore = defineStore('user', () => {
     login,
     logout,
     register,
+    isTryGetUserInfo,
     userInfo,
     token,
     isLogin,

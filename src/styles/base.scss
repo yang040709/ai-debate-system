@@ -164,4 +164,13 @@ select {
   .topic-detail-container .topic-detail-recommend .topic-item-container {
     padding: 20px 0 !important;
   }
+  .top-bar-phone-container {
+    display: block !important;
+  }
+  .top-bar-pc-container {
+    display: none !important;
+  }
+  .debate-list-container {
+    padding: 0 12px !important;
+  }
 }

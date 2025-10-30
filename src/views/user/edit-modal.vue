@@ -2,10 +2,11 @@
 import { ref, reactive, watchEffect } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { Message } from '@arco-design/web-vue'
-import { useModalVisible } from '@/composables/useModelVisible'
+import { useVisible } from '@/composables/useVisible'
+import { uploadAvatarApi } from '@/api/oss'
 
 // 处理可见性
-const { visible, handleClick, handleCancel, handleOk } = useModalVisible()
+const { visible, openModal, closeModal } = useVisible()
 
 
 // 回显数据
@@ -31,40 +32,16 @@ watchEffect(() => {
 const file = ref()
 
 const uploadAvatar = (option: any) => {
-  const { onProgress, onError, onSuccess, fileItem, name } = option
-  const xhr = new XMLHttpRequest()
-  if (xhr.upload) {
-    xhr.upload.onprogress = function (event) {
-      let percent
-      if (event.total > 0) {
-        // 0 ~ 1
-        percent = event.loaded / event.total
-      }
-      onProgress(percent, event)
-    }
-  }
-  xhr.onerror = function error(e) {
-    onError(e)
-  }
-  xhr.onload = function onload() {
-    if (xhr.status < 200 || xhr.status >= 300) {
-      return onError(xhr.responseText)
-    }
-    const res = JSON.parse(xhr.response)
-    form.avatar = res?.data?.url || ''
-    onSuccess(xhr.response)
-  }
-
+  const { onError, onSuccess, fileItem, name } = option
   const formData = new FormData()
   formData.append(name || 'file', fileItem.file)
-  xhr.open('post', '/api/oss/upload', true)
-  xhr.send(formData)
-
-  return {
-    abort() {
-      xhr.abort()
-    },
-  }
+  uploadAvatarApi(formData).then((res) => {
+    console.log(res);
+    form.avatar = res.url
+    onSuccess(res)
+  }).catch((err) => {
+    onError(err)
+  })
 }
 
 const onChange = (_: any, currentFile: any) => {
@@ -91,8 +68,8 @@ const handleBeforeOk = async () => {
 
 <template>
   <div class="edit-modal-container">
-    <a-button type="outline" @click="handleClick">编辑资料</a-button>
-    <a-modal v-model:visible="visible" @cancel="handleCancel" @ok="handleOk" :on-before-ok="handleBeforeOk"
+    <a-button type="outline" @click="openModal">编辑资料</a-button>
+    <a-modal v-model:visible="visible" @cancel="closeModal" @ok="openModal" :on-before-ok="handleBeforeOk"
       unmountOnClose ok-text="修改">
       <template #title> 修改资料 </template>
       <a-form :model="form">
@@ -106,7 +83,7 @@ const handleBeforeOk = async () => {
               <div :class="`arco-upload-list-item${file && file.status === 'error' ? ' arco-upload-list-item-error' : ''
                 }`">
                 <div class="arco-upload-list-picture custom-upload-avatar" v-if="form.avatar">
-                  <img v-placeholder-img :data-src="form.avatar" />
+                  <img v-placeholder-img :data-src="form.avatar" class="yang-img" />
                   <div class="arco-upload-list-picture-mask">
                     <IconEdit />
                   </div>

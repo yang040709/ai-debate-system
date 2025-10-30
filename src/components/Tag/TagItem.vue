@@ -31,13 +31,16 @@ const handleClick = () => {
 <style scoped lang="scss">
 .tag-item-container {
 
+
   width: 100%;
   font-size: 16px;
   background: var(--theme-gray-2);
   display: flex;
   align-items: center;
   border-radius: 10px;
+  border: 1px solid var(--color-border-light);
   cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
 
   .tag-color-box {
     display: flex;

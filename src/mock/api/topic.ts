@@ -16,7 +16,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 248,
   },
   {
     id: 't002',
@@ -32,7 +31,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 210,
   },
   {
     id: 't003',
@@ -48,7 +46,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 320,
   },
   {
     id: 't004',
@@ -64,7 +61,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 275,
   },
   {
     id: 't005',
@@ -80,7 +76,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 410,
   },
   {
     id: 't006',
@@ -96,7 +91,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 195,
   },
   {
     id: 't007',
@@ -112,7 +106,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 290,
   },
   {
     id: 't008',
@@ -128,7 +121,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 305,
   },
   {
     id: 't009',
@@ -144,7 +136,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 180,
   },
   {
     id: 't010',
@@ -160,7 +151,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 260,
   },
   {
     id: 't011',
@@ -176,7 +166,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 230,
   },
   {
     id: 't012',
@@ -192,7 +181,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 175,
   },
   {
     id: 't013',
@@ -208,7 +196,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 330,
   },
   {
     id: 't014',
@@ -224,7 +211,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 240,
   },
   {
     id: 't015',
@@ -240,7 +226,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 190,
   },
   {
     id: 't016',
@@ -256,7 +241,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 350,
   },
   {
     id: 't017',
@@ -272,7 +256,6 @@ const topicList: Topic[] = [
     ],
 
     winningRate: 80,
-    comment_count: 185,
   },
 ]
 

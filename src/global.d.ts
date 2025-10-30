@@ -1,5 +1,4 @@
 // src/global.d.ts
-import { ComponentCustomProperties } from 'vue'
 import type { AppConfig } from '@/config/app.config'
 
 declare module 'vue' {

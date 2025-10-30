@@ -1,10 +1,10 @@
 import { request } from './request'
-import type { Ranking } from '@/types/ranking'
+import type { RankingResponse } from '@/types/ranking'
 
 // 获取排行榜
-export const getRankingListApi = () => {
+export const getRankingListApi = (rankingNumber = 10) => {
   return request({
-    url: '/rankings',
+    url: `/reward/score/topN/${rankingNumber}`,
     method: 'get',
-  }) as Promise<Ranking[]>
+  }) as Promise<RankingResponse>
 }

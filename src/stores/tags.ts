@@ -7,7 +7,7 @@ export const useTagsStore = defineStore('tag', () => {
     data: tagListData,
     loading: tagListLoading,
     fetchData: fetchTagData,
-  } = useFetchData(getTagListApi, [], { type: [], difficulty: [] })
+  } = useFetchData(getTagListApi, [], { tag: [], difficulty: [] })
   fetchTagData()
 
   return {

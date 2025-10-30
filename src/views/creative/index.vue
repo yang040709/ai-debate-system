@@ -1,22 +1,15 @@
 <script setup lang='ts'>
 import { Message } from '@arco-design/web-vue';
-import { reactive, ref, computed } from 'vue';
+import { ref, computed } from 'vue';
 import ReturnHome from '@/components/ReturnHome/ReturnHome.vue';
 import { useRouter } from 'vue-router';
 import { useTagsStore } from '@/stores/tags';
 import { storeToRefs } from 'pinia';
-import { CreateTopicRequest } from '@/types/topic';
 import { useFetchData } from '@/composables/useFetchData'
 import { createTopicApi } from '@/api/topic';
 import { useUserStore } from '@/stores/user';
 import type { Topic } from '@/types/topic';
-
-
-interface CreativeTopicForm {
-  title: string;
-  desc: string;
-  tags: string[];
-}
+import { delayFn } from '@/utils/index'
 
 
 
@@ -30,7 +23,6 @@ const form = ref<Omit<Topic, "id">>({
   created_at: '',
   participant_count: 0,
   winningRate: 0,
-  comment_count: 0,
 });
 
 const rules = {
@@ -61,35 +53,37 @@ const { data, loading, fetchData } = useFetchData(createTopicApi, [form], { id: 
 const { tagListData, tagListLoading } = storeToRefs(useTagsStore());
 
 const typeList = computed(() => {
-  return tagListData.value.type.map((item) => {
+  return tagListData.value.tag.map((item) => {
     return { label: item.name, value: item.id }
-
   })
 })
 
 
 
+
 const router = useRouter();
 
-const handleSubmit = ({ values, errors }: any) => {
+const handleSubmit = ({ errors }: any) => {
   if (errors) {
     Message.warning('请检查辩论话题表单填写是否完整');
   }
   else {
-    console.log(userStore.userInfo);
-    console.log(values);
+    if (loading.value === true) {
+      Message.warning('正在创建中，请稍后...');
+      return;
+    }
     form.value.created_at = Date.now().toString();
     form.value.creator.name = userStore.userInfo.nickname;
     form.value.creator.avatar = userStore.userInfo.avatar;
-    fetchData().then(() => {
-      console.log(data.value);
+    fetchData().then(async () => {
+      Message.success('辩论话题创建成功！');
+      await delayFn(500);
       router.push({
         name: "topicDetail",
         params: {
           id: data.value.id
         }
       })
-      Message.success('辩论话题创建成功！');
     });
   }
 }
@@ -102,6 +96,7 @@ const handleSubmit = ({ values, errors }: any) => {
     <div class="form-title">
       <h2>创建辩论话题</h2>
       <p>请填写以下信息，创建一个新的辩论话题。</p>
+      {{ loading }}
     </div>
     <a-form class="creative-form" size="large" ref="formRef" :rules="rules" :model="form" @submit="handleSubmit">
       <span>话题</span>
@@ -126,14 +121,17 @@ const handleSubmit = ({ values, errors }: any) => {
 
 <style scoped lang="scss">
 .creative-container {
+  // width: 100vw;
+  // height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 80px;
+  padding-top: 180px;
   width: 80%;
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto;
+  background: var(--theme-gray-2);
 
   .form-title {
     margin-bottom: 50px;
@@ -148,8 +146,6 @@ const handleSubmit = ({ values, errors }: any) => {
 
   .creative-form {
 
-    // max-width: 800px;
-    // width: 500px;
     &>span {
       display: block;
       margin-bottom: 10px;

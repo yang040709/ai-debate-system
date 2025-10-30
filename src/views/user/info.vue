@@ -35,16 +35,10 @@ defineProps<{
     align-items: center;
     justify-content: space-between;
 
-    // background: var(--theme-blue-1);
-
-
     li {
       display: flex;
       flex-direction: column;
       align-items: center;
-      // color: var(--color-text-secondary);
-
-      // color: #fff;
 
       span {
         font-size: 20px;

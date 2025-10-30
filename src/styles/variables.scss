@@ -22,6 +22,7 @@
   --header-bg-hover: #f0f0f0;
   --body-bg-1: #fcfcfc; // 页面背景1
   --body-bg-2: #f9f8f8; // 页面背景2
+  // --body
   /* 全局背景 */
   --background-color: #f5f5f5; /* 背景色 */
   /* 遮罩层  */
@@ -42,21 +43,31 @@
   --theme-white-1: #f5f5f5; /* 用户中心的背景色 */
   --theme-white-2: #fff;
   --theme-gray-1: #4b5563; /* 文字使用（深灰替代原浅灰） */
-  --theme-gray-2: #edeff3d2; /* 背景使用（浅灰替代原深灰） */
-  --theme-gray-2-hover: #dee3ec; /* 背景使用 */
+  // --theme-gray-2: #edeff3d2; /* 背景使用（浅灰替代原深灰） */
+  --theme-gray-2: #fff; /* 背景使用（浅灰替代原深灰） */
+  // --theme-gray-2-hover: #dee3ec; /* 背景使用 */
+  --theme-gray-2-hover: #f4f6fb; /* 背景使用 */
+  --theme-gray-2-active: #e6e9f2; /* 背景使用 */
   --theme-gray-3: #f6f6f6; /* 背景使用 */
   --theme-gray-4: #a9aeb8; /* 空图标使用 */
   --theme-gray-5: #f4f6f9;
+  // --theme-gray-7: #f2f3f5;
+  --theme-gray-7: #f9fafb;
   // --theme-blue-1: #2563eb; /* 文字使用（保持高饱和蓝色提升可读性） */
   // --theme-blue-1: #e8f2ff; //文字使用
   --theme-blue-1: #147eff; //文字使用
   --theme-blue-2: #dbeafe; /* 对话框使用（浅蓝替代深蓝） */
-  --theme-blue-3: #6fb2fd; /* 渐变起始（浅蓝色） */
+  --theme-blue-3: #57a0f3; /* 渐变起始（浅蓝色） */
   --theme-blue-4: #2778fa; /* 渐变结束（中蓝色） */
   --theme-blue-5: hsl(212, 93%, 89%); /* 浅蓝色盒子 */
   --theme-blue-5-hover: hsl(212, 88%, 83%); /* 浅蓝色盒子 */
   --theme-blue-6: rgb(91, 127, 224); /* 深蓝色盒子 */
   --theme-blue-7: #2778fa;
+  --theme-blue-8: #3e80ea;
+  --theme-blue-9: #2064d3;
+  --theme-blue-10: #1c5cc4;
+  --theme-blue-11: #5f92e4;
+  --theme-blue-12: #2c3e50;
   --theme-yellow-1: #eab308;
   --theme-yellow-2: #eab308;
   --theme-yellow-3: #fef9c3;
@@ -67,6 +78,37 @@
   --theme-tag-3: #f3e8ff;
   --theme-tag-4: #fee2e2;
   --theme-tag-5: #fef9c3;
+
+  /*
+  ai辩论页面的css辩论 
+   */
+  --theme-white-3: #f3f4f6;
+  --theme-gray-6: #353535;
+  --theme-border-1: rgba(0, 0, 0, 0.1);
+
+  --theme-chat-user: #c8dffe;
+  --theme-chat-assistant: #f3f3f3;
+
+  /* 主色调 - 基于蓝色系，传达信任与专业感 */
+  --theme-primary: #1e40af; /* 主蓝色 */
+  --theme-primary-light: #dbeafe; /* 浅蓝背景 */
+  --theme-primary-dark: #1e3a8a; /* 深蓝悬停 */
+
+  /* 中性色 - 页面结构和文本 */
+  --theme-background: #ffffff; /* 主背景 */
+  --theme-background-light: #f8fafc; /* 卡片背景 */
+  --theme-text-primary: #1e293b; /* 主要文字 */
+  --theme-text-secondary: #64748b; /* 次要文字 */
+
+  /* 功能色 - 状态反馈 */
+  --theme-success: #059669; /* 成功/简单难度 */
+  --theme-success-light: #d1fae5; /* 成功浅色 */
+  --theme-warning: #d97706; /* 警告/中等难度 */
+  --theme-warning-light: #fef3c7; /* 警告浅色 */
+  --theme-error: #dc2626; /* 错误/困难难度 */
+  --theme-error-light: #fee2e2; /* 错误浅色 */
+
+  // --theme-blue-11:
 }
 
 /* header头部区域的高度 */
@@ -163,6 +205,7 @@ html.dark {
   --theme-gray-2: #1f2937; //背景使用
   --theme-gray-2-hover: #4c5669; /* 背景使用 */
   --theme-gray-5: #374151; //背景使用
+  --theme-gray-7: #242424;
   --theme-blue-1: #60a5fa; //文字使用
   --theme-blue-2: #2563eb; //对话框使用
   --theme-blue-3: #2563eb; //下面是渐变使用
@@ -171,6 +214,8 @@ html.dark {
   --theme-blue-5-hover: #465fa1; //浅蓝色盒子
   --theme-blue-6: rgb(58, 107, 245); /* 深蓝色盒子 */
   --theme-blue-7: #dbe9ff;
+  --theme-blue-11: #dbe9ff;
+  --theme-blue-12: #acc0d4;
   --theme-yellow-1: #eab308;
   --theme-yellow-2: #fff;
   --theme-yellow-3: #ccbf35;
@@ -179,4 +224,32 @@ html.dark {
   --theme-tag-3: #5b21b6; /* 宝石紫色（提升饱和度避免沉闷） */
   --theme-tag-4: #7f1d1d; /* 深绯红色（降低亮度保留警示性） */
   --theme-tag-5: #854d0e; /* 琥珀金色（模拟暗光下的金属质感） */
+
+  /*
+  ai辩论页面的css辩论 
+   */
+  --theme-white-3: #1f2937; /* 替代亮色的 #f3f4f6（浅灰背景），使用深灰作为暗黑模式下的"浅色"背景 */
+  --theme-gray-6: #e5e7eb; /* 替代亮色的 #353535（深灰文本），使用浅灰作为暗黑模式下的主要文本色 */
+
+  --theme-chat-user: #3283fd;
+  --theme-chat-assistant: #46484d;
+
+  /* 主色调调整 - 降低饱和度提高可视性 */
+  --theme-primary: #60a5fa; /* 亮蓝色 */
+  --theme-primary-light: #1e3a8a; /* 深蓝背景 */
+  --theme-primary-dark: #93c5fd; /* 浅蓝悬停 */
+
+  /* 中性色调整 - 避免纯黑纯白 */
+  --theme-background: #0f172a; /* 深蓝黑背景 */
+  --theme-background-light: #1e293b; /* 卡片背景 */
+  --theme-text-primary: #f1f5f9; /* 浅色主要文字 */
+  --theme-text-secondary: #94a3b8; /* 灰色次要文字 */
+
+  /* 功能色调整 - 降低亮度 */
+  --theme-success: #34d399; /* 亮绿色 */
+  --theme-success-light: #065f46; /* 深绿背景 */
+  --theme-warning: #fbbf24; /* 亮黄色 */
+  --theme-warning-light: #92400e; /* 深橙背景 */
+  --theme-error: #f87171; /* 亮红色 */
+  --theme-error-light: #7f1d1d; /* 深红背景 */
 }

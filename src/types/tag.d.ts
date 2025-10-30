@@ -8,6 +8,7 @@ export interface TagProps extends Tag {
 }
 
 export interface TagResponse {
-  type: Tag[]
+  tag: Tag[]
   difficulty: Tag[]
+  // position: Tag[]
 }

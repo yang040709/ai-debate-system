@@ -33,8 +33,8 @@ export default defineConfig({
     },
   },
   server: {
-    host: '0.0.0.0',
-    port: 5173,
+    host: true,
+    port: 7090,
     strictPort: true,
     proxy: {
       '/api': {
@@ -42,6 +42,11 @@ export default defineConfig({
         target: 'http://127.0.0.1:4523/m1/6382740-6079334-default',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+      '/socket.io': {
+        target: 'http://localhost:8080',
+        ws: true,
+        rewriteWsOrigin: true,
       },
     },
   },

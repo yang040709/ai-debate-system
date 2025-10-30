@@ -3,20 +3,29 @@ import type { Ranking } from '@/types/ranking'
 
 defineProps<{ rank: Ranking }>()
 
+/* 
+            {
+                "score": 120,
+                "user_id": "1011",
+                "avatar": "test",
+                "nickname": "test"
+            },
+*/
+
 </script>
 <template>
   <div class='ranking-item-container'>
     <div class="left">
-      <span class="ranking" :class="{ yellow: rank.ranking === 1 }">{{ rank.ranking }}</span>
+      <!-- <span class="ranking" :class="{ yellow: rank.ranking === 1 }">{{ rank.ranking }}</span> -->
       <div class="user-info">
         <img v-placeholder-img :data-src="rank.avatar || '/avatar.png'" alt="">
         <div class="user-info-text">
           <div class="name">
-            {{ rank.name }}
+            {{ rank.nickname }}
           </div>
-          <div class="winning-rate">
+          <!-- <div class="winning-rate">
             胜率 {{ rank.winningRate }}
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -30,19 +39,17 @@ defineProps<{ rank: Ranking }>()
 .ranking-item-container {
   width: 100%;
   height: 44px;
-  // background: var(--theme-gray-2);
   display: flex;
   align-items: center;
   justify-content: space-between;
 
 
   .left {
-    cursor: pointer;
+    // cursor: pointer;
     display: flex;
     align-items: center;
 
     .ranking {
-      // margin-right: 15px;
       font-size: 20px;
       font-weight: 700;
       color: var(--color-text-secondary);
@@ -55,7 +62,6 @@ defineProps<{ rank: Ranking }>()
 
     .user-info {
       display: flex;
-      // align-items: center;
 
       img {
         width: 40px;
@@ -68,14 +74,18 @@ defineProps<{ rank: Ranking }>()
   }
 
   .user-info-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
     .name {
       font-weight: 700;
       font-size: 16px;
       color: var(--color-text-primary);
 
-      &:hover {
-        color: var(--color-text-primary-hover);
-      }
+      // &:hover {
+      //   color: var(--color-text-primary-hover);
+      // }
     }
 
     .winning-rate {
