@@ -31,8 +31,8 @@ const selectType = (item: Tag) => {
 
 
 const positionType = [
-  { name: 'positive', id: "1" },
-  { name: 'negative', id: "2" },
+  { name: 'positive', id: "1", label: '正方' },
+  { name: 'negative', id: "2", label: '反方' },
 ]
 
 const form = ref<CreateDebateRequest>({
@@ -139,13 +139,13 @@ const debateRule = [
             <span>难度:</span>
             <a-radio-group type="button" v-model="form.difficulty">
               <a-radio v-for="item in tagListData.difficulty" :value="item.name" :key="item.id">{{ item.name
-              }}</a-radio>
+                }}</a-radio>
             </a-radio-group>
           </div>
           <div class="select-item">
             <span>立场:</span>
             <a-radio-group type="button" v-model="form.position">
-              <a-radio v-for="item in positionType" :value="item.name" :key="item.id">{{ item.name }}</a-radio>
+              <a-radio v-for="item in positionType" :value="item.name" :key="item.id">{{ item.label }}</a-radio>
             </a-radio-group>
           </div>
         </div>

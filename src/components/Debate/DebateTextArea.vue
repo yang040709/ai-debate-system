@@ -46,21 +46,34 @@ const handleBlur = () => {
 }
 
 const handleSubmit = () => {
-  console.log("submit")
+  /* 
+  如果文本域没有激活，则不执行提交操作
+  */
+  if (!props.isActive) {
+    return
+  }
   emits("submit", inputVal.value || '')
 }
+/* 
+就执行正常的换行操作就行，不需要特别的处理
+*/
+const handleShiftEnter = () => {
 
+}
 
 </script>
 
 <template>
   <div class='debate-text-area-container' :class="{ 'active': isTextAreaActive }" ref="textAreaRef">
     <textarea @input="handleInput" v-model="inputVal" @focus="handleFocus" @blur="handleBlur" class="text-area"
-      :placeholder="props.placeholder" @keyup.enter="handleSubmit"></textarea>
+      :placeholder="props.placeholder" @keyup.enter.exact="handleSubmit"
+      @keyup.enter.shift="handleShiftEnter"></textarea>
     <div class="toolbar">
       <div class="left"></div>
       <div class="right">
-        <button class="submit-button" :class="{ active: props.isActive }" @click="handleSubmit">
+        <!-- 禁用 -->
+        <button class="submit-button" :class="{ active: props.isActive, disabled: !props.isActive }"
+          @click="handleSubmit" :disabled="!props.isActive">
           <span>
             <ArrowUp :size="24" />
           </span>
@@ -76,7 +89,7 @@ const handleSubmit = () => {
   border-radius: 10px;
   padding: 0 6px;
   padding-top: 10px;
-  background: #fff;
+  background: var(--theme-white-2);
   // min-height: 100px;
 
   .text-area {
@@ -114,8 +127,11 @@ const handleSubmit = () => {
         }
 
         &.active {
-          // background-color: #003580;
           background-color: #2f76e6;
+        }
+
+        &.disabled {
+          cursor: not-allowed;
         }
       }
     }

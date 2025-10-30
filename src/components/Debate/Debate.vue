@@ -2,9 +2,8 @@
 import DebateItem from './DebateItem.vue';
 import DebateTextArea from './DebateTextArea.vue';
 import type { DebateList } from './Debate.d.ts';
-import { ref, computed } from 'vue';
-import type { Ref } from 'vue';
-import { mockDebateList } from './mock.data.ts';
+import { ref, computed, useTemplateRef, watch } from 'vue';
+import { throttle } from '@/utils/index.ts';
 
 interface DebateProps {
   debateList: DebateList,
@@ -39,14 +38,42 @@ const textAreaHeightPx = computed(() => {
 
 const handleUserSubmit = (msg: string) => {
   emits('submit', msg)
+  inputVal.value = ''
 }
 
 
+const debateContentRef = useTemplateRef("debate-content");
+
+// 判断是否“靠近底部”（比如距离底部 < 100px）
+const checkIfAtBottom = () => {
+  if (!debateContentRef.value) return true
+  const { scrollTop, scrollHeight, clientHeight } = debateContentRef.value
+  return scrollHeight - scrollTop - clientHeight < 500
+}
+
+const _scrollToBottom = () => {
+  if (!debateContentRef.value) {
+    return;
+  }
+  if (checkIfAtBottom()) {
+    debateContentRef.value.scrollTop = debateContentRef.value.scrollHeight;
+  }
+}
+
+/* 
+使用节流函数，避免频繁滚动导致性能问题
+*/
+const scrollToBottom = throttle(_scrollToBottom, 200);
+
+
+watch(() => props.debateList, scrollToBottom, {
+  deep: 2
+})
 </script>
 
 <template>
   <div class='debate-list-container'>
-    <div class="content">
+    <div class="content" ref="debate-content">
       <template v-for="item in messageList" :key="item.datetime+item.role+item.avatar">
         <DebateItem :item="item" />
       </template>
@@ -62,21 +89,26 @@ const handleUserSubmit = (msg: string) => {
 .debate-list-container {
   // min-width: 100%;
   // height: 100vh;
-  padding: 0 2rem;
+  // max-width: 100vw;
+  padding: 0 32px;
   overflow-x: hidden;
   position: relative;
   display: flex;
   height: calc(100vh - 90px);
+  background: var(--theme-white-2);
+  max-width: 1200px;
+  margin: 0 auto;
 
   .content {
     min-width: 100%;
     padding: 10px;
+    scroll-behavior: smooth;
     overflow-y: auto;
     margin-bottom: v-bind(textAreaHeightPx);
   }
 
   .bottom {
-    background: #fff;
+    background: var(--theme-white-2);
     padding: 0 20px;
     padding-bottom: 20px;
     position: absolute;

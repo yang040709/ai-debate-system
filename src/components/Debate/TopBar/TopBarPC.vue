@@ -2,55 +2,16 @@
 import ToggleDark from '@/components/ToggleDark/ToggleDark.vue'
 import Skeleton from '@/components/Skeleton/Skeleton.vue';
 import { useRouter } from 'vue-router';
-// import ReturnHome from '@/components/ReturnHome/ReturnHome.vue'
-// import { ref, computed } from 'vue';
-// import { Modal } from '@arco-design/web-vue';
-// import { useRouter } from 'vue-router';
-// import { useDebateStore } from '@/stores/debate';
-// import { storeToRefs } from 'pinia';
-// interface Props {
-//   data: any;
-//   loading: boolean;
-//   curFlow: number;
-//   debateStages: any[];
-//   countDown: number;
-//   isDebateEnd: boolean;
-// }
 
-// const { data, dataLoading: loading, debateStages, countDown, isDebateEnd, currentStageIndex } = storeToRefs(useDebateStore());
-
-
-
-// const curFlow = computed(() => {
-//   return currentStageIndex.value + 1 > debateStages.value.length ?
-//     debateStages.value.length : currentStageIndex.value + 1
-// })
-
-
-// const router = useRouter()
-
-// const visible = ref(false);
-
-
-
-// const confirmReturnHome = async () => {
-//   visible.value = true;
-//   Modal.confirm({
-//     title: '提示',
-//     content: '是否确认返回主页，当前的辩论记录将不会被保存',
-//     okText: '确认',
-//     cancelText: '取消',
-//     onOk: () => {
-//       router.push({ name: 'home' })
-//       isDebateEnd.value = true;
-//     },
-//   })
-// }
+import type { ChildTopBarProps } from '../Debate';
 
 const router = useRouter();
 const returnHome = () => {
   router.push({ name: 'home' })
 }
+
+
+const props = defineProps<ChildTopBarProps>()
 
 </script>
 
@@ -58,46 +19,56 @@ const returnHome = () => {
   <div class='top-bar-pc-container'>
     <div class="top-bar-left">
       <div class="top-bar-title">
-        <!-- <return-home :is-fixed="false" class="return-home" :confirm="confirmReturnHome"/> -->
         <div class="icon" @click="returnHome">
           <icon-import :size="20" />
         </div>
-        <h2>标题</h2>
+        <h2>{{ title }}</h2>
         <!-- <h2 v-if="!loading">{{ data.topic.title }}</h2> -->
         <!-- <skeleton v-else :loading="loading" :rows="1" class="skeleton" /> -->
       </div>
       <div class="top-bar-content">
         <div class="flow-item">
           <p>当前环节:</p>
-          <strong>1/2</strong>
+          <strong>{{ currentStage }}/{{ totalStage }}</strong>
         </div>
         <div class="flow-item">
           <p>发言倒计时:</p>
-          <strong>45 秒</strong>
+          <template v-if="!isTimeout">
+            <strong class="countDown" :class="{ 'warning': countDown <= 10 }">{{ countDown }} 秒</strong>
+          </template>
+          <template v-else>
+            <strong style="color: red;">已超时</strong>
+          </template>
         </div>
-        <div class="flow-item">
-          <p>正方：</p>
-          <strong>用户</strong>
-          <!-- <strong v-if="data.position.id === '1'">用户</strong> -->
-          <!-- <strong v-else>AI</strong> -->
-        </div>
-        <div class="flow-item">
-          <p>反方:</p>
-          <strong>AI</strong>
-          <!-- <strong v-if="data.position.id === '2'">用户</strong>
-          <strong v-else>AI</strong> -->
-        </div>
+        <template v-if="userSide === 'positive'">
+          <div class="flow-item">
+            <p>正方：</p>
+            <strong>用户</strong>
+          </div>
+          <div class="flow-item">
+            <p>反方:</p>
+            <strong>AI</strong>
+          </div>
+        </template>
+        <template v-else>
+          <div class="flow-item">
+            <p>正方：</p>
+            <strong>AI</strong>
+          </div>
+          <div class="flow-item">
+            <p>反方:</p>
+            <strong>用户</strong>
+          </div>
+        </template>
         <div class="flow-item">
           <p>难度:</p>
-          <strong>中等</strong>
-          <!-- <strong>{{ data.difficulty.name }}</strong> -->
+          <strong>{{ difficulty }}</strong>
         </div>
       </div>
       <!-- <skeleton v-else :loading="loading" :rows="1" class="skeleton" /> -->
     </div>
 
     <div class="top-bar-right">
-      <!-- <icon-question-circle :size="24" /> -->
       <toggle-dark />
     </div>
   </div>
@@ -110,6 +81,8 @@ const returnHome = () => {
   padding: 10px 15px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
   height: 90px;
+  background: var(--theme-white-2);
+  border-bottom: 1px solid var(--color-border-base);
 
   .top-bar-title {
     display: flex;
@@ -177,5 +150,27 @@ const returnHome = () => {
 
 .return-home {
   margin-right: 20px;
+}
+
+.countDown {
+
+  // color: red;
+  &.warning {
+    color: var(--theme-error);
+    animation: pulse 1s infinite;
+  }
+}
+
+/* 动画 */
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
 }
 </style>

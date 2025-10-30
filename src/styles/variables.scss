@@ -89,6 +89,25 @@
   --theme-chat-user: #c8dffe;
   --theme-chat-assistant: #f3f3f3;
 
+  /* 主色调 - 基于蓝色系，传达信任与专业感 */
+  --theme-primary: #1e40af; /* 主蓝色 */
+  --theme-primary-light: #dbeafe; /* 浅蓝背景 */
+  --theme-primary-dark: #1e3a8a; /* 深蓝悬停 */
+
+  /* 中性色 - 页面结构和文本 */
+  --theme-background: #ffffff; /* 主背景 */
+  --theme-background-light: #f8fafc; /* 卡片背景 */
+  --theme-text-primary: #1e293b; /* 主要文字 */
+  --theme-text-secondary: #64748b; /* 次要文字 */
+
+  /* 功能色 - 状态反馈 */
+  --theme-success: #059669; /* 成功/简单难度 */
+  --theme-success-light: #d1fae5; /* 成功浅色 */
+  --theme-warning: #d97706; /* 警告/中等难度 */
+  --theme-warning-light: #fef3c7; /* 警告浅色 */
+  --theme-error: #dc2626; /* 错误/困难难度 */
+  --theme-error-light: #fee2e2; /* 错误浅色 */
+
   // --theme-blue-11:
 }
 
@@ -214,4 +233,23 @@ html.dark {
 
   --theme-chat-user: #3283fd;
   --theme-chat-assistant: #46484d;
+
+  /* 主色调调整 - 降低饱和度提高可视性 */
+  --theme-primary: #60a5fa; /* 亮蓝色 */
+  --theme-primary-light: #1e3a8a; /* 深蓝背景 */
+  --theme-primary-dark: #93c5fd; /* 浅蓝悬停 */
+
+  /* 中性色调整 - 避免纯黑纯白 */
+  --theme-background: #0f172a; /* 深蓝黑背景 */
+  --theme-background-light: #1e293b; /* 卡片背景 */
+  --theme-text-primary: #f1f5f9; /* 浅色主要文字 */
+  --theme-text-secondary: #94a3b8; /* 灰色次要文字 */
+
+  /* 功能色调整 - 降低亮度 */
+  --theme-success: #34d399; /* 亮绿色 */
+  --theme-success-light: #065f46; /* 深绿背景 */
+  --theme-warning: #fbbf24; /* 亮黄色 */
+  --theme-warning-light: #92400e; /* 深橙背景 */
+  --theme-error: #f87171; /* 亮红色 */
+  --theme-error-light: #7f1d1d; /* 深红背景 */
 }

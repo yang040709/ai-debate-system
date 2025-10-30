@@ -6,10 +6,10 @@ export const useDebateStore = defineStore('debate', () => {
   const conversion_id = ref('9vunqaj8f2q-hxn30ar1zxq')
   const debateData = ref<CreateDebateRequest>({
     topic: {
-      title: '',
-      desc: '',
+      title: '辩论标题',
+      desc: '辩论描述',
     },
-    difficulty: 'medium',
+    difficulty: '中等',
     position: 'positive',
   })
   const setDebateData = (data: CreateDebateRequest) => {

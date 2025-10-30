@@ -37,7 +37,7 @@ const right = computed(() => {
     </div>
     <div class="right">
       <div class="top">
-        <span class="role">{{ props.item.role }}</span>
+        <span class="role">{{ props.item.name }}</span>
         <span class="time">{{ props.item.datetime }}</span>
       </div>
       <div class="message">
@@ -86,11 +86,13 @@ const right = computed(() => {
     .message {
       display: flex;
 
+
       .content {
         padding: 20px;
         background: var(--theme-chat-assistant);
         border-radius: 10px;
         width: fit-content;
+        color: var(--color-text-primary);
         /* 解决不换行的问题 */
         // text-wrap: wrap;
         // white-space: pre-wrap;
