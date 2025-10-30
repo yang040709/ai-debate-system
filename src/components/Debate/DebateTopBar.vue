@@ -2,7 +2,7 @@
 import TopBarPC from './TopBar/TopBarPC.vue';
 import TopBarPhone from './TopBar/TopBarPhone.vue';
 import { ref, computed } from 'vue'
-import { useDebateStore } from '@/stores/debate2';
+import { useDebateStore } from '@/stores/debate';
 import { storeToRefs } from 'pinia';
 import { TopBarProps } from './Debate';
 

@@ -12,7 +12,7 @@ import { createDebate } from '@/api/debate'
 import { useFetchData } from '@/composables/useFetchData';
 import { CreateDebateRequest } from '@/types/debate';
 import { Message } from '@arco-design/web-vue';
-import { useDebateStore } from '@/stores/debate2';
+import { useDebateStore } from '@/stores/debate';
 const props = defineProps<{
   item: Topic,
   loading: boolean,
@@ -79,7 +79,7 @@ const joinDebate = async () => {
     debateStore.setConversionId(data.value.conversion_id);
     debateStore.setDebateData(form.value);
     router.push({
-      name: "debate2"
+      name: "debate"
     })
   })
 }
@@ -139,7 +139,7 @@ const debateRule = [
             <span>难度:</span>
             <a-radio-group type="button" v-model="form.difficulty">
               <a-radio v-for="item in tagListData.difficulty" :value="item.name" :key="item.id">{{ item.name
-                }}</a-radio>
+              }}</a-radio>
             </a-radio-group>
           </div>
           <div class="select-item">

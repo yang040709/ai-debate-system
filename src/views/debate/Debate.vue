@@ -1,261 +1,39 @@
 <script setup lang='ts'>
 import Debate from '@/components/Debate/Debate.vue';
 import DebateTopBar from '@/components/Debate/DebateTopBar.vue';
-import { useDebateStore } from '@/stores/debate2';
+import { useDebateStore } from '@/stores/debate';
 import { useWebSocket } from '@/composables/useWebSocket';
-import { setup, assign, enqueueActions, fromCallback } from 'xstate'
+import { setup, assign, enqueueActions } from 'xstate'
 import { useMachine } from '@xstate/vue'
-import { computed, onBeforeMount, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useUserStore } from '@/stores/user';
 import type { DebateList, DebateItem } from '@/components/Debate/Debate';
 import dayjs from 'dayjs';
-import { pxValue } from '@vueuse/core';
 import { Message } from '@arco-design/web-vue';
 /* 
-辩论逻辑的配置
+下面是辩论的配置文件
 */
-const config = [{
-  id: 1,
-  title: '立论陈词',
-  description: '正反方首次阐述观点',
-  content: '正反方各1.5分钟，仅需提出1个核心论点+1个论据（超时10秒即扣分）。',
-  // 轮次配置（统一字段）
-  turns: [
-    {
-      side: 'positive',
-      action: 'speak',
-      // control:"positive"|"negative",
-      /* 
-        'positive'|'negative'
-        'no-send'|'send-space'
-        // 'positive':'no-send',
-        // 'negative':'send-space'
-      */
-      control: {
-        // 'positive':'no-send',
-        'negative': 'send-space'
-      },
-      tip: {
-        avatar: '/referee.png',
-        name: '裁判',
-        datetime: '今天16:40',
-        content: '请正方先发表立论陈词，围绕核心论点展开，限时1分30秒。',
-        role: 'assistant',
-        duration: 0,
-      },
-    }, // 正方发言
-    {
-      side: 'negative',
-      action: 'speak',
-      control: {
-        // 'positive':'send-space',
-        'negative': 'no-send'
-      },
-      tip: {
-        avatar: '/referee.png',
-        name: '裁判',
-        datetime: '今天16:42',
-        content: '请反方发表立论陈词，明确核心论点及论据，限时1分30秒。',
-        role: 'assistant',
-        duration: 0,
-      },
-    }, // 反方发言
-  ],
-  // 规则约束（统一字段）
-  rules: {
-    freeMode: false,
-    firstTurn: 'positive', // 首个发言方
-  },
-  // 状态控制（统一字段）
-  status: 'pending', // pending, active, completed
-  currentTurnIndex: 0, // 当前轮次索引
-  remainingTime: 10, // 剩余时间
-},
-{
-  id: 2,
-  title: '质询对抗',
-  description: '双方交替提问与回答',
-  content:
-    '单轮混合质询（共3分钟）：反方提问→正方回答（1.5分钟）→立即切换正方提问→反方回答（1.5分钟）。',
-  turns: [
-    {
-      side: 'negative',
-      action: 'question',
-      control: {
-        'positive': 'send-space',
-        // 'negative':'no-send'
-      },
-      tip: {
-        avatar: '/referee.png',
-        name: '裁判',
-        datetime: '今天16:45',
-        content:
-          '质询对抗环节开始，首先由反方对正方进行提问，双方共计3分钟，当前反方提问、正方回答时间1分30秒。',
-        role: 'assistant',
-        duration: 0,
-      },
-    }, // 反方提问
-    {
-      side: 'positive', action: 'answer', status: 'pending', usedTime: 0,
-      control: {
-        'positive': 'no-send',
-      },
-    }, // 正方回答
-    {
-      side: 'positive',
-      action: 'question',
-      control: {
-        // 'positive': 'send-space',
-        // 'negative':'no-send'
-        'negative': 'send-space'
-      },
-      tip: {
-        avatar: '/referee.png',
-        name: '裁判',
-        datetime: '今天16:47',
-        content: '质询环节切换，现在由正方对反方进行提问，反方回答，剩余1分30秒。',
-        role: 'assistant',
-        duration: 0,
-      },
-    }, // 正方提问
-    {
-      side: 'negative', action: 'answer', status: 'pending', usedTime: 0,
-      control: {
-        // 'negative': 'no-send'
-      }
-    }, // 反方回答
-  ],
-  rules: {
-    freeMode: false,
-    firstTurn: 'negative',
-  },
-  status: 'pending',
-  currentTurnIndex: 0,
-  remainingTime: 120,
-},
-{
-  id: 3,
-  title: '自由辩论',
-  description: '双方交替攻防',
-  content: '正方先发言，双方交替攻防，每个人的发言时间共5分钟',
-  //自由辩论的阶段可以永远循环下去，直到时间结束，其中裁判发言只有第一次会展示
-  turns: [
-    {
-      side: 'positive',
-      action: 'debate',
-      control: {
-        // 'positive': 'send-space',
-        // 'negative':'send-space'
-      },
-      tip: {
-        avatar: '/referee.png',
-        name: '裁判',
-        datetime: '今天16:50',
-        content:
-          '自由辩论环节开始，正方先发言，双方交替进行，每个人的发言总时长为5分钟。',
-        role: 'assistant',
-        duration: 0,
-      },
-    },
-    {
-      side: 'negative',
-      action: 'debate',
-      tip: {
-        avatar: '/referee.png',
-        name: '裁判',
-        datetime: '今天16:50',
-        content:
-          '现在请反方发言，自由辩论环节，双方交替进行发言，每个人的发言总时长为5分钟。',
-        role: 'assistant',
-        duration: 0,
-      },
-    },
-    {
-      side: 'positive',
-      action: 'debate',
-    },
-    {
-      side: 'negative',
-      action: 'debate',
-    },
-  ],
-  rules: {
-    freeMode: true,
-    firstTurn: 'positive',
-  },
-  status: 'pending',
-  currentTurnIndex: 0,
-  remainingTime: 15,
-},
-{
-  id: 4,
-  title: '总结陈词',
-  description: '双方总结观点',
-  content: '反方→正方各2分钟，需融合反驳与立论，禁止新论据。',
-  turns: [
-    {
-      side: 'negative',
-      action: 'conclude',
-      control: {
-        'positive': 'send-space',
-        // 'negative':'send-space'
-      },
-      tip: {
-        avatar: '/referee.png',
-        name: '裁判',
-        datetime: '今天16:55',
-        content:
-          '自由辩论时间结束，接下来进入总结陈词环节，请反方首先发言，需融合反驳与立论，禁止提出新论据，限时2分钟。',
-        role: 'assistant',
-        duration: 0,
-      },
-    }, // 反方总结
-    {
-      side: 'positive',
-      action: 'conclude',
-      control: {
-        'positive': 'no-send',
-        // 'negative':'send-space'
-      },
-      tip: {
-        avatar: '/referee.png',
-        name: '裁判',
-        datetime: '今天16:58',
-        content: '请正方进行总结陈词，结合之前辩论内容展开，限时2分钟，禁止新论据。',
-        role: 'assistant',
-        duration: 0,
-      },
-    }, // 正方总结
-  ],
-  rules: {
-    freeMode: false,
-    firstTurn: 'negative',
-  },
-  status: 'pending',
-  currentTurnIndex: 0,
-  remainingTime: 120,
-},
-]
-
+import { DebateConfig } from './debateConfig';
+import type { DebateStageList } from './debateConfig'
 
 
 /* 
-文本框是否激活
+用户与AI的消息列表
 */
-// const isTextAreaActive = comp
-
 const messageList = ref<DebateList>([])
 
 
-
-
+/* 
+用户Store
+*/
 const userStore = useUserStore();
-
-let timer: NodeJS.Timeout;
-
-
+/* 
+辩论Store,里面的信息包括辩论的主题和描述，及辩论的难度，用户的立场
+*/
 const debateStore = useDebateStore();
 
+
+let timer: NodeJS.Timeout;
 
 
 // -----------------
@@ -268,32 +46,21 @@ const getNextStage = (ctx: any) => {
 }
 const getCurrentTurn = (ctx: any) => getCurrentStage(ctx)?.turns[ctx.turnIdx]
 const isUserTurn = (ctx: any) => getCurrentTurn(ctx)?.side === ctx.userSide
-// const isFreeMode = (ctx: any) => getCurrentStage(ctx)?.rules.freeMode === true
 const isDebateOver = (ctx: any) => ctx.stageIdx >= ctx.stages.length
 
-
-// interface DebateMessage {
-//   id: string
-//   avatar: string
-//   name: string
-//   datetime: string
-//   content: string
-//   role: 'assistant' | 'user' | 'opponent'
-//   duration?: number
-// }
+// -----------------
+// xstate状态机的辅助 (setup) 
+// -----------------
 
 export type DebateSide = 'positive' | 'negative'
 
 interface DebateContext {
-  stages: typeof config
+  stages: DebateStageList
   stageIdx: number
   turnIdx: number
   userSide: DebateSide
-  // messages: DebateList
   remainTiming: number
   isTimeout: boolean
-  // currentUserInput: string
-  // currentAiResponse: string
 }
 
 export type DebateEvent =
@@ -321,32 +88,44 @@ const debateSetup = setup({
 })
 
 
+type TemplateKeys = 'user' | 'assistant' | 'referee';
 
-const userMsgTemplate: Omit<DebateItem, 'datetime' | 'content'> = {
-  role: 'user',
-  name: userStore.userInfo?.nickname || '用户',
-  avatar: userStore.userInfo?.avatar || '/avatar.png',
-}
-const aiMsgTemplate: Omit<DebateItem, 'datetime' | 'content'> = {
-  role: 'assistant',
-  name: 'AI',
-  avatar: '/ai_avatar.png',
-}
-const refereeMsgTemplate: Omit<DebateItem, 'datetime' | 'content'> = {
-  role: 'assistant',
-  name: '裁判',
-  avatar: '/referee.png',
+// 使用映射类型定义对象结构
+type MsgTemplate = {
+  [K in TemplateKeys]: Omit<DebateItem, 'datetime' | 'content'>
+};
+
+
+const msgTemplate: MsgTemplate = {
+  user: {
+    role: 'user',
+    name: userStore.userInfo?.nickname || '用户',
+    avatar: userStore.userInfo?.avatar || '/avatar.png',
+  },
+  assistant: {
+    role: 'assistant',
+    name: 'AI',
+    avatar: '/ai_avatar.png',
+  },
+  referee: {
+    role: 'assistant',
+    name: '裁判',
+    avatar: '/referee.png',
+  },
 }
 
+
+/* 
+下面是辩论的状态机配置
+*/
 
 const debateMachine = debateSetup.createMachine({
   id: 'debate',
   context: {
-    stages: config,
+    stages: DebateConfig,
     stageIdx: 0,
     turnIdx: 0,
     userSide: 'positive',
-    // messages: [],
     remainTiming: 0,
     isTimeout: true,
   },
@@ -356,39 +135,28 @@ const debateMachine = debateSetup.createMachine({
       on: {
         START: {
           target: 'prompting',
+          /* 
+            初始化辩论状态机，设置用户立场，当前阶段为0，当前轮次为0，剩余时间为当前阶段的剩余时间
+          */
           actions: assign(({ context, event }) => ({
             userSide: event.userSide,
-            // messages: [],
             stageIdx: 0,
             turnIdx: 0,
             remainTiming: getCurrentStage(context).remainingTime,
           })),
         },
       },
-
     },
     prompting: {
       entry: [
         enqueueActions(({ context, enqueue }) => {
           const turn = getCurrentTurn(context)
-          // console.log(turn, "<==prompting");
-          /* 超时重置 */
+          /* 重置超时标志 */
           enqueue.assign({
             isTimeout: false,
           })
+          /* 如果有提示，添加到消息列表 */
           if (turn?.tip) {
-            // enqueue.assign({
-            //   messages: [
-            //     ...context.messages,
-            //     {
-            //       role: "assistant",
-            //       avatar: turn.tip.avatar,
-            //       content: turn.tip.content,
-            //       name: turn.tip.name,
-            //       datetime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-            //     }
-            //   ]
-            // })
             messageList.value.unshift({
               role: "assistant",
               avatar: turn.tip.avatar,
@@ -396,17 +164,21 @@ const debateMachine = debateSetup.createMachine({
               name: turn.tip.name,
               datetime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
             })
-            // debateRef.value?.scrollToBottom()
           }
+          /* 如果有控制指令，根据用户立场执行 */
           if (turn?.control) {
-            // turn.control
             if (turn.control[context.userSide] === 'send-space') {
-              // 发送空格
+              /* 
+                下面的内容请你根据实际情况调整，暂时是发空格
+              */
               sendMessage(' ')
             }
           }
         })
       ],
+      /* 
+        判断是否是用户回合
+      */
       always: [
         {
           target: "userTurn",
@@ -422,28 +194,20 @@ const debateMachine = debateSetup.createMachine({
         'SUBMIT_MESSAGE': [
           {
             target: "processing",
-            actions: enqueueActions(({ context, enqueue, event }) => {
-              const turn = getCurrentTurn(context)
-
-              // const messages = [...context.messages]
-              // messages.unshift({
-              //   ...userMsgTemplate,
-              //   datetime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-              //   content: event.message,
-              // })
-              // enqueue.assign({
-              //   messages: [
-              //     ...messages,
-              //   ]
-              // })
+            actions: enqueueActions(({ context, event }) => {
+              const currentTurn = getCurrentTurn(context)
               messageList.value.unshift({
-                role: userMsgTemplate.role,
-                avatar: userMsgTemplate.avatar,
+                role: msgTemplate.user.role,
+                avatar: msgTemplate.user.avatar,
                 content: event.message,
-                name: userMsgTemplate.name,
+                name: msgTemplate.user.name,
                 datetime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
               })
-              if (turn?.control?.[context.userSide] === 'no-send') {
+              /* 
+                如果有控制指令，根据用户立场执行
+                no-send就是不发送，这一句用户输入的内容
+              */
+              if (currentTurn?.control?.[context.userSide] === 'no-send') {
                 // 不发送
                 return
               }
@@ -454,42 +218,40 @@ const debateMachine = debateSetup.createMachine({
         "TICK_TIME": [
           {
             actions: enqueueActions(({ context, enqueue }) => {
-              // console.log(context.remainTiming);
               const stage = getCurrentStage(context)
-              if (context.remainTiming && context.remainTiming - 1 >= 0) {
+              /* 如果当前未超时 */
+              if (context.remainTiming - 1 >= 0) {
                 enqueue.assign({
                   remainTiming: context.remainTiming - 1,
                 })
               }
+              /* 如果超时 */
               else {
-
                 /* 
                 如果是自由辩论模式，就强制用户加入下一轮
                 */
                 if (stage?.rules?.freeMode === true) {
-                  // enqueue.sendParent({type:"NEXT_TURN"})
-                  console.log("自由辩论时间到");
                   enqueue.raise({ type: "TIME_OUT" })
                   return;
                 }
                 /* 
-  如果已经处理过就直接返回
-*/
+                  下面不是自由辩论模式，就提示用户超时
+                  如果提示过，就直接返回
+                */
                 if (context.isTimeout === true) {
                   return;
                 }
-                /* 
-                  如果没有处理过就处理
-                */
                 enqueue.assign({
                   isTimeout: true,
                 })
                 Message.warning("当前阶段时间已超时 ～ 请注意时间，抓紧提交您的论点")
-                console.log("您超时了");
               }
             })
           }
         ],
+        /* 
+          这个动作，会加入一个自由辩论超时处理的事件
+        */
         "TIME_OUT": [
           {
             target: "timeoutProcessing",
@@ -499,44 +261,30 @@ const debateMachine = debateSetup.createMachine({
     },
     aiTurn: {
       entry: [
-
-        enqueueActions(({ context, enqueue }) => {
-          // const messages = [...context.messages]
-          // messages.unshift({
-          //   ...aiMsgTemplate,
-          //   datetime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          //   content: '',
-          // })
-          // enqueue.assign({
-          //   messages: [
-          //     ...messages,
-          //   ]
-          // })
+        enqueueActions(({ }) => {
+          /* 
+            加入一个空的AI消息，用于AI的回复
+          */
           messageList.value.unshift({
-            role: aiMsgTemplate.role,
-            avatar: aiMsgTemplate.avatar,
+            role: msgTemplate.assistant.role,
+            avatar: msgTemplate.assistant.avatar,
             content: '',
-            name: aiMsgTemplate.name,
+            name: msgTemplate.assistant.name,
             datetime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
           })
         })
-
       ],
       on: {
         "AI_STREAM_CHUNK": [
           {
-            actions: enqueueActions(({ context, enqueue, event }) => {
-              // const messages = [...context.messages]
-              // messages[0].content += event.chunk
-              // enqueue.assign({
-              //   messages: [
-              //     ...messages,
-              //   ]
-              // })
+            actions: enqueueActions(({ event }) => {
               messageList.value[0].content += event.chunk
             })
           }
         ],
+        /* 
+          当AI回复结束时，进入处理阶段
+        */
         'AI_STREAM_END': [
           {
             target: "processing",
@@ -549,7 +297,7 @@ const debateMachine = debateSetup.createMachine({
         enqueueActions(({ context, enqueue }) => {
           const currentStage = getCurrentStage(context);
           if (currentStage.rules.freeMode === true) {
-            /* 如果当前的轮次是配置中的最后一轮就进入第二个阶段 */
+            /* 如果当前的轮次是配置中的最后一轮就进入循环，循环从第三个(也就是index为2) */
             if (context.turnIdx >= currentStage.turns.length - 1) {
               enqueue.assign({
                 turnIdx: 2,
@@ -563,15 +311,24 @@ const debateMachine = debateSetup.createMachine({
             }
             return;
           }
+          /* 
+            如果当前的轮次是配置中当前阶段的最后一轮，就进入下一个阶段
+          */
           if (context.turnIdx >= currentStage.turns.length - 1) {
             enqueue.assign({
               turnIdx: 0,
               stageIdx: context.stageIdx + 1,
             })
+            /* 
+              进入下一个阶段时，重置剩余时间
+            */
             enqueue.assign({
               remainTiming: getNextStage(context)?.remainingTime || 0
             })
           }
+          /* 
+            如果当前的轮次不是配置中当前阶段的最后一轮，就进入下一个轮次
+          */
           else {
             enqueue.assign({
               turnIdx: context.turnIdx + 1,
@@ -579,6 +336,9 @@ const debateMachine = debateSetup.createMachine({
           }
         })
       ],
+      /* 
+        如果当前的阶段是阶段数组的长度，就结束辩论
+      */
       always: [
         {
           target: "finished",
@@ -589,6 +349,9 @@ const debateMachine = debateSetup.createMachine({
         }
       ]
     },
+    /* 
+      处理自由辩论中的超时情况
+    */
     timeoutProcessing: {
       entry: [
         enqueueActions(({ context, enqueue }) => {
@@ -597,6 +360,9 @@ const debateMachine = debateSetup.createMachine({
             turnIdx: 0,
             stageIdx: context.stageIdx + 1,
           })
+          /* 
+            进入下一个阶段时，重置剩余时间
+          */
           enqueue.assign({
             remainTiming: getNextStage(context)?.remainingTime || 0
           })
@@ -615,20 +381,16 @@ const debateMachine = debateSetup.createMachine({
     finished: {
       type: "final",
       entry: [
-        enqueueActions(({ context, enqueue }) => {
+        enqueueActions(({ }) => {
+          /* 
+            当辩论结束时，清除定时器
+          */
           clearInterval(timer);
-          // enqueue.assign({
-          //   messages: [
-          //     ...context.messages,
-          //     {
-          //       ...refereeMsgTemplate,
-          //       content: "本次辩论所有环节结束，感谢双方的精彩表现。",
-          //       datetime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-          //     }
-          //   ]
-          // })
+          /* 
+            加入一个结束的消息
+          */
           messageList.value.unshift({
-            ...refereeMsgTemplate,
+            ...msgTemplate.referee,
             content: "本次辩论所有环节结束，感谢双方的精彩表现。",
             datetime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
           })
@@ -638,26 +400,14 @@ const debateMachine = debateSetup.createMachine({
   }
 })
 
+/* 
+send: 可以发送消息到状态机
+snapshot: 可以获取当前状态机的状态
+*/
 const { send, snapshot } = useMachine(debateMachine)
 
 
-// onMounted(() => {
-//   timer = setInterval(() => {
-//     // console.log("snapshot.value.value");
-//     if (snapshot.value.value === 'finished') {
-//       /* 
-//       辩论结束，停止计时器
-//       */
-//       clearInterval(timer)
-//       return;
-//     }
-//     // console.log("send tick_time");
-//     send({ type: "TICK_TIME" })
-//   }, 1000)
-// })
-
-
-const { connect, sendMessage, message, isReceivingMsg, isConnected, disconnect } = useWebSocket(
+const { connect, sendMessage, message, disconnect } = useWebSocket(
   '/socket.io',
   {
     conversion_id: debateStore.conversion_id,
@@ -687,44 +437,35 @@ const { connect, sendMessage, message, isReceivingMsg, isConnected, disconnect }
   }
 )
 
+/* 
+  组件挂载时，连接ws
+  如果你想添加一个对话框，确认后再开始也可以
+*/
 onMounted(() => {
   connect();
 })
 
-// watch(isConnected, () => {
-//   if (isConnected.value) {
-//     // /* 
-//     // 如果连接成功，发送START消息
-//     // */
-//     // send({ type: "START", userSide: debateStore.debateData.position })
-//     // /* 
-//     // 开始定时器
-//     // */
-//     // timer = setInterval(() => {
-//     //   if (snapshot.value.value === 'finished') {
-//     //     /* 
-//     //     辩论结束，停止计时器
-//     //     */
-//     //     clearInterval(timer)
-//     //   }
-//     //   send({ type: "TICK_TIME" })
-//     // }, 1000)
-//   }
-// })
-
+/* 
+  监听ws消息，消息发生变化，就会立即发送到状态机，
+*/
 watch(message, () => {
   if (message.value) {
-    // console.log("message", message.value);
     send({ type: "AI_STREAM_CHUNK", chunk: message.value })
-    // 滚动到最底部
-    // debateRef.value?.scrollToBottom()
   }
 })
+
+/* 
+  用户提交消息，发送到状态机
+*/
 
 const handleUserSubmit = (event: string) => {
   send({ type: "SUBMIT_MESSAGE", message: event })
 }
 
+
+/* 
+  进行一些清理操作
+*/
 onBeforeUnmount(() => {
   /* 
     断开ws连接
@@ -732,24 +473,15 @@ onBeforeUnmount(() => {
   console.log("断开ws连接，清理定时器");
   disconnect();
   clearInterval(timer);
+  debateStore.resetAll();
 })
 
 /* 
-export interface TopBarProps {
-  totalStage: number
-  currentStage: number
-  countDown: number
-}
+  监听状态机状态变化，当状态为userTurn时，文本框激活，可以输入内容
 */
 const isTextAreaActive = computed(() => {
   return snapshot.value.value === 'userTurn';
 })
-
-
-// onMounted(() => {
-//   console.log(debateRef.value?.scrollToBottom, "<==debateRef");
-// })
-
 </script>
 
 <template>

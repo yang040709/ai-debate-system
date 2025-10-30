@@ -62,7 +62,6 @@ fetchRankingListData();
         </home-item>
       </div>
     </div>
-    <router-link to="/debate2"> debate2</router-link>
     <!-- <Skeleton :loading="true" /> -->
   </div>
 </template>

@@ -1,6 +1,8 @@
 import Layout from '@/Layout/index.vue'
 import Home from '@/views/home/index.vue'
 import type { RouteRecordRaw } from 'vue-router'
+import { useDebateStore } from '@/stores/debate'
+import { Message } from '@arco-design/web-vue'
 /* 
 可以看出我们的路由分为:
 1.默认Layout的子路由，这个Layout有header和footer栏
@@ -115,15 +117,24 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/creative/index.vue'),
       },
       {
-        path: '/debate/:id?',
+        path: '/debate',
         name: 'debate',
-        props: true,
-        component: () => import('@/views/debate/index.vue'),
-      },
-      {
-        path: '/debate2',
-        name: 'debate2',
         component: () => import('@/views/debate/Debate.vue'),
+        /* 
+         debates路由的beforeEnter守卫，判断是否有conversion_id
+        如果有conversion_id，就放行
+        如果没有conversion_id，就重定向到home路由
+        */
+        beforeEnter: (to, from, next) => {
+          const debateStore = useDebateStore()
+          if (debateStore.hasId) {
+            next()
+            return
+          } else {
+            Message.warning('请先选择您要辩论的话题')
+            next({ name: 'home' })
+          }
+        },
       },
       {
         path: '/login',
@@ -134,31 +145,6 @@ const routes: RouteRecordRaw[] = [
         path: '/register',
         name: 'register',
         component: () => import('@/views/user-register/index.vue'),
-      },
-      {
-        path: '/test-ws',
-        name: 'testWs',
-        component: () => import('@/views/test/test-ws.vue'),
-      },
-      {
-        path: '/test-debate',
-        name: 'testDebate',
-        component: () => import('@/views/test/test-debate.vue'),
-      },
-      {
-        path: '/test-debate2',
-        name: 'testDebate2',
-        component: () => import('@/views/test/test-debate2.vue'),
-      },
-      {
-        path: '/debate-test',
-        name: 'debateTest',
-        component: () => import('@/views/test/debate-test.vue'),
-      },
-      {
-        path: '/debate-component',
-        name: 'debateComponent',
-        component: () => import('@/views/test/debate-component.vue'),
       },
     ],
   },

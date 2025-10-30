@@ -25,7 +25,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: true,
         comprehensiveScore: 62.3,
-        result: '成功战胜初级 AI 辩手',
       },
       highlights: [
         "情感共鸣的精准切入点：您提出的 ' 情感共鸣是 AI 无法替代的核心 ' 被判定为关键优势，在第三轮成功瓦解了 AI 的核心论点",
@@ -67,7 +66,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: true,
         comprehensiveScore: 71.5,
-        result: '成功战胜中级 AI 辩手',
       },
       highlights: [
         '数据引用精准：引用中国教育部 2024 年线上教育普及率数据（同比增长 37%），强化论证可信度',
@@ -109,7 +107,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: false,
         comprehensiveScore: 48.2,
-        result: '惜败于高级 AI 辩手',
       },
       highlights: [
         '监管案例对比：对比美国 SEC 与新加坡 MAS 的监管政策差异，展现监管复杂性',
@@ -151,7 +148,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: true,
         comprehensiveScore: 76.8,
-        result: '险胜高级 AI 辩手',
       },
       highlights: [
         "伦理框架构建：提出 ' 预防原则优于治疗原则 ' 的伦理判断标准，获得评委认可",
@@ -193,7 +189,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: true,
         comprehensiveScore: 79.4,
-        result: '完胜中级 AI 辩手',
       },
       highlights: [
         "实证研究引用：引用斯坦福大学 2024 年 ' 算法偏见与极端化 ' 研究报告，数据权威",
@@ -235,7 +230,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: false,
         comprehensiveScore: 47.6,
-        result: '不敌中级 AI 辩手',
       },
       highlights: [
         '安全案例引用：引用福岛核事故后续环境影响报告（2024 年更新数据）',
@@ -277,7 +271,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: true,
         comprehensiveScore: 68.9,
-        result: '战胜中级 AI 辩手',
       },
       highlights: [
         '就业数据引用：引用麦可思研究院 2024 年专业对口率报告，数据权威',
@@ -319,7 +312,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: true,
         comprehensiveScore: 67.5,
-        result: '战胜高级 AI 辩手',
       },
       highlights: [
         "独创性论证：精准引用《伯尔尼公约》对 ' 人类智力创作 ' 的核心要求",
@@ -361,7 +353,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: true,
         comprehensiveScore: 74.2,
-        result: '战胜中级 AI 辩手',
       },
       highlights: [
         '经济价值论证：引用联合国教科文组织关于文化遗产旅游的经济贡献数据',
@@ -403,7 +394,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: true,
         comprehensiveScore: 70.8,
-        result: '战胜中级 AI 辩手',
       },
       highlights: [
         '实证效果：引用墨西哥含糖饮料税实施后（2014-2024）的消费数据变化',
@@ -445,7 +435,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: true,
         comprehensiveScore: 82.6,
-        result: '完胜初级 AI 辩手',
       },
       highlights: [
         'productivity 数据：引用斯坦福大学 2024 年远程办公研究（ productivity 提升 13%）',
@@ -487,7 +476,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: true,
         comprehensiveScore: 79.3,
-        result: '战胜中级 AI 辩手',
       },
       highlights: [
         '公共卫生论证：引用 WHO 关于人畜共患病的研究数据（75% 源于野生动物）',
@@ -529,7 +517,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: true,
         comprehensiveScore: 64.7,
-        result: '战胜初级 AI 辩手',
       },
       highlights: [
         "学习规律论证：引用认知科学关于 ' 间隔复习 ' 的研究成果",
@@ -571,7 +558,6 @@ export const resultList: Result[] = [
       debateAnalysis: {
         isWin: false,
         comprehensiveScore: 54.9,
-        result: '负于高级 AI 辩手',
       },
       highlights: [
         '隐私风险论证：引用剑桥分析事件等数据滥用案例，警示性强',

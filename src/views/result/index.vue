@@ -49,7 +49,6 @@ const defaultValue: Result = {
     debateAnalysis: {
       isWin: true,
       comprehensiveScore: 0,
-      result: '',
     },
     highlights: [
       "",
