@@ -3,7 +3,14 @@ import RankingItem from './RankingItem.vue';
 import type { RankingList } from '@/types/ranking'
 import Skeleton from '@/components/Skeleton/Skeleton.vue';
 import Empty from '@/components/Empty/Empty.vue'
-defineProps<{ list: RankingList, loading: boolean }>()
+
+interface RankingListProps {
+  list: RankingList,
+  loading: boolean,
+  isShowNumber?: boolean
+}
+
+const { list, loading, isShowNumber = true } = defineProps<RankingListProps>()
 
 </script>
 
@@ -12,7 +19,8 @@ defineProps<{ list: RankingList, loading: boolean }>()
     <skeleton v-if="loading && list.length === 0" :loading="loading" animation :rows="8" :size="30">
     </skeleton>
     <div v-if="list.length > 0" class="ranking-list">
-      <ranking-item v-for="item in list" :key="item.user_id" :rank="item">
+      <ranking-item v-for="(item, index) in list" :is-show-number="isShowNumber" :key="item.user_id" :rank="item"
+        :index="index">
       </ranking-item>
     </div>
     <Empty v-if="!loading && list.length === 0" />

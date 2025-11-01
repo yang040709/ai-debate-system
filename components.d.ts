@@ -35,6 +35,7 @@ declare module 'vue' {
     Empty: typeof import('./src/components/Empty/Empty.vue')['default']
     Loading: typeof import('./src/components/Loading/Loading.vue')['default']
     LoadMore: typeof import('./src/components/LoadMore/LoadMore.vue')['default']
+    Mask: typeof import('./src/components/Mask/Mask.vue')['default']
     MdEditor: typeof import('./src/components/MdEditor/MdEditor.vue')['default']
     MdViewer: typeof import('./src/components/MdViewer/MdViewer.vue')['default']
     RankingItem: typeof import('./src/components/Ranking/RankingItem.vue')['default']

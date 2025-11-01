@@ -1,4 +1,4 @@
-import { DebateList } from './Debate.d'
+import { DebateList } from '@/types/debate'
 export const mockDebateList: DebateList = [
   {
     avatar: '/avatar.png',

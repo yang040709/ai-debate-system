@@ -1,86 +1,51 @@
-<script setup lang='ts'>
-import { getDebateHistory } from '@/api/history';
-import { useFetchData } from '@/composables/useFetchData';
-import { useRoute, useRouter } from 'vue-router';
-import { computed } from 'vue'
-import type { DebateHistory } from '@/types/history'
-import { POSITION_MAP, DIFFICULTY_MAP } from '@/Enum/debate';
-import Mask from '@/components/Mask/Mask.vue';
-// import loadingSvg from '@/assets/loading-1.svg'
-const route = useRoute()
-const router = useRouter()
+<script lang="ts" setup>
+import { ref } from 'vue'
+const isDarkMode = ref(false)
 
-
-const id = computed(() => {
-  return route.params.id as string;
-})
-
-
-const defaultValue: DebateHistory = {
-  history_id: '',
-  info: {
-    debate_id: "",
-    topic: {
-      id: '',
-      desc: '',
-      title: '',
-      created_at: "",
-      participant_count: 0,
-      creator: {
-        name: '',
-        avatar: '',
-      },
-      type: [],
-    },
-    difficulty: 'easy',
-    position: 'positive',
-    duration: 0,
-    state: 3, //1 未开始 2 进行中 3 已结束
-    created_at: 0
-  },
-  result: {
-    info: {
-      isWin: true,
-      comprehensiveScore: 0,
-    },
-    highlights: [],
-    improvementPoints: [],
-    coachingComments: [],
-  },
-  list: [],
-}
-
-const { data, loading, fetchData } = useFetchData(getDebateHistory, [id], defaultValue, {
-  newData: 'reset',
-  handleErr: (err) => {
-    console.log(err);
-    router.push({ name: '404' })
+const getThemePreference = () => {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    return savedTheme === 'dark';
   }
-})
-fetchData();
-
-const positionLabel = computed(() => {
-  return POSITION_MAP[data.value.info.position]
-})
-const difficultyLabel = computed(() => {
-  return DIFFICULTY_MAP[data.value.info.difficulty]
-})
-
-const joinDebate = () => {
-  console.log("参加辩论");
-  router.push({
-    name: 'topic',
-    params: {
-      type: '-1',
-    }
-  })
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
-</script>
+const applyTheme = () => { }
+const toggleTheme = () => { }
 
+// export default {
+//   name: 'DebateResult',
+//   data() {
+//     return {
+//       isDarkMode: false
+//     }
+//   },
+//   mounted() {
+//     // 从localStorage获取主题偏好，或使用系统偏好
+//     this.applyTheme(this.getThemePreference());
+//   },
+//   methods: {
+//     getThemePreference() {
+//       const savedTheme = localStorage.getItem('theme');
+//       if (savedTheme) {
+//         return savedTheme === 'dark';
+//       }
+//       return window.matchMedia('(prefers-color-scheme: dark)').matches;
+//     },
+//     applyTheme(isDark) {
+//       this.isDarkMode = isDark;
+//       localStorage.setItem('theme', isDark ? 'dark' : 'light');
+//     },
+//     toggleTheme() {
+//       this.applyTheme(!this.isDarkMode);
+//     }
+//   }
+// }
+
+</script>
 <template>
-  <div class="app">
-    <Mask v-if="loading" />
-    <div v-else class="main-container">
+  <div :class="['app', { 'dark-mode': isDarkMode }]">
+    <!-- 主要内容区域 -->
+    <div class="main-container">
       <!-- 头部区域 -->
       <header class="header">
         <div class="header-overlay"></div>
@@ -90,8 +55,8 @@ const joinDebate = () => {
               <span class="status-dot"></span>
               辩论完成
             </div>
-            <h1 class="title">{{ data.info.topic.title }}</h1>
-            <p class="subtitle">{{ data.info.topic.desc }}</p>
+            <h1 class="title">全面推行四天工作制是否会影响经济发展？</h1>
+            <p class="subtitle">部分国家试点四天工作制后生产力未降反升，但企业运营成本可能增加，引发对经济模式的讨论。</p>
 
             <div class="meta-info">
               <div class="meta-item">
@@ -115,7 +80,7 @@ const joinDebate = () => {
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
                     clip-rule="evenodd"></path>
                 </svg>
-                <span>{{ difficultyLabel }}</span>
+                <span>简单难度</span>
               </div>
             </div>
           </div>
@@ -124,7 +89,7 @@ const joinDebate = () => {
           <div class="position-card fade-in" style="animation-delay: 0.4s">
             <div class="position-content">
               <div class="position-label">您的立场</div>
-              <div class="position-value">{{ positionLabel }}</div>
+              <div class="position-value">反方</div>
               <div class="position-desc">(反对四天工作制全面推行)</div>
             </div>
           </div>
@@ -147,7 +112,7 @@ const joinDebate = () => {
             <div class="overview-grid">
               <!-- 胜负结果 -->
               <div class="result-card win-card">
-                <div class="result-value">{{ data.result.info.isWin ? '胜利' : '失败' }}</div>
+                <div class="result-value">胜利</div>
                 <div class="result-label">成功战胜初级AI辩手</div>
               </div>
 
@@ -160,13 +125,13 @@ const joinDebate = () => {
                     </circle>
                   </svg>
                   <div class="score-text">
-                    <span class="score-value">{{ data.result.info.comprehensiveScore }}</span>
+                    <span class="score-value">62.3</span>
                     <span class="score-label">综合得分</span>
                   </div>
                 </div>
               </div>
 
-              <!-- 数据统计
+              <!-- 数据统计 -->
               <div class="stats-card">
                 <div class="stats-list">
                   <div class="stat-item">
@@ -182,7 +147,7 @@ const joinDebate = () => {
                     <span class="stat-value win-rate">80%</span>
                   </div>
                 </div>
-              </div> -->
+              </div>
             </div>
           </div>
         </div>
@@ -204,7 +169,7 @@ const joinDebate = () => {
               </h2>
 
               <div class="points-list">
-                <div class="point-item highlight-item" v-for="item in data.result.highlights" :key="item">
+                <div class="point-item highlight-item">
                   <svg class="point-icon" viewBox="0 0 20 20">
                     <path fill-rule="evenodd"
                       d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -212,10 +177,33 @@ const joinDebate = () => {
                   </svg>
                   <div class="point-content">
                     <h3 class="point-title">情感共鸣的精准切入点</h3>
-                    <p class="point-desc">{{ item }}</p>
+                    <p class="point-desc">您提出的"情感共鸣是AI无法替代的核心"被判定为关键优势，在第三轮成功瓦解了AI的核心论点</p>
                   </div>
                 </div>
 
+                <div class="point-item highlight-item">
+                  <svg class="point-icon" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                  <div class="point-content">
+                    <h3 class="point-title">法律案例的及时引用</h3>
+                    <p class="point-desc">在第二轮回应中及时引用欧盟《AI法案》草案条款，有力支撑了责任归属论点</p>
+                  </div>
+                </div>
+
+                <div class="point-item highlight-item">
+                  <svg class="point-icon" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                  <div class="point-content">
+                    <h3 class="point-title">比喻修辞的巧妙运用</h3>
+                    <p class="point-desc">将AI人格比喻为"会说话的锤子"获得系统额外加分，增强了论点说服力</p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -231,7 +219,7 @@ const joinDebate = () => {
               </h2>
 
               <div class="points-list">
-                <div class="point-item improvement-item" v-for="item in data.result.improvementPoints" :key="item">
+                <div class="point-item improvement-item">
                   <svg class="point-icon" viewBox="0 0 20 20">
                     <path fill-rule="evenodd"
                       d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
@@ -239,11 +227,33 @@ const joinDebate = () => {
                   </svg>
                   <div class="point-content">
                     <h3 class="point-title">数据支撑不足</h3>
-                    <p class="point-desc">{{ item }}</p>
+                    <p class="point-desc">"青少年自律性不足"的推论缺乏实证数据，被AI标记为弱点，建议补充相关研究数据</p>
                   </div>
                 </div>
 
+                <div class="point-item improvement-item">
+                  <svg class="point-icon" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                  <div class="point-content">
+                    <h3 class="point-title">语言重复冗余</h3>
+                    <p class="point-desc">"责任归属是核心问题"在四轮辩论中重复出现7次，应尝试多样化表达或深入拆分论点</p>
+                  </div>
+                </div>
 
+                <div class="point-item improvement-item">
+                  <svg class="point-icon" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                  <div class="point-content">
+                    <h3 class="point-title">忽视对方重要论据</h3>
+                    <p class="point-desc">未回应AI提出的"自动驾驶责任归属案例"，损失12%逻辑连贯性评分</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -260,7 +270,7 @@ const joinDebate = () => {
             </h2>
 
             <div class="comments-list">
-              <div class="comment-item" v-for="item in data.result.improvementPoints" :key="item">
+              <div class="comment-item">
                 <div class="comment-avatar">
                   <svg class="comment-icon" viewBox="0 0 20 20">
                     <path fill-rule="evenodd"
@@ -269,7 +279,20 @@ const joinDebate = () => {
                   </svg>
                 </div>
                 <div class="comment-content">
-                  <p>{{ item }}</p>
+                  <p>在情感共鸣方面表现出色，但要注意第二轮的滑坡谬误：从"青少年自律不足"推导"AI人格危险"存在逻辑跳跃，建议加入阶梯论证</p>
+                </div>
+              </div>
+
+              <div class="comment-item">
+                <div class="comment-avatar">
+                  <svg class="comment-icon" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H6z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+                <div class="comment-content">
+                  <p>优化策略：当讨论责任归属时，可以引用具体法律案例（如特斯拉自动驾驶事故判决）取代重复表述，使论据更具说服力</p>
                 </div>
               </div>
             </div>
@@ -282,11 +305,11 @@ const joinDebate = () => {
         <div class="container">
           <div class="footer-content">
             <div class="footer-info">
-              辩论分析报告ID: {{ data.history_id }}
+              辩论ID: Aceef26b-6198-2F85-aE72-1ae49ffE995C
             </div>
             <div class="footer-actions">
               <button class="btn btn-secondary">分享结果</button>
-              <button class="btn btn-primary" @click="joinDebate">再辩一次</button>
+              <button class="btn btn-primary">再辩一次</button>
             </div>
           </div>
         </div>
@@ -295,16 +318,16 @@ const joinDebate = () => {
   </div>
 </template>
 <style lang="scss" scoped>
+// 导入字体
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+
+
 .app {
-  min-height: calc(100vh - $header-height);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  position: relative;
 }
-
-
-
-
 
 // 主题切换按钮
 .theme-toggle {
@@ -609,17 +632,16 @@ const joinDebate = () => {
   stroke-width: 8;
   stroke-linecap: round;
   stroke-dasharray: 283;
-  // stroke-dashoffset: 283;
-  stroke-dashoffset: calc(283 - (283 * var(--score-percent, 0.623)));
-  // animation: fillRing 1.5s ease-in-out forwards;
-  // animation-delay: 0.5s;
+  stroke-dashoffset: 283;
+  animation: fillRing 1.5s ease-in-out forwards;
+  animation-delay: 0.5s;
 }
 
-// @keyframes fillRing {
-//   to {
-//     stroke-dashoffset: calc(283 - (283 * var(--score-percent, 0.623)));
-//   }
-// }
+@keyframes fillRing {
+  to {
+    stroke-dashoffset: calc(283 - (283 * var(--score-percent, 0.623)));
+  }
+}
 
 .score-text {
   position: absolute;

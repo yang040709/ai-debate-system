@@ -7,13 +7,18 @@ import { setup, assign, enqueueActions } from 'xstate'
 import { useMachine } from '@xstate/vue'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useUserStore } from '@/stores/user';
-import type { DebateList, DebateItem } from '@/components/Debate/Debate';
+import type { DebateList, DebateItem } from '@/types/debate';
 import dayjs from 'dayjs';
 import { Message } from '@arco-design/web-vue';
+import { useFetchData } from '@/composables/useFetchData';
+import { postDebateHistory } from '@/api/history';
+import { useVisible } from '@/composables/useVisible';
+import { useRouter } from 'vue-router';
 /* 
 下面是辩论的配置文件
 */
-import { DebateConfig } from './debateConfig';
+// import { DebateConfig } from './debateConfig';
+import { DebateConfig } from './simpleDebateConfig';
 import type { DebateStageList } from './debateConfig'
 
 
@@ -394,6 +399,16 @@ const debateMachine = debateSetup.createMachine({
             content: "本次辩论所有环节结束，感谢双方的精彩表现。",
             datetime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
           })
+          /* 
+            上传本次对话的辩论记录
+          */
+          fetchData().then(() => {
+            openModal();
+          })
+          /* 
+            设置辩论结束
+          */
+          isDebateFinished.value = true;
         })
       ],
     }
@@ -482,16 +497,47 @@ onBeforeUnmount(() => {
 const isTextAreaActive = computed(() => {
   return snapshot.value.value === 'userTurn';
 })
+
+
+
+const { data: uploadResponseData, fetchData } = useFetchData(postDebateHistory, [messageList], { history_id: "" })
+
+const { visible, openModal, closeModal } = useVisible();
+const router = useRouter()
+const handleModelOK = () => {
+  router.push({
+    name: "debateResult",
+    params: { id: uploadResponseData.value.history_id }
+  })
+  closeModal();
+}
+
+const handleToResultPage = () => {
+  router.push({
+    name: "debateResult",
+    params: { id: uploadResponseData.value.history_id }
+  })
+}
+const isDebateFinished = ref(false);
 </script>
 
 <template>
   <div class='debate-container'>
+    <a-modal v-model:visible="visible" @ok="handleModelOK" @cancel="closeModal">
+      <template #title>
+        前往结果页
+      </template>
+      <div>
+        查看这一次辩论的综合评分
+      </div>
+    </a-modal>
     <DebateTopBar :is-timeout="snapshot.context.isTimeout" :count-down="snapshot.context.remainTiming"
       :total-stage="snapshot.context.stages.length" :current-stage="snapshot.context.stageIdx + 1" />
     <!-- <p>
       {{ snapshot.value }}
     </p> -->
-    <Debate @submit="handleUserSubmit" :debate-list="messageList" :is-text-area-active="isTextAreaActive" />
+    <Debate :is-debate-finished="isDebateFinished" @to-result-page="handleToResultPage" @submit="handleUserSubmit"
+      :debate-list="messageList" :is-text-area-active="isTextAreaActive" />
   </div>
 </template>
 

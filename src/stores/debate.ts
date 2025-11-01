@@ -9,7 +9,7 @@ export const useDebateStore = defineStore('debate', () => {
       title: '',
       desc: '',
     },
-    difficulty: '中等',
+    difficulty: 'medium',
     position: 'positive',
   })
   const setDebateData = (data: CreateDebateRequest) => {
@@ -25,7 +25,7 @@ export const useDebateStore = defineStore('debate', () => {
         title: '',
         desc: '',
       },
-      difficulty: '中等',
+      difficulty: 'medium',
       position: 'positive',
     }
   }

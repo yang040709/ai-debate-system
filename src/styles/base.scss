@@ -113,6 +113,10 @@ select {
   border-radius: 1em;
 }
 
+#app {
+  position: relative;
+}
+
 // 适应平板的屏幕的媒体查询
 @media screen and (max-width: 1024px) {
   .home-content {

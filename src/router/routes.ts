@@ -51,7 +51,11 @@ const routes: RouteRecordRaw[] = [
         props: true,
         name: 'debateResult',
         component: () => import('@/views/result/index.vue'),
+        meta: {
+          layout: 'full',
+        },
       },
+
       {
         path: '/topic/detail/:id?',
         name: 'topicDetail',
@@ -101,6 +105,10 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: '/test-result1',
+        component: () => import('@/views/result/demo.vue'),
+      },
+      {
         path: '/404',
         name: 'not-find',
         component: () => import('@/views/not-find/index.vue'),
@@ -145,6 +153,10 @@ const routes: RouteRecordRaw[] = [
         path: '/register',
         name: 'register',
         component: () => import('@/views/user-register/index.vue'),
+      },
+      {
+        path: '/test-result',
+        component: () => import('@/views/result/demo.vue'),
       },
     ],
   },

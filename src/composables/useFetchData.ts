@@ -65,7 +65,7 @@ export const useFetchData = <P extends any[], T>(
       }
       // 处理数据添加模式，获取数据
       if (finallyConfig.newData === 'reset') {
-        console.log('reset', argsValue)
+        // console.log('reset', argsValue)
         data.value = await apiCall(...argsValue)
       } else if (finallyConfig.newData === 'add') {
         // 如果有处理新数据的函数就使用，不然就使用默认的处理函数

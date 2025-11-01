@@ -1,13 +1,13 @@
 <script setup lang='ts'>
-import type { Result } from '@/types/result';
+import type { DebateHistory } from '@/types/history';
 import dayjs from 'dayjs'
 import { computed } from 'vue'
 const { item } = defineProps<{
-  item: Result;
+  item: DebateHistory;
 }>();
 
 const itemDate = computed(() => {
-  return dayjs(item.created_at).fromNow()
+  return dayjs(item.info.created_at).fromNow()
 })
 
 </script>
@@ -15,8 +15,8 @@ const itemDate = computed(() => {
 <template>
   <div class='record-item-container'>
     <div class="record-top">
-      <h4>{{ item.topic.title }}</h4>
-      <span :class="item.result.debateAnalysis.isWin === true ? 'win' : 'lose'">{{ item.result.debateAnalysis.isWin ===
+      <h4>{{ item.info.topic.title }}</h4>
+      <span :class="item.result.info.isWin === true ? 'win' : 'lose'">{{ item.result.info.isWin ===
         true ? '胜利' : '失败' }}</span>
     </div>
     <!-- <div class="record-who">
@@ -26,7 +26,7 @@ const itemDate = computed(() => {
       {{ itemDate }}
     </div>
     <div class="record-desc">
-      {{ item.topic.desc }}
+      {{ item.info.topic.desc }}
     </div>
     <!-- 下面是可扩展内容，这里先不写 -->
     <!-- <div class="record-bottom">
@@ -44,12 +44,12 @@ const itemDate = computed(() => {
       </div>
     </div> -->
     <div class="record-result">
-      <span :class="item.result.debateAnalysis.isWin === true ? 'win' : 'lose'">得分{{
-        item.result.debateAnalysis.comprehensiveScore }}</span>
+      <span :class="item.result.info.isWin === true ? 'win' : 'lose'">得分{{
+        item.result.info.comprehensiveScore }}</span>
       <router-link :to="{
         name: 'debateResult',
         params: {
-          id: item.debate_id
+          id: item.info.debate_id
         }
       }">查看记录<icon-caret-right :size="18" /></router-link>
     </div>

@@ -3,14 +3,15 @@ import Info from './info.vue'
 import RecordList from '@/components/Record/RecordList.vue'
 import Head from './head.vue';
 import ScrollTop from '@/components/ScrollTop/ScrollTop.vue';
-import type { ResultListResponse } from '@/types/result';
-import { getResultListApi } from '@/api/result';
+import type { DebateHistoryList } from '@/types/history';
+// import { getResultListApi } from '@/api/result';
+import { getDebateHistoryList } from '@/api/history'
 import { useFetchData } from '@/composables/useFetchData';
 import { usePagination } from '@/composables/usePagination';
 import { ref, computed } from 'vue';
 import LoadMore from '@/components/LoadMore/LoadMore.vue';
 import type { Ref } from 'vue';
-const defaultValue: ResultListResponse = {
+const defaultValue: DebateHistoryList = {
   total: 0,
   list: []
 };
@@ -30,7 +31,7 @@ const pageInfo = computed(() => ({
 }))
 
 
-const newDataFunc = (data: Ref<ResultListResponse>, res: ResultListResponse) => {
+const newDataFunc = (data: Ref<DebateHistoryList>, res: DebateHistoryList) => {
   changeTotal(res.total);
   data.value.total = res.total;
   if (data.value.list.length === 0) {
@@ -40,7 +41,7 @@ const newDataFunc = (data: Ref<ResultListResponse>, res: ResultListResponse) => 
   }
 }
 
-const { data, loading, fetchData } = useFetchData(getResultListApi,
+const { data, loading, fetchData } = useFetchData(getDebateHistoryList,
   [pageInfo], defaultValue, {
   newData: "add",
   newDataFunc

@@ -11,7 +11,7 @@ fetchData();
 
 <template>
   <div class='rank-container'>
-    <ranking-list :loading="loading" :list="data.list"></ranking-list>
+    <ranking-list :loading="loading" :list="data.list" :is-show-number="true"></ranking-list>
   </div>
 </template>
 

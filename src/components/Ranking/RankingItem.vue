@@ -1,22 +1,20 @@
 <script setup lang='ts'>
 import type { Ranking } from '@/types/ranking'
 
-defineProps<{ rank: Ranking }>()
 
-/* 
-            {
-                "score": 120,
-                "user_id": "1011",
-                "avatar": "test",
-                "nickname": "test"
-            },
-*/
+interface RankingItemProps {
+  rank: Ranking,
+  index: number,
+  isShowNumber?: boolean,
+}
+
+const { rank, index, isShowNumber = true } = defineProps<RankingItemProps>()
 
 </script>
 <template>
   <div class='ranking-item-container'>
     <div class="left">
-      <!-- <span class="ranking" :class="{ yellow: rank.ranking === 1 }">{{ rank.ranking }}</span> -->
+      <span v-if="isShowNumber" class="ranking" :class="{ first: index === 0 }">{{ index + 1 }}</span>
       <div class="user-info">
         <img v-placeholder-img :data-src="rank.avatar || '/avatar.png'" alt="">
         <div class="user-info-text">
@@ -55,7 +53,7 @@ defineProps<{ rank: Ranking }>()
       color: var(--color-text-secondary);
       width: 40px;
 
-      &.yellow {
+      &.first {
         color: var(--theme-yellow-1);
       }
     }

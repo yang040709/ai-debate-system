@@ -44,8 +44,8 @@ const debounceHandleScroll = debounce(handleScroll, 50)
 
 
 </script>
-
 <template>
+  <div id="mask-teleport"></div>
   <RouterView />
 </template>
 

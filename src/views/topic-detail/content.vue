@@ -5,8 +5,6 @@ import { useRouter } from 'vue-router';
 import type { Tag } from '@/types/tag';
 import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
-import { useTagsStore } from '@/stores/tags';
-import { storeToRefs } from 'pinia';
 import { useQrcode } from '@/composables/useQrcode';
 import { createDebate } from '@/api/debate'
 import { useFetchData } from '@/composables/useFetchData';
@@ -35,12 +33,21 @@ const positionType = [
   { name: 'negative', id: "2", label: '反方' },
 ]
 
+const difficultyType = [
+  { name: 'easy', id: "1", label: '简单' },
+  { name: 'medium', id: "2", label: '中等' },
+  { name: 'hard', id: "3", label: '困难' },
+  { name: 'expert', id: "4", label: '专家' },
+  { name: 'master', id: "5", label: '大师' },
+]
+
+
 const form = ref<CreateDebateRequest>({
   topic: {
     title: '',
     desc: '',
   },
-  difficulty: '中等',
+  difficulty: 'medium',
   position: 'positive',
 })
 
@@ -49,8 +56,6 @@ const formatDay = computed(() => {
   return dayjs(parseInt(props.item.created_at)).format('YYYY-MM-DD HH:mm:ss')
 })
 
-
-const { tagListData, tagListLoading } = storeToRefs(useTagsStore())
 
 const submitFrom = computed(() => {
   /* 格式化为字符串或者进行其他处理 */
@@ -135,11 +140,10 @@ const debateRule = [
       <Skeleton v-if="loading" :loading="loading" :animation="true" :rows="6" />
       <div class="bottom">
         <div class="select">
-          <div class="select-item" v-loading="tagListLoading">
+          <div class="select-item">
             <span>难度:</span>
             <a-radio-group type="button" v-model="form.difficulty">
-              <a-radio v-for="item in tagListData.difficulty" :value="item.name" :key="item.id">{{ item.name
-              }}</a-radio>
+              <a-radio v-for="item in difficultyType" :value="item.name" :key="item.id">{{ item.label }}</a-radio>
             </a-radio-group>
           </div>
           <div class="select-item">

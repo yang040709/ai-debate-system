@@ -1,17 +1,19 @@
 <script setup lang='ts'>
 import DebateItem from './DebateItem.vue';
 import DebateTextArea from './DebateTextArea.vue';
-import type { DebateList } from './Debate.d.ts';
+import type { DebateList } from '@/types/debate';
 import { ref, computed, useTemplateRef, watch } from 'vue';
 import { throttle } from '@/utils/index.ts';
 
 interface DebateProps {
   debateList: DebateList,
   isTextAreaActive: boolean,
+  isDebateFinished: boolean
 }
 
 interface DebateEmits {
   submit: [msg: string]
+  toResultPage: []
 }
 
 const messageList = computed(() => {
@@ -69,6 +71,11 @@ const scrollToBottom = throttle(_scrollToBottom, 200);
 watch(() => props.debateList, scrollToBottom, {
   deep: 2
 })
+
+const handleResultPage = () => {
+  emits('toResultPage')
+}
+
 </script>
 
 <template>
@@ -79,6 +86,9 @@ watch(() => props.debateList, scrollToBottom, {
       </template>
     </div>
     <div class="bottom">
+      <div class="shade" v-if="isDebateFinished">
+        <button @click="handleResultPage">前往结果页</button>
+      </div>
       <DebateTextArea @submit="handleUserSubmit" @change-height="handleChangeHeight" :is-active="isTextAreaActive"
         v-model:input-val="inputVal" :placeholder="placeHolderText" />
     </div>
@@ -115,6 +125,36 @@ watch(() => props.debateList, scrollToBottom, {
     bottom: 0;
     left: 0;
     width: 100%;
+
+    &>.shade {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 500;
+
+      &>button {
+        padding: 12px 24px;
+        background: #3283fd;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+        &:hover {
+          background: #297bf6;
+          transform: translateY(-2px);
+          transition: all 0.2s ease;
+        }
+      }
+    }
   }
 }
 

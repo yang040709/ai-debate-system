@@ -1,7 +1,7 @@
 import type { CreateDebateRequest, CreateDebateResponse, Debate } from '@/types/debate'
 import { requestFun } from '../utils'
 import mockjs from 'mockjs'
-
+import { DIFFICULTY_MAP } from '@/Enum/debate'
 const fn = () => {
   const randomId = `${Math.random().toString(36).substring(2)}-${Math.random().toString(36).substring(2)}`
   return {
@@ -31,15 +31,8 @@ mockjs.mock(/\/api\/chat\/coze\/conversation\/.+/, 'get', (options) => {
 
       winningRate: 80,
     },
-    difficulty: {
-      id: '1',
-      name: '简单',
-    },
-    position: {
-      id: '2',
-      name: 'positive',
-      // name: 'negative',
-    },
+    difficulty: 'easy',
+    position: 'positive',
     created_at: Date.now(),
     duration: 0,
     state: 1, //1 未开始 2 进行中 3 已结束

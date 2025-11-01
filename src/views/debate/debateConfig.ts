@@ -216,7 +216,7 @@ export const DebateConfig: DebateStageList = [
     rules: {
       freeMode: true,
     },
-    remainingTime: 60,
+    remainingTime: 10,
   },
   {
     id: 4,

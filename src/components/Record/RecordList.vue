@@ -1,11 +1,11 @@
 <script setup lang='ts'>
 import RecordItem from './RecordItem.vue';
-import type { Result } from '@/types/result';
+import type { DebateHistory } from '@/types/history';
 import Skeleton from '@/components/Skeleton/Skeleton.vue';
 import Empty from '@/components/Empty/Empty.vue'
 
 defineProps<{
-  items: Result[];
+  items: DebateHistory[];
   loading: boolean;
 }>();
 </script>
@@ -14,7 +14,7 @@ defineProps<{
   <div class='record-list-container'>
     <Skeleton v-if="loading && items.length === 0" :loading="loading" animation :rows="8" :size="30" />
     <div v-if="items.length > 0" class="record-list">
-      <record-item v-for="item in items" :item="item" :key="item.debate_id" />
+      <record-item v-for="item in items" :item="item" :key="item.history_id" />
     </div>
     <Empty v-if="!loading && items.length === 0" />
   </div>

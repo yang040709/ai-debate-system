@@ -3,7 +3,7 @@ import MarkdownIt from 'markdown-it';
 import { computed } from "vue";
 import highlight from "markdown-it-highlightjs";
 import DOMPurify from "dompurify";
-import type { DebateItem } from './Debate.d.ts';
+import type { DebateItem } from '@/types/debate';
 
 interface DebateItemProps {
   item: DebateItem,

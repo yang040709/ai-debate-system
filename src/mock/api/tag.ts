@@ -16,14 +16,6 @@ const tagObj: TagResponse = {
     { id: '9', name: '艺术' },
     { id: '10', name: '社会' },
   ],
-
-  difficulty: [
-    { id: '1', name: '简单' },
-    { id: '2', name: '中等' },
-    { id: '3', name: '困难' },
-    { id: '4', name: '专家' },
-    { id: '5', name: '大师' },
-  ],
 }
 
 mockjs.mock('/api/tags', 'get', requestFun(tagObj))
