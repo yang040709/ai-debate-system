@@ -3,11 +3,6 @@ import { useAppStore } from './stores/app'
 import { onMounted, onUnmounted } from 'vue'
 import { debounce } from '@/utils';
 import $bus from '@/eventBus'
-// import { RouterView } from 'vue-router'
-// import { useUserStore } from '@/stores/user'
-// 获取用户信息
-// const userStore = useUserStore()
-// userStore.getUserInfo()
 
 // 从localStorage中获取本地主题
 useAppStore()
