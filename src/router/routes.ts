@@ -44,6 +44,8 @@ const routes: RouteRecordRaw[] = [
         component: Home,
         meta: {
           onHeader: '主页',
+          headerIndex: 0,
+          title: '主页',
         },
       },
       {
@@ -53,6 +55,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/result/index.vue'),
         meta: {
           layout: 'full',
+          title: '辩论结果',
         },
       },
 
@@ -63,6 +66,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/topic-detail/index.vue'),
         meta: {
           layout: 'full',
+          title: '话题详情',
         },
       },
       {
@@ -72,6 +76,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           onHeader: '辩论话题',
           layout: 'full',
+          title: '辩论话题',
           defaultParams: {
             type: '-1',
           },
@@ -83,6 +88,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/history/History.vue'),
         meta: {
           onHeader: '历史记录',
+          title: '历史记录',
         },
       },
       {
@@ -90,9 +96,9 @@ const routes: RouteRecordRaw[] = [
         name: 'historyDetail',
         props: true,
         component: () => import('@/views/historyDetail/HistoryDetail.vue'),
-        // meta: {
-        //   layout: 'full',
-        // },
+        meta: {
+          title: '历史记录详情',
+        },
       },
       {
         path: '/rank/:type?',
@@ -103,6 +109,7 @@ const routes: RouteRecordRaw[] = [
           defaultParams: {
             type: '总榜',
           },
+          title: '排名',
         },
       },
       {
@@ -111,6 +118,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/about/index.vue'),
         meta: {
           onHeader: '关于',
+          title: '关于',
         },
       },
       {
@@ -119,12 +127,16 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/user/index.vue'),
         meta: {
           layout: 'full',
+          title: '用户中心',
         },
       },
       {
         path: '/404',
         name: 'not-find',
         component: () => import('@/views/not-find/index.vue'),
+        meta: {
+          title: '404',
+        },
       },
     ],
   },
@@ -136,6 +148,9 @@ const routes: RouteRecordRaw[] = [
         path: '/creative',
         name: 'creative',
         component: () => import('@/views/creative/index.vue'),
+        meta: {
+          title: '创建新话题',
+        },
       },
       {
         path: '/debate',
@@ -156,16 +171,25 @@ const routes: RouteRecordRaw[] = [
             next({ name: 'home' })
           }
         },
+        meta: {
+          title: '辩论',
+        },
       },
       {
         path: '/login',
         name: 'login',
         component: () => import('@/views/user-login/index.vue'),
+        meta: {
+          title: '登录',
+        },
       },
       {
         path: '/register',
         name: 'register',
         component: () => import('@/views/user-register/index.vue'),
+        meta: {
+          title: '登录',
+        },
       },
     ],
   },

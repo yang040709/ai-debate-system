@@ -10,6 +10,8 @@ const generateUser = (data: any) => {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxOTQ0MDQzNjQzNzQwMzYwNzA0LCJpc3MiOiJEZWJhdGUtU3lzdGVtIiwiZXhwIjoxNzUzMTg4MzY2LCJuYmYiOjE3NTMxMDE5NjZ9._bKr9ulE4HbG6iYRpls8vJDkNzZu8qLr-mvNvvzcqcg',
   }
   const requestData = getRequestData(data.body)
+  console.log(requestData, '<===data')
+
   if (requestData.account === 'admin' && requestData.password === '123456') {
     const response = mockjs.mock(baseTemplate)
     return {

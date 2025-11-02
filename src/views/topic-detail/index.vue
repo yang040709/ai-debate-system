@@ -4,11 +4,11 @@ import { useFetchData } from '@/composables/useFetchData'
 import { getTopicListApi } from '@/api/topic';
 import type { GetTopicListParams } from '@/types/topic'
 import { getTopicApi } from '@/api/topic'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import Content from './content.vue';
 import { Message } from '@arco-design/web-vue';
 import { useRouter } from 'vue-router';
-
+import { useAppStore } from '@/stores/app';
 const props = defineProps<{
   id: string
 }>()
@@ -63,6 +63,22 @@ const { data: topicListData, loading: topicListLoading, fetchData: fetchTopicLis
   useFetchData(getTopicListApi, [params], { total: 0, list: [] })
 fetchData()
 fetchTopicListData();
+
+
+
+
+
+/* 
+处理标题
+*/
+
+const appStore = useAppStore();
+watch(() => data.value.title, (newVal) => {
+  if (newVal && newVal !== '') {
+    appStore.setTitle("辩论话题-" + newVal)
+  }
+})
+
 
 </script>
 

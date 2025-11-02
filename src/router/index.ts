@@ -3,7 +3,8 @@ import routes from './routes.ts'
 import { useUserStore } from '@/stores/user.ts'
 import { Message } from '@arco-design/web-vue'
 import { BLACK_LIST, WHITE_LIST } from '@/constant/router.ts'
-
+// import {useTitle}
+import { useAppStore } from '@/stores/app.ts'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
@@ -42,6 +43,11 @@ router.beforeEach(async (to, from, next) => {
     next()
   }
 })
-// router.afterEach((to, from) => {})
+router.afterEach((to, from) => {
+  if (to.meta && to.meta.title) {
+    const appStore = useAppStore()
+    appStore.setTitle(to.meta.title.toString())
+  }
+})
 
 export default router

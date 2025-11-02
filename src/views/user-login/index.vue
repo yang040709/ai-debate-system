@@ -43,8 +43,8 @@ const handleClickLoginBtn = async () => {
   if (submitLoading.value) {
     Message.warning('正在登录中，请稍后...')
   }
-
-  submitLoading.value = true
+  console.log("login 1");
+  // submitLoading.value = true
   const result = await userStore.login(loginForm)
   if (!result) {
     Message.error('登录失败，请检查账号密码')

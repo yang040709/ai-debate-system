@@ -5,7 +5,7 @@ import { ref, computed } from 'vue'
 import { useDebateStore } from '@/stores/debate';
 import { storeToRefs } from 'pinia';
 import { TopBarProps } from './Debate';
-
+import { DIFFICULTY_MAP } from '@/constant/debate';
 const props = defineProps<TopBarProps>()
 
 const mode = ref("pc")
@@ -21,14 +21,17 @@ const currentStageIndex = computed(() => {
   }
 })
 
+const difficulty = computed(() => {
+  return DIFFICULTY_MAP[debateData.value.difficulty]
+})
 </script>
 
 <template>
   <div class='debate-top-bar-container'>
-    <TopBarPC :is-timeout="props.isTimeout" :title="debateData.topic.title" :difficulty="debateData.difficulty"
+    <TopBarPC :is-timeout="props.isTimeout" :title="debateData.topic.title" :difficulty="difficulty"
       :user-side="debateData.position" :total-stage="props.totalStage" :current-stage="currentStageIndex"
       :count-down="props.countDown" />
-    <TopBarPhone :is-timeout="props.isTimeout" :title="debateData.topic.title" :difficulty="debateData.difficulty"
+    <TopBarPhone :is-timeout="props.isTimeout" :title="debateData.topic.title" :difficulty="difficulty"
       :user-side="debateData.position" :total-stage="props.totalStage" :current-stage="currentStageIndex"
       :count-down="props.countDown" />
   </div>

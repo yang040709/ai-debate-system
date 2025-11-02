@@ -1,7 +1,7 @@
 import type { CreateDebateRequest, CreateDebateResponse, Debate } from '@/types/debate'
 import { requestFun } from '../utils'
 import mockjs from 'mockjs'
-import { DIFFICULTY_MAP } from '@/Enum/debate'
+import { DIFFICULTY_MAP } from '@/constant/debate'
 const fn = () => {
   const randomId = `${Math.random().toString(36).substring(2)}-${Math.random().toString(36).substring(2)}`
   return {

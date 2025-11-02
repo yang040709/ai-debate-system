@@ -72,6 +72,7 @@
   --theme-yellow-2: #eab308;
   --theme-yellow-3: #fef9c3;
   --theme-green-1: #22c55e;
+  --theme-purple-1: #7e22ce;
   --theme-red-1: #ef443f;
   --theme-tag-1: #dbeafe;
   --theme-tag-2: #dcfce7;
@@ -254,7 +255,7 @@ html.dark {
   --footer-bg: #2d2d2d; /* 底部容器背景 */
   --header-bg: #3a3a3a; /* 头部背景 */
   --header-bg-hover: #4d4d4d;
-
+  // --background-color: var(--th;
   /* 全局背景色（新增） */
   --background-color: #121212; /* 符合Material Design深色主题标准 */
 
@@ -270,8 +271,9 @@ html.dark {
   --theme-white-1: #1a1a1a;
   --theme-white-2: #202020;
   --theme-gray-1: #9ca3af; //文字使用
-  --theme-gray-2: #1f2937; //背景使用
-  --theme-gray-2-hover: #4c5669; /* 背景使用 */
+  --theme-gray-2: #2a333f; //背景使用
+  --theme-gray-2-hover: #323946; /* 背景使用 */
+  --theme-gray-3: #3a4452; //背景使用
   --theme-gray-5: #374151; //背景使用
   --theme-gray-7: #242424;
   --theme-blue-1: #60a5fa; //文字使用
@@ -287,6 +289,7 @@ html.dark {
   --theme-yellow-1: #eab308;
   --theme-yellow-2: #fff;
   --theme-yellow-3: #ccbf35;
+  --theme-purple-1: #ba8be3;
   --theme-tag-1: #1e3a8a; /* 深海军蓝（原浅蓝的暗色变体） */
   --theme-tag-2: #065f46; /* 墨绿色（保持自然感同时增强深度） */
   --theme-tag-3: #5b21b6; /* 宝石紫色（提升饱和度避免沉闷） */

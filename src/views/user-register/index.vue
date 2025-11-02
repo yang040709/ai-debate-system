@@ -54,8 +54,6 @@ const handleClickRegisterBtn = async () => {
     Message.warning('正在注册中，请稍后...')
     return
   }
-
-  submitLoading.value = true
   const result = await userStore.register(registerForm)
   //失败就返回
   if (!result) {

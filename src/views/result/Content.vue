@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import { computed, useTemplateRef } from 'vue'
 import type { DebateHistory } from '@/types/history'
-import { POSITION_MAP, DIFFICULTY_MAP } from '@/Enum/debate';
+import { POSITION_MAP, DIFFICULTY_MAP } from '@/constant/debate';
 import { useUserStore } from '@/stores/user';
 import dayjs from 'dayjs'
 
@@ -208,7 +208,7 @@ defineExpose({
 
         <!-- AI教练评论 -->
         <div class="coach-comment slide-up" style="animation-delay: 0.6s">
-          <h2 class="section-title">
+          <h2 class="section-title coach-comment-title">
             <svg class="section-icon coach-icon" viewBox="0 0 20 20">
               <path
                 d="M2.5 3.5a1 1 0 00-1 1v9a1 1 0 001 1h.618l1.33 2.66A1 1 0 005.5 17h9a1 1 0 00.868-1.496l-1.33-2.66h.618a1 1 0 001-1v-9a1 1 0 00-1-1h-15zM15 5.5V12H5V5.5h10z">
@@ -371,7 +371,10 @@ defineExpose({
 // 结果概览区域
 .overview-section {
   padding: 2rem 1rem;
-  background-color: var(--gray-50);
+  // border: 1px solid var(--color-border-base);
+
+  // background-color: var(--gray-50);
+  background-color: var(--theme-gray-3);
 
   .dark-mode & {
     background-color: rgba(31, 41, 55, 0.5);
@@ -583,6 +586,7 @@ defineExpose({
 .details-section {
   padding: 3rem 1rem;
   flex: 1;
+  background-color: var(--theme-gray-3);
 }
 
 .details-grid {
@@ -698,18 +702,18 @@ defineExpose({
 .coach-comment {
   margin-top: 2rem;
   background: linear-gradient(to right, var(--purple-50), #fce7f3);
+  // background: linear-gradient(to right, rgba(107, 33, 168, 0.2), rgba(190, 24, 93, 0.2));
   border-radius: 1rem;
   box-shadow: var(--shadow-lg);
   padding: 1.5rem;
   border: 1px solid var(--purple-200);
 
-  .dark-mode & {
-    background: linear-gradient(to right, rgba(107, 33, 168, 0.2), rgba(190, 24, 93, 0.2));
-    border-color: var(--purple-800);
-  }
-
   @media (min-width: 768px) {
     padding: 2rem;
+  }
+
+  &>.coach-comment-title {
+    color: var(--gray-900);
   }
 }
 
@@ -726,11 +730,11 @@ defineExpose({
   background-color: var(--bg-light);
   border-radius: 0.5rem;
   border: 1px solid var(--purple-100);
-
-  .dark-mode & {
-    background-color: var(--gray-800);
-    border-color: var(--purple-900);
-  }
+  color: var(--color-text-primary);
+  // .dark-mode & {
+  //   background-color: var(--gray-800);
+  //   border-color: var(--purple-900);
+  // }
 }
 
 .comment-avatar {
@@ -763,29 +767,17 @@ defineExpose({
   flex: 1;
 
   p {
-    color: var(--gray-700);
-
-    .dark-mode & {
-      color: var(--gray-300);
-    }
+    color: var(--color-text-primary);
   }
 
   .comment-title {
     font-weight: 500;
-    color: var(--purple-700);
-
-    .dark-mode & {
-      color: var(--purple-300);
-    }
+    color: var(--theme-purple-1);
   }
 
   .comment-desc {
     font-size: 0.875rem;
-    color: var(--gray-600);
-
-    .dark-mode & {
-      color: var(--gray-300);
-    }
+    color: var(--color-text-secondary);
   }
 }
 

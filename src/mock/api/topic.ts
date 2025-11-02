@@ -259,9 +259,30 @@ const topicList: Topic[] = [
   },
 ]
 
-/* 
-为什么mock不出来params?
-*/
+mockjs.mock(/\/api\/topics\?page=1&limit=10&type=-1/, 'get', (options) => {
+  const params = options.url.split('?')[1]
+  const paramsObj = params.split('&').reduce((pre, cur) => {
+    const [key, value] = cur.split('=')
+    pre[key] = value
+    return pre
+  }, {} as any)
+  let data = []
+  const list = [...topicList]
+  // 随机排序
+  list.sort(() => Math.random() - 0.5)
+  data = list.filter((item, index) => {
+    return index < Number(paramsObj.limit)
+  })
+  return {
+    code: 0,
+    msg: 'success',
+    data: {
+      total: topicList.length,
+      list: data,
+    },
+  }
+})
+
 mockjs.mock(/\/api\/topics\?.+/, 'get', (options) => {
   const params = options.url.split('?')[1]
   const paramsObj = params.split('&').reduce((pre, cur) => {

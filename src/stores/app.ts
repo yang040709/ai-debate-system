@@ -72,10 +72,15 @@ export const useAppStore = defineStore('app', () => {
   */
   const title = useTitle(AppConfig.appName, { titleTemplate: `%s | ${AppConfig.appTitle}` })
 
+  const setTitle = (newTitle: string) => {
+    title.value = newTitle
+  }
+
   return {
     isDark,
     isFollowSystem,
     title,
+    setTitle,
     handleSelect,
   }
 })

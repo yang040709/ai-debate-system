@@ -103,6 +103,7 @@ const handleShiftEnter = () => {
     overflow-y: auto; // ✅ 允许滚动
     overflow-x: hidden;
     box-sizing: border-box;
+    color: var(--color-text-primary);
   }
 
   .toolbar {

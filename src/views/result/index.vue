@@ -2,10 +2,11 @@
 import { getDebateHistory } from '@/api/history';
 import { useFetchData } from '@/composables/useFetchData';
 import { useRoute, useRouter } from 'vue-router';
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import type { DebateHistory } from '@/types/history'
 import Mask from '@/components/Mask/Mask.vue';
 import Content from './Content.vue';
+import { useAppStore } from '@/stores/app';
 // import loadingSvg from '@/assets/loading-1.svg'
 const route = useRoute()
 const router = useRouter()
@@ -83,6 +84,14 @@ const navToHistoryDetail = () => {
   })
 }
 
+
+const appStore = useAppStore();
+watch(() => data.value.info.topic.title, (newVal) => {
+  if (newVal && newVal !== '') {
+    appStore.setTitle("辩论结果-" + newVal)
+  }
+})
+
 </script>
 
 <template>
@@ -114,19 +123,15 @@ const navToHistoryDetail = () => {
   display: flex;
   flex-direction: column;
   position: relative;
+  background-color: var(--theme-white-2);
 }
 
 
 // 底部区域
 .footer {
   padding: 1.5rem 1rem;
-  background-color: var(--gray-100);
-  border-top: 1px solid var(--gray-200);
-
-  .dark-mode & {
-    background-color: rgba(31, 41, 55, 0.5);
-    border-color: var(--gray-700);
-  }
+  background-color: var(--theme-gray-2);
+  border-top: 1px solid var(--color-border-base);
 }
 
 .footer-content {
@@ -164,15 +169,9 @@ const navToHistoryDetail = () => {
   border: none;
 
   &.btn-secondary {
-    background-color: var(--bg-light);
+    background-color: #fff;
     border: 1px solid var(--gray-300);
     color: var(--gray-700);
-
-    .dark-mode & {
-      background-color: var(--gray-700);
-      border-color: var(--gray-600);
-      color: var(--gray-200);
-    }
 
     &:hover {
       background-color: var(--gray-50);

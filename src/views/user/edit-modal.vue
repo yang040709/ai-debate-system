@@ -70,7 +70,7 @@ const handleBeforeOk = async () => {
   <div class="edit-modal-container">
     <a-button type="outline" @click="openModal">编辑资料</a-button>
     <a-modal v-model:visible="visible" @cancel="closeModal" @ok="openModal" :on-before-ok="handleBeforeOk"
-      unmountOnClose ok-text="修改">
+      unmountOnClose ok-text="修改" class="edit-user-info-modal">
       <template #title> 修改资料 </template>
       <a-form :model="form">
         <a-form-item field="name" label="呢称">

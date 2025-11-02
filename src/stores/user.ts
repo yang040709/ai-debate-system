@@ -23,7 +23,8 @@ export const useUserStore = defineStore('user', () => {
     if (submitLoading.value) {
       return
     }
-    submitLoading.value = true
+    console.log('登录中', data)
+
     const res = await loginApi(data)
       .catch((err) => {
         console.log(err)

@@ -1,12 +1,13 @@
 <script setup lang='ts'>
 import { useFetchData } from '@/composables/useFetchData';
 import { getDebateHistory } from '@/api/history';
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import type { DebateHistory } from '@/types/history';
 import DebateItem from '@/components/Debate/DebateItem.vue';
 import HistoryRecord from './HistoryRecord.vue';
 import Skeleton from '@/components/Skeleton/Skeleton.vue';
 import ScrollTop from '@/components/ScrollTop/ScrollTop.vue';
+import { useAppStore } from '@/stores/app';
 const props = defineProps<{ id: string }>()
 const historyId = computed(() => props.id)
 const defaultValue: DebateHistory = {
@@ -49,6 +50,13 @@ const defaultValue: DebateHistory = {
 */
 const { data, loading, fetchData } = useFetchData(getDebateHistory, [historyId], defaultValue)
 fetchData()
+
+const appStore = useAppStore();
+watch(() => data.value.info.topic.title, (newVal) => {
+  if (newVal && newVal !== '') {
+    appStore.setTitle("辩论记录-" + newVal)
+  }
+})
 
 </script>
 

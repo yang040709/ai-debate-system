@@ -1,7 +1,7 @@
 const AppConfig = Object.freeze({
   // appName: 'AI辩论系统',
-  appName: '思弈阁',
-  appTitle: 'AI辩论系统',
+  appName: 'AI辩论',
+  appTitle: '思弈阁',
   version: '0.0.2',
   defaultAvatar: 'https://avatars.githubusercontent.com/u/65129319',
   placeholderImgSrc: '/placeholder.png',

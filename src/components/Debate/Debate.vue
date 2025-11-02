@@ -137,6 +137,7 @@ const handleResultPage = () => {
       justify-content: center;
       align-items: center;
       z-index: 500;
+      border-radius: 10px;
 
       &>button {
         padding: 12px 24px;

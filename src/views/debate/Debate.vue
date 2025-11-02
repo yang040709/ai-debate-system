@@ -14,11 +14,12 @@ import { useFetchData } from '@/composables/useFetchData';
 import { postDebateHistory } from '@/api/history';
 import { useVisible } from '@/composables/useVisible';
 import { useRouter } from 'vue-router';
+import { DIFFICULTY_MAP } from '@/constant/debate';
 /* 
 下面是辩论的配置文件
 */
-// import { DebateConfig } from './debateConfig';
-import { DebateConfig } from './simpleDebateConfig';
+import { DebateConfig } from './debateConfig';
+// import { DebateConfig } from './simpleDebateConfig';
 import type { DebateStageList } from './debateConfig'
 
 
@@ -525,10 +526,10 @@ const isDebateFinished = ref(false);
   <div class='debate-container'>
     <a-modal v-model:visible="visible" @ok="handleModelOK" @cancel="closeModal">
       <template #title>
-        前往结果页
+        前往辩论结果页
       </template>
       <div>
-        查看这一次辩论的综合评分
+        查看这次辩论的综合评价和分数
       </div>
     </a-modal>
     <DebateTopBar :is-timeout="snapshot.context.isTimeout" :count-down="snapshot.context.remainTiming"

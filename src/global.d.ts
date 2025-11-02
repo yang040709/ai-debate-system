@@ -14,6 +14,8 @@ declare global {
 export interface axiosMeta {
   isShowMessage?: boolean
   errMessage?: string
+  headerIndex?: number
+  title?: string
 }
 
 declare module 'axios' {
