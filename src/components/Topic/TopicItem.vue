@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router';
 import type { Topic } from '@/types/topic'
 import { isShowInterface } from './type.d'
-
+import { IconUserGroup, IconTags, IconArrowRight } from '@arco-design/web-vue/es/icon'
 
 const props = withDefaults(defineProps<{
   topic: Topic

@@ -6,6 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { ArcoResolver } from 'unplugin-vue-components/resolvers'
+import { visualizer } from 'rollup-plugin-visualizer'
 // import { TDesignResolver } from 'unplugin-vue-components/resolvers';
 // https://vite.dev/config/
 export default defineConfig({
@@ -26,6 +27,7 @@ export default defineConfig({
         }),
       ],
     }),
+    visualizer({ open: true }),
   ],
   resolve: {
     alias: {
@@ -57,6 +59,31 @@ export default defineConfig({
         @use "@/styles/variables.scss" as *;
         `,
         api: 'modern-compiler',
+      },
+    },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-vue': ['vue', 'vue-router', 'pinia', '@vueuse/core', '@xstate/vue'],
+          'vendor-markdown': [
+            'github-markdown-css',
+            'markdown-it',
+            'markdown-it-highlightjs',
+            'highlight.js',
+          ],
+          'vendor-ui': ['lucide-vue-next', '@arco-design/web-vue'],
+          'vendor-utils': [
+            'axios',
+            'dayjs',
+            'qrcode',
+            'dompurify',
+            'mitt',
+            'default-passive-events',
+          ],
+          'vendor-xstate': ['xstate'],
+        },
       },
     },
   },

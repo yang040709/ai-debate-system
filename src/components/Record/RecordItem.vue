@@ -3,7 +3,7 @@ import type { DebateHistory } from '@/types/history';
 import dayjs from 'dayjs'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router';
-
+import { IconCaretRight } from '@arco-design/web-vue/es/icon';
 
 interface RecordItemProps {
   item: DebateHistory;

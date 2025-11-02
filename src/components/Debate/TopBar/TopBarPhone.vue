@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { useVisible } from '@/composables/useVisible';
 import type { ChildTopBarProps } from '../Debate';
 import { computed } from 'vue';
+import { IconMenuUnfold, IconImport } from '@arco-design/web-vue/es/icon'
 const router = useRouter();
 const returnHome = () => {
   router.push({ name: 'home' })

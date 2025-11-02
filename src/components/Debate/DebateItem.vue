@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import MarkdownIt from 'markdown-it';
 import { computed } from "vue";
-import highlight from "markdown-it-highlightjs";
+// import highlight from "markdown-it-highlightjs";
 import DOMPurify from "dompurify";
 import type { DebateItem } from '@/types/debate';
 
@@ -14,7 +14,7 @@ const props = defineProps<DebateItemProps>()
 const md = new MarkdownIt({
   html: true
 });
-md.use(highlight)
+// md.use(highlight)
 
 const compileMarkdown = computed(() => {
   const content = md.render(props.item.content);

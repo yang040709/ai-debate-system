@@ -1,10 +1,11 @@
 // export default
-import placeholder from '@/assets/placeholder.gif'
+import AppConfig from '@/config/app.config'
+
 const intersectionObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       const target = entry.target as HTMLImageElement
-      target.src = placeholder
+      target.src = AppConfig.placeholderImgSrc
       if (entry.isIntersecting) {
         const img = new Image()
         function observerImg() {

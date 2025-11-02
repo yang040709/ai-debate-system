@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import { onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
 import { debounce } from '@/utils/index'
-
+import { IconDown } from '@arco-design/web-vue/es/icon'
 // const arr = ["全部", "社会", "伦理", "科技", "未来", "环境", "经济", "商业", "教育", "文化", "艺术"]
 // const arr = ["全部", "社会", "伦理", "科技", "艺术", "环境", "经济", "商业"]
 

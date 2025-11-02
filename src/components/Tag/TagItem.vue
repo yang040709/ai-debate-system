@@ -2,6 +2,7 @@
 
 import type { TagProps } from '@/types/tag'
 import { useRouter } from 'vue-router';
+import { IconTag } from '@arco-design/web-vue/es/icon'
 const props = defineProps<TagProps>()
 const router = useRouter();
 

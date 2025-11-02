@@ -5,6 +5,7 @@ import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import ToggleDark from '@/components/ToggleDark/ToggleDark.vue'
 import type { AppConfig } from '@/config/app.config'
+import { IconUser, IconPoweroff } from '@arco-design/web-vue/es/icon'
 const userStore = useUserStore()
 const router = useRouter()
 

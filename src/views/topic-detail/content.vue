@@ -11,6 +11,7 @@ import { useFetchData } from '@/composables/useFetchData';
 import { CreateDebateRequest } from '@/types/debate';
 import { Message } from '@arco-design/web-vue';
 import { useDebateStore } from '@/stores/debate';
+import { IconShareExternal } from '@arco-design/web-vue/es/icon'
 const props = defineProps<{
   item: Topic,
   loading: boolean,

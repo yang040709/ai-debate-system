@@ -2,7 +2,7 @@
 import ToggleDark from '@/components/ToggleDark/ToggleDark.vue'
 import Skeleton from '@/components/Skeleton/Skeleton.vue';
 import { useRouter } from 'vue-router';
-
+import { IconImport } from '@arco-design/web-vue/es/icon'
 import type { ChildTopBarProps } from '../Debate';
 
 const router = useRouter();

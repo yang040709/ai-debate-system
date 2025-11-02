@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-
+import { IconEmpty } from '@arco-design/web-vue/es/icon'
 interface EmptyProps {
   title?: string
   height?: string
