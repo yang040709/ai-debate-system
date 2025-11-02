@@ -18,12 +18,23 @@ const itemDate = computed(() => {
 
 const router = useRouter()
 const navToHistoryDetail = () => {
-  router.push({
-    name: 'historyDetail',
-    params: {
-      id: item.history_id || defaultParamsId.value
-    }
-  })
+  if (navTo === 'debateResult') {
+    router.push({
+      name: 'debateResult',
+      params: {
+        id: item.history_id || defaultParamsId.value
+      }
+    })
+    return
+  }
+  else {
+    router.push({
+      name: 'debateDetail',
+      params: {
+        id: item.info.debate_id
+      }
+    })
+  }
 }
 
 const defaultParamsId = ref("123456")
@@ -168,7 +179,7 @@ const defaultParamsId = ref("123456")
     }
 
     &>a {
-      color: var(--theme-blue-6);
+      color: var(--theme-blue-7);
       display: flex;
       align-items: center;
     }

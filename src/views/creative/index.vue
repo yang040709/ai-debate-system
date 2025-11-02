@@ -96,7 +96,6 @@ const handleSubmit = ({ errors }: any) => {
     <div class="form-title">
       <h2>创建辩论话题</h2>
       <p>请填写以下信息，创建一个新的辩论话题。</p>
-      {{ loading }}
     </div>
     <a-form class="creative-form" size="large" ref="formRef" :rules="rules" :model="form" @submit="handleSubmit">
       <span>话题</span>

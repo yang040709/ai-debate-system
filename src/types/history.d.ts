@@ -16,6 +16,23 @@ export interface GetDebateHistoryRequest {
 /* 
 下面这是辩论分析结果的接口
 */
+// interface DebateResultInfo {
+//   isWin: boolean /// 是否胜利
+//   comprehensiveScore: number // 综合分数
+// }
+
+// interface ResultItem {
+//   info: DebateResultInfo
+//   highlights: string[] // 辩论亮点
+//   improvementPoints: string[] // 辩论改进点
+//   coachingComments: string[] // AI教练评论
+// }
+
+interface Point {
+  title: string // 标题
+  desc: string // 描述
+}
+
 interface DebateResultInfo {
   isWin: boolean /// 是否胜利
   comprehensiveScore: number // 综合分数
@@ -23,9 +40,9 @@ interface DebateResultInfo {
 
 interface ResultItem {
   info: DebateResultInfo
-  highlights: string[] // 辩论亮点
-  improvementPoints: string[] // 辩论改进点
-  coachingComments: string[] // AI教练评论
+  highlights: Point[] // 辩论亮点
+  improvementPoints: Point[] // 辩论改进点
+  coachingComments: Point[] // AI教练评论
 }
 
 /* 
@@ -34,6 +51,7 @@ interface ResultItem {
 
 export interface DebateHistory {
   history_id: string
+  created_at: number
   info: Debate
   result: ResultItem
   list: DebateHistoryItem[]

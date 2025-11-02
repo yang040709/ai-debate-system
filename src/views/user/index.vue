@@ -90,7 +90,7 @@ const items = [
 
         <Head></Head>
         <Info :items="items"></Info>
-        <RecordList :items="data.list" :loading="loading" />
+        <RecordList :items="data.list" :loading="loading" class="record-list" />
         <LoadMore :hasMore="listHasMore" :loading="loading" :call-back="fetchMoreData" />
         <ScrollTop />
       </div>
@@ -111,6 +111,10 @@ const items = [
     min-height: calc(90vh - $header-height);
     position: relative;
   }
+}
+
+.record-list {
+  margin: 30px 0;
 }
 
 .user-content-box {

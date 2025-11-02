@@ -47,7 +47,7 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: '/debate/result/:id?',
+        path: '/result/:id?',
         props: true,
         name: 'debateResult',
         component: () => import('@/views/result/index.vue'),
@@ -78,6 +78,23 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: '/history',
+        name: 'history',
+        component: () => import('@/views/history/History.vue'),
+        meta: {
+          onHeader: '历史记录',
+        },
+      },
+      {
+        path: '/history/:id',
+        name: 'historyDetail',
+        props: true,
+        component: () => import('@/views/historyDetail/HistoryDetail.vue'),
+        // meta: {
+        //   layout: 'full',
+        // },
+      },
+      {
         path: '/rank/:type?',
         name: 'rank',
         component: () => import('@/views/rank/index.vue'),
@@ -103,10 +120,6 @@ const routes: RouteRecordRaw[] = [
         meta: {
           layout: 'full',
         },
-      },
-      {
-        path: '/test-result1',
-        component: () => import('@/views/result/demo.vue'),
       },
       {
         path: '/404',
@@ -153,10 +166,6 @@ const routes: RouteRecordRaw[] = [
         path: '/register',
         name: 'register',
         component: () => import('@/views/user-register/index.vue'),
-      },
-      {
-        path: '/test-result',
-        component: () => import('@/views/result/demo.vue'),
       },
     ],
   },

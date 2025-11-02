@@ -21,10 +21,6 @@ defineProps<{
 </template>
 
 <style scoped lang="scss">
-.record-list-container {
-  margin: 30px 0;
-}
-
 .record-list {
   display: flex;
   flex-direction: column;
