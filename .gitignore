@@ -31,3 +31,5 @@ test.html
 *.tsbuildinfo
 
 commitlint.config.cjs
+
+stats.html
