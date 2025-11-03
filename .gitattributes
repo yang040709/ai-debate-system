@@ -1,0 +1,8 @@
+* text=auto
+
+*.md linguist-language=Java 
+*.vue linguist-language=Vue 
+*.html linguist-language=Vue 
+*.js linguist-language=JavaScript
+*.ts linguist-language=TypeScript
+*.css linguist-language=CSS
