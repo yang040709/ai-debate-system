@@ -5,7 +5,7 @@ import { useDebateStore } from '@/stores/debate';
 import { useWebSocket } from '@/composables/useWebSocket';
 import { setup, assign, enqueueActions } from 'xstate'
 import { useMachine } from '@xstate/vue'
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from 'vue'
 import { useUserStore } from '@/stores/user';
 import type { DebateList, DebateItem } from '@/types/debate';
 import dayjs from 'dayjs';
@@ -22,6 +22,8 @@ import { DebateConfig } from './debateConfig';
 // import { DebateConfig } from './simpleDebateConfig';
 import type { DebateStageList } from './debateConfig'
 
+
+const debateRef = useTemplateRef("debate")
 
 /* 
 用户与AI的消息列表
@@ -177,7 +179,7 @@ const debateMachine = debateSetup.createMachine({
               /* 
                 下面的内容请你根据实际情况调整，暂时是发空格
               */
-              sendMessage(' ')
+              sendMessage({ msg: "这是提示词" })
             }
           }
         })
@@ -217,7 +219,7 @@ const debateMachine = debateSetup.createMachine({
                 // 不发送
                 return
               }
-              sendMessage(event.message)
+              sendMessage({ msg: event.message })
             }),
           }
         ],
@@ -476,6 +478,7 @@ watch(message, () => {
 
 const handleUserSubmit = (event: string) => {
   send({ type: "SUBMIT_MESSAGE", message: event })
+  debateRef.value?.scrollToBottom();
 }
 
 
@@ -520,6 +523,7 @@ const handleToResultPage = () => {
   })
 }
 const isDebateFinished = ref(false);
+
 </script>
 
 <template>
@@ -538,7 +542,7 @@ const isDebateFinished = ref(false);
       {{ snapshot.value }}
     </p> -->
     <Debate :is-debate-finished="isDebateFinished" @to-result-page="handleToResultPage" @submit="handleUserSubmit"
-      :debate-list="messageList" :is-text-area-active="isTextAreaActive" />
+      :debate-list="messageList" :is-text-area-active="isTextAreaActive" ref="debate" />
   </div>
 </template>
 

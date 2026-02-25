@@ -1,10 +1,10 @@
 import { WebSocketServer } from 'ws'
 import { delay } from './utils.js'
-import { str1, str2, str3 } from './mockData.js'
+import { str1, str2, str3, str4 } from './mockData.js'
 const wss = new WebSocketServer({ port: 8080 })
 
 const mockedData = {
-  content: str2,
+  content: str1,
 }
 let count = 0
 
@@ -13,9 +13,27 @@ wss.on('connection', (ws) => {
   ws.on('message', async (message) => {
     count++
     console.log('msg__start')
+    // log
     console.log(message.toString())
+    const msgStr = message.toString().trim()
+    if (!msgStr || msgStr === '') {
+      console.warn('Received empty message')
+      return
+    }
+    try {
+      const messageData = JSON.parse(msgStr)
+      // ... rest logic
+      if (messageData.type === 'ping') {
+        console.log(messageData, '<==messageData')
+        ws.send(JSON.stringify({ type: 'pong' }))
+        return
+      }
+    } catch (error) {
+      console.warn('Invalid JSON received:', msgStr)
+      return
+    }
     for (let i = 0; i < mockedData.content.length; ) {
-      await delay(100)
+      await delay(6)
       const number = Math.floor(Math.random() * 3) + 1
       const msg = mockedData.content.slice(i, i + number)
       ws.send(
@@ -24,7 +42,7 @@ wss.on('connection', (ws) => {
           msg,
         }),
       )
-      console.log('send', msg, count)
+      // console.log('send', msg, count)
       i += number
     }
     console.log('msg__end')

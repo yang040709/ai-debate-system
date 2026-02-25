@@ -177,6 +177,7 @@ const debateRule = [
       </div>
     </div>
     <div class="topic-detail-info">
+      <Skeleton v-if="loading" :loading="loading" :animation="true" :rows="6" />
       <div class="info" v-if="!loading">
         <p>
           <span>
@@ -207,7 +208,6 @@ const debateRule = [
           {{ rule.content }}
         </p>
       </div>
-      <Skeleton v-if="loading" :loading="loading" :animation="true" :rows="6" />
     </div>
   </div>
 

@@ -76,12 +76,16 @@ const handleResultPage = () => {
   emits('toResultPage')
 }
 
+defineExpose({
+  scrollToBottom
+})
+
 </script>
 
 <template>
   <div class='debate-list-container'>
     <div class="content" ref="debate-content">
-      <template v-for="item in messageList" :key="item.datetime+item.role+item.avatar">
+      <template v-for="item in messageList" :key="item.datetime + item.role + item.avatar">
         <DebateItem :item="item" />
       </template>
     </div>

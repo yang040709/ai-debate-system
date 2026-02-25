@@ -57,6 +57,7 @@ const right = computed(() => {
   margin-bottom: 32px;
 
   .left {
+    min-width: 32px;
     width: 32px;
     height: 32px;
     margin-top: 32px;
