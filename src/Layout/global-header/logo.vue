@@ -1,12 +1,11 @@
 <script setup lang='ts'>
-import logo from '@/assets/logo.png'
 import mobileMenu from './menu/mobile-menu.vue'
 </script>
 
 <template>
   <div class="logo-container title pc-title-padding">
     <router-link to="/" class="title pc-title-padding">
-      <img class="logo-img" :src="logo" alt="" />
+      <img class="logo-img" src="/logo.png" alt="" />
       <h1 class="title-text pc-title">{{ $config.appName }}</h1>
     </router-link>
     <mobile-menu class="mobile-menu" />

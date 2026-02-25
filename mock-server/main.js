@@ -8,6 +8,8 @@ const mockedData = {
 }
 let count = 0
 
+const delayTime = 60
+
 wss.on('connection', (ws) => {
   console.log('✅ 新客户端已连接')
   ws.on('message', async (message) => {
@@ -33,7 +35,8 @@ wss.on('connection', (ws) => {
       return
     }
     for (let i = 0; i < mockedData.content.length; ) {
-      await delay(6)
+      // await delay(6)
+      await delay(delayTime)
       const number = Math.floor(Math.random() * 3) + 1
       const msg = mockedData.content.slice(i, i + number)
       ws.send(
