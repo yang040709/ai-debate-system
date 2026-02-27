@@ -1,84 +1,69 @@
 <script setup lang="ts">
-// import { useUserStore } from '@/stores/user'
-// import EditModal from './edit-modal.vue'
 import Info from './info.vue'
 import RecordList from '@/components/Record/RecordList.vue'
 import Head from './head.vue';
 import ScrollTop from '@/components/ScrollTop/ScrollTop.vue';
-import type { Record } from '@/types/record';
+import type { DebateHistoryList } from '@/types/history';
+// import { getResultListApi } from '@/api/result';
+import { getDebateHistoryList } from '@/api/history'
+import { useFetchData } from '@/composables/useFetchData';
+import { usePagination } from '@/composables/usePagination';
+import { ref, computed } from 'vue';
+import LoadMore from '@/components/LoadMore/LoadMore.vue';
+import type { Ref } from 'vue';
+const defaultValue: DebateHistoryList = {
+  total: 0,
+  list: []
+};
 
-const items1: Record[] = [
-  {
-    recordId: '1',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '胜利',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: 100
-  },
-  {
-    recordId: '2',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '失败',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: -20
-  },
-  {
-    recordId: '3',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '胜利',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: 100
-  },
-  {
-    recordId: '4',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '失败',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: -20
-  },
-  {
-    recordId: '5',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '胜利',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: 150
-  },
-  {
-    recordId: '4',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '失败',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: -20
-  },
-  {
-    recordId: '5',
-    title: '人工智能是否应该拥有法律人格？',
-    status: '胜利',
-    timeAgo: '2小时前',
-    description: '随着人工智能技术飞速发展，强AI已展现出接近人类的自主决策能力，引发其法律地位的深刻争议。',
-    tags: ['人工智能', '法律', '人格'],
-    difficulty: '困难',
-    scoreChange: 150
+
+// 这个是否有更多要等数据加载要再更新
+const listHasMore = ref(false);
+
+const { page, limit, changePage, hasMore, changeTotal } = usePagination({
+  page: 0,
+  limit: 5,
+})
+
+const pageInfo = computed(() => ({
+  page: page.value,
+  limit: limit.value,
+}))
+
+
+const newDataFunc = (data: Ref<DebateHistoryList>, res: DebateHistoryList) => {
+  changeTotal(res.total);
+  data.value.total = res.total;
+  if (data.value.list.length === 0) {
+    data.value = res;
+  } else {
+    data.value.list.push(...res.list);
   }
-]
+}
+
+const { data, loading, fetchData } = useFetchData(getDebateHistoryList,
+  [pageInfo], defaultValue, {
+  newData: "add",
+  newDataFunc
+});
+
+
+
+fetchData().then(() => {
+  listHasMore.value = hasMore.value;
+});
+
+
+
+const fetchMoreData = () => {
+  if (!hasMore.value) {
+    return;
+  }
+  changePage(page.value + 1)
+  fetchData().then(() => {
+    listHasMore.value = hasMore.value;
+  });
+}
 
 
 const items = [
@@ -96,7 +81,6 @@ const items = [
   }
 ]
 
-
 </script>
 
 <template>
@@ -106,7 +90,8 @@ const items = [
 
         <Head></Head>
         <Info :items="items"></Info>
-        <RecordList :items="items1" />
+        <RecordList :items="data.list" :loading="loading" class="record-list" />
+        <LoadMore :hasMore="listHasMore" :loading="loading" :call-back="fetchMoreData" />
         <ScrollTop />
       </div>
     </div>
@@ -115,7 +100,6 @@ const items = [
 
 <style lang="scss" scoped>
 .user-container {
-  // width: 100%;
   background: linear-gradient(180deg, var(--user-box-bg1), var(--footer-bg));
 
   .user-content {
@@ -129,10 +113,14 @@ const items = [
   }
 }
 
+.record-list {
+  margin: 30px 0;
+}
+
 .user-content-box {
   margin-top: 100px;
   width: 100%;
-  background: var(--theme-white-1);
+  background: var(--theme-gray-7);
   border-radius: 8px;
   // height: 90%;
   position: relative;

@@ -4,7 +4,8 @@ import type {
   UserInfo,
   loginResponse,
   RegisterResponse,
-  CanModifyUserInfo,
+  ModifyUserInfo,
+  ModifyUserInfoResponse,
 } from '@/types/user'
 
 import { request } from './request'
@@ -45,10 +46,10 @@ export const getUserInfoApi = () => {
 
 // 更改用户信息
 
-export const updateUserInfoApi = (data: CanModifyUserInfo) => {
+export const updateUserInfoApi = (data: ModifyUserInfo) => {
   return request({
     url: '/user/modify',
     method: 'put',
     data,
-  })
+  }) as Promise<ModifyUserInfoResponse>
 }

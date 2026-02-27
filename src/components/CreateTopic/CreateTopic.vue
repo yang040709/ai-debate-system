@@ -5,9 +5,9 @@
   <div class='create-topic-container'>
     <div class="title">欢迎来到AI辩论系统</div>
     <p>和社区分享您的辩论话题</p>
-    <div class="goto-creative-centre" @click="$router.push({ name: 'creative' })">
+    <button class="goto-creative-centre" @click="$router.push({ name: 'creative' })">
       去创作话题
-    </div>
+    </button>
   </div>
 </template>
 
@@ -18,6 +18,7 @@
   background: var(--theme-gray-2);
   border-radius: 10px;
   padding: 20px;
+  border: 1px solid var(--color-border-light);
 
   .title {
     font-size: 16px;
@@ -32,9 +33,11 @@
 
   .goto-creative-centre {
 
+    outline: none;
+    border: none;
     width: 70%;
     height: 50px;
-    background: var(--theme-blue-3);
+    background: var(--theme-blue-8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,9 +46,14 @@
     padding: 10px;
     color: #fff;
     cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
 
     &:hover {
-      background: var(--theme-blue-4);
+      background: var(--theme-blue-9);
+    }
+
+    &:active {
+      background: var(--theme-blue-10);
     }
   }
 }

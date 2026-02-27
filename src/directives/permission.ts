@@ -7,7 +7,6 @@ const testCurPermission = ['deleteUser', 'addUser', 'updateUser']
 
 export default {
   mounted(el: HTMLImageElement, binding: DirectiveBinding<PermissionType>) {
-    console.log(binding.value)
     let hasPermission = false
     testCurPermission.forEach((item) => {
       if (item === binding.value) {

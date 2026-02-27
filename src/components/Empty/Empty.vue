@@ -1,15 +1,11 @@
 <script setup lang='ts'>
-
+import { IconEmpty } from '@arco-design/web-vue/es/icon'
 interface EmptyProps {
   title?: string
   height?: string
 }
-
-withDefaults(defineProps<EmptyProps>(), {
-  title: '暂无数据',
-  height: "100%"
-})
-
+//vue3.5的新写法
+const { title = '暂无数据', height = "100%" } = defineProps<EmptyProps>()
 </script>
 
 <template>

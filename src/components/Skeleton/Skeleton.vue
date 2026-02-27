@@ -8,12 +8,7 @@ interface SkeletonProps {
   animation?: boolean;
 }
 
-
-withDefaults(defineProps<SkeletonProps>(), {
-  rows: 3,
-  size: 20,
-  animation: true
-})
+const { loading, rows = 3, size = 20, animation = true } = defineProps<SkeletonProps>()
 
 </script>
 
@@ -28,6 +23,10 @@ withDefaults(defineProps<SkeletonProps>(), {
 </template>
 
 <style scoped lang="scss">
+.skeleton-container {
+  width: 100%;
+}
+
 .space {
   width: 100%;
 }

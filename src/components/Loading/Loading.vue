@@ -3,7 +3,7 @@ import loadingSvg from '@/assets/loading.svg'
 </script>
 
 <template>
-  <div class="loading-container" data-role="loading">
+  <div class="loading-container">
     <img :src="loadingSvg" alt="" />
   </div>
 </template>

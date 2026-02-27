@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { useMenu } from '@/composables/useMenu';
-
-
-
 const { routes, selectedKey, handleMenuClick } = useMenu()
 
 </script>

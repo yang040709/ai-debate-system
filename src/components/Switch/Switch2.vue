@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watchEffect } from 'vue'
 import { debounce } from '@/utils/index'
+import { IconDown } from '@arco-design/web-vue/es/icon'
 
 interface MenuItem {
   text: string

@@ -1,28 +1,50 @@
 <script setup lang='ts'>
+import type { DebateHistory } from '@/types/history';
+import dayjs from 'dayjs'
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router';
+import { IconCaretRight } from '@arco-design/web-vue/es/icon';
 
-import type { Record } from '@/types/record';
+interface RecordItemProps {
+  item: DebateHistory;
+  navTo?: 'historyDetail' | 'debateResult'
+}
 
+const { item, navTo = 'historyDetail' } = defineProps<RecordItemProps>();
 
-defineProps<{
-  item: Record
-}>();
+const itemDate = computed(() => {
+  return dayjs(item.info.created_at).fromNow()
+})
+
+const router = useRouter()
+const navToHistoryDetail = () => {
+  router.push({
+    name: 'historyDetail',
+    params: {
+      id: item.history_id || defaultParamsId.value
+    }
+  })
+}
+
+const defaultParamsId = ref("123456")
 
 </script>
 
 <template>
   <div class='record-item-container'>
     <div class="record-top">
-      <h4>{{ item.title }}</h4>
-      <span :class="item.status === '胜利' ? 'win' : 'lose'">{{ item.status }}</span>
+      <h4 @click="navToHistoryDetail">{{ item.info.topic.title }}</h4>
+      <span :class="item.result.info.isWin === true ? 'win' : 'lose'">{{ item.result.info.isWin ===
+        true ? '胜利' : '失败' }}</span>
     </div>
     <!-- <div class="record-who">
       您 vs AI助手 · {{ item.timeAgo }}
     </div> -->
     <div class="record-who">
-      {{ item.timeAgo }}
+      {{ itemDate }}
     </div>
     <div class="record-desc">
-      {{ item.description }}
+      {{ item.info.topic.desc }}
     </div>
     <!-- 下面是可扩展内容，这里先不写 -->
     <!-- <div class="record-bottom">
@@ -40,8 +62,25 @@ defineProps<{
       </div>
     </div> -->
     <div class="record-result">
-      <span :class="item.status === '胜利' ? 'win' : 'lose'">得分{{ item.scoreChange }}</span>
-      <a>查看记录<icon-caret-right :size="18" /></a>
+      <span :class="item.result.info.isWin === true ? 'win' : 'lose'">得分{{
+        item.result.info.comprehensiveScore }}</span>
+      <!-- {{ item.info.debate_id }} -->
+      <template v-if="navTo === 'historyDetail'">
+        <router-link :to="{
+          name: 'historyDetail',
+          params: {
+            id: item.history_id || defaultParamsId
+          }
+        }">查看记录<icon-caret-right :size="18" /></router-link>
+      </template>
+      <template v-else>
+        <router-link :to="{
+          name: 'debateResult',
+          params: {
+            id: item.history_id || defaultParamsId
+          }
+        }">查看辩论结果分析<icon-caret-right :size="18" /></router-link>
+      </template>
     </div>
   </div>
 </template>
@@ -56,6 +95,7 @@ defineProps<{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border: 1px solid var(--color-border-light);
   // cursor: pointer;
 
   .record-top {

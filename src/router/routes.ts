@@ -1,6 +1,15 @@
 import Layout from '@/Layout/index.vue'
 import Home from '@/views/home/index.vue'
+import type { RouteRecordRaw } from 'vue-router'
+import { useDebateStore } from '@/stores/debate'
+import { Message } from '@arco-design/web-vue'
 /* 
+可以看出我们的路由分为:
+1.默认Layout的子路由，这个Layout有header和footer栏
+2.全屏Layout的子路由，这个Layout除了全屏，没有其他内容
+
+
+
 layout下面的子路由有下列的规则决定：
 meta里面的onHeader是在header组件中显示的文字，
 name属性必须书写，是决定路由的唯一标识，否则无法出现在header组件中
@@ -23,7 +32,7 @@ meta.layout属性可以写你的想要的布局，但是如果不写的话，默
 childHasOnHeader
 */
 
-export default [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Layout',
@@ -35,26 +44,29 @@ export default [
         component: Home,
         meta: {
           onHeader: '主页',
+          headerIndex: 0,
+          title: '主页',
         },
       },
       {
-        path: '/debate/:id',
-        name: 'debate',
-        props: true,
-        component: () => import('@/views/debate/index.vue'),
-      },
-      {
-        path: '/debate/result/:id',
+        path: '/result/:id?',
         props: true,
         name: 'debateResult',
-        component: () => import('@/views/debate/result.vue'),
+        component: () => import('@/views/result/index.vue'),
+        meta: {
+          layout: 'full',
+          title: '辩论结果',
+        },
       },
+
       {
         path: '/topic/detail/:id?',
         name: 'topicDetail',
+        props: true,
         component: () => import('@/views/topic-detail/index.vue'),
         meta: {
           layout: 'full',
+          title: '话题详情',
         },
       },
       {
@@ -64,9 +76,28 @@ export default [
         meta: {
           onHeader: '辩论话题',
           layout: 'full',
+          title: '辩论话题',
           defaultParams: {
             type: '-1',
           },
+        },
+      },
+      {
+        path: '/history',
+        name: 'history',
+        component: () => import('@/views/history/History.vue'),
+        meta: {
+          onHeader: '历史记录',
+          title: '历史记录',
+        },
+      },
+      {
+        path: '/history/:id',
+        name: 'historyDetail',
+        props: true,
+        component: () => import('@/views/historyDetail/HistoryDetail.vue'),
+        meta: {
+          title: '历史记录详情',
         },
       },
       {
@@ -78,6 +109,7 @@ export default [
           defaultParams: {
             type: '总榜',
           },
+          title: '排名',
         },
       },
       {
@@ -86,6 +118,7 @@ export default [
         component: () => import('@/views/about/index.vue'),
         meta: {
           onHeader: '关于',
+          title: '关于',
         },
       },
       {
@@ -94,45 +127,77 @@ export default [
         component: () => import('@/views/user/index.vue'),
         meta: {
           layout: 'full',
-        },
-      },
-      {
-        path: '/test1',
-        name: 'test',
-        component: () => import('@/views/test/index.vue'),
-      },
-      {
-        path: '/test2',
-        name: 'test2',
-        component: () => import('@/views/test/index2.vue'),
-        meta: {
-          onHeader: 'test2',
+          title: '用户中心',
         },
       },
       {
         path: '/404',
         name: 'not-find',
         component: () => import('@/views/not-find/index.vue'),
+        meta: {
+          title: '404',
+        },
       },
     ],
   },
   {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/views/user-login/index.vue'),
-  },
-  {
-    path: '/register',
-    name: 'register',
-    component: () => import('@/views/user-register/index.vue'),
-  },
-  {
     path: '/creative',
-    name: 'creative',
-    component: () => import('@/views/creative/index.vue'),
+    component: () => import('@/Layout/Full.vue'),
+    children: [
+      {
+        path: '/creative',
+        name: 'creative',
+        component: () => import('@/views/creative/index.vue'),
+        meta: {
+          title: '创建新话题',
+        },
+      },
+      {
+        path: '/debate',
+        name: 'debate',
+        component: () => import('@/views/debate/Debate.vue'),
+        /* 
+         debates路由的beforeEnter守卫，判断是否有conversion_id
+        如果有conversion_id，就放行
+        如果没有conversion_id，就重定向到home路由
+        */
+        beforeEnter: (to, from, next) => {
+          const debateStore = useDebateStore()
+          if (debateStore.hasId) {
+            next()
+            return
+          } else {
+            Message.warning('请先选择您要辩论的话题')
+            next({ name: 'home' })
+          }
+        },
+        meta: {
+          title: '辩论',
+        },
+      },
+      {
+        path: '/login',
+        name: 'login',
+        component: () => import('@/views/user-login/index.vue'),
+        meta: {
+          title: '登录',
+        },
+      },
+      {
+        path: '/register',
+        name: 'register',
+        component: () => import('@/views/user-register/index.vue'),
+        meta: {
+          title: '登录',
+        },
+      },
+    ],
   },
+
   {
     path: '/:pathMatch(.*)*',
     redirect: '/404',
   },
 ]
+
+export default routes

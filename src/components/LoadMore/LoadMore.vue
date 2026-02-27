@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import loadingSvg from '@/assets/loading.svg'
-import { onMounted, ref, useTemplateRef, watch } from 'vue'
+import { onMounted, useTemplateRef } from 'vue'
 
 const props = defineProps<{
   callBack: (...args: any[]) => any
@@ -10,9 +10,7 @@ const props = defineProps<{
 
 const intersectionObserver = new IntersectionObserver((entries) => {
   if (entries[0].isIntersecting) {
-    // if (!props.hasMore) {
-    //   return
-    // }
+    //如果正在加载就不要管
     if (props.loading) {
       return
     }
@@ -25,7 +23,7 @@ const load = useTemplateRef("load")
 
 onMounted(() => {
   if (!load.value) {
-    console.log('loadingImg.value is null')
+    throw new Error('loadingImg.value is null 请你提供有效的加载图片')
   } else {
     intersectionObserver.observe(load.value as Element)
   }
@@ -34,7 +32,7 @@ onMounted(() => {
 
 <template>
   <div class="load-more-container">
-    <img :src="loadingSvg" alt="" ref="load" :class="{ 'opacity': !hasMore }" />
+    <img v-show="hasMore" :src="loadingSvg" ref="load" />
     <span v-show="!hasMore && !loading">
       没有更多了
     </span>
@@ -57,7 +55,6 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background: red; */
     bottom: 10px;
     color: var(--theme-gray-4);
     z-index: 2;

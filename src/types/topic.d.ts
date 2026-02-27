@@ -9,7 +9,6 @@ export interface Topic {
   creator: { name: string; avatar: string }
   type: Tag[]
   winningRate?: number
-  comment_count?: number
 }
 
 export interface GetTopicListParams {

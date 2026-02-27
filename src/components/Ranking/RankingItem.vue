@@ -1,22 +1,29 @@
 <script setup lang='ts'>
 import type { Ranking } from '@/types/ranking'
 
-defineProps<{ rank: Ranking }>()
+
+interface RankingItemProps {
+  rank: Ranking,
+  index: number,
+  isShowNumber?: boolean,
+}
+
+const { rank, index, isShowNumber = true } = defineProps<RankingItemProps>()
 
 </script>
 <template>
   <div class='ranking-item-container'>
     <div class="left">
-      <span class="ranking" :class="{ yellow: rank.ranking === 1 }">{{ rank.ranking }}</span>
+      <span v-if="isShowNumber" class="ranking" :class="{ first: index === 0 }">{{ index + 1 }}</span>
       <div class="user-info">
         <img v-placeholder-img :data-src="rank.avatar || '/avatar.png'" alt="">
         <div class="user-info-text">
           <div class="name">
-            {{ rank.name }}
+            {{ rank.nickname }}
           </div>
-          <div class="winning-rate">
+          <!-- <div class="winning-rate">
             胜率 {{ rank.winningRate }}
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -30,32 +37,29 @@ defineProps<{ rank: Ranking }>()
 .ranking-item-container {
   width: 100%;
   height: 44px;
-  // background: var(--theme-gray-2);
   display: flex;
   align-items: center;
   justify-content: space-between;
 
 
   .left {
-    cursor: pointer;
+    // cursor: pointer;
     display: flex;
     align-items: center;
 
     .ranking {
-      // margin-right: 15px;
       font-size: 20px;
       font-weight: 700;
       color: var(--color-text-secondary);
       width: 40px;
 
-      &.yellow {
+      &.first {
         color: var(--theme-yellow-1);
       }
     }
 
     .user-info {
       display: flex;
-      // align-items: center;
 
       img {
         width: 40px;
@@ -68,14 +72,18 @@ defineProps<{ rank: Ranking }>()
   }
 
   .user-info-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
     .name {
       font-weight: 700;
       font-size: 16px;
       color: var(--color-text-primary);
 
-      &:hover {
-        color: var(--color-text-primary-hover);
-      }
+      // &:hover {
+      //   color: var(--color-text-primary-hover);
+      // }
     }
 
     .winning-rate {

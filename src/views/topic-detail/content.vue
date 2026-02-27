@@ -3,12 +3,15 @@ import type { Topic } from '@/types/topic';
 import Skeleton from '@/components/Skeleton/Skeleton.vue';
 import { useRouter } from 'vue-router';
 import type { Tag } from '@/types/tag';
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
-import { useTagsStore } from '@/stores/tags';
-import { storeToRefs } from 'pinia';
 import { useQrcode } from '@/composables/useQrcode';
-
+import { createDebate } from '@/api/debate'
+import { useFetchData } from '@/composables/useFetchData';
+import { CreateDebateRequest } from '@/types/debate';
+import { Message } from '@arco-design/web-vue';
+import { useDebateStore } from '@/stores/debate';
+import { IconShareExternal } from '@arco-design/web-vue/es/icon'
 const props = defineProps<{
   item: Topic,
   loading: boolean,
@@ -27,16 +30,27 @@ const selectType = (item: Tag) => {
 
 
 const positionType = [
-  { name: '正方', id: "1" },
-  { name: '反方', id: "2" },
+  { name: 'positive', id: "1", label: '正方' },
+  { name: 'negative', id: "2", label: '反方' },
 ]
 
-// #优化 这里默认值应该想办法从数据获取 
-const form = ref({
-  difficulty: "2",
-  position: "1",
-})
+const difficultyType = [
+  { name: 'easy', id: "1", label: '简单' },
+  { name: 'medium', id: "2", label: '中等' },
+  { name: 'hard', id: "3", label: '困难' },
+  { name: 'expert', id: "4", label: '专家' },
+  { name: 'master', id: "5", label: '大师' },
+]
 
+
+const form = ref<CreateDebateRequest>({
+  topic: {
+    title: '',
+    desc: '',
+  },
+  difficulty: 'medium',
+  position: 'positive',
+})
 
 
 const formatDay = computed(() => {
@@ -44,18 +58,61 @@ const formatDay = computed(() => {
 })
 
 
+const submitFrom = computed(() => {
+  /* 格式化为字符串或者进行其他处理 */
+  return {
+    theme: JSON.stringify(form.value),
+  }
+})
 
+const { data, loading: submitFromLoading, fetchData } = useFetchData(createDebate, [submitFrom], {
+  conversion_id: '',
+  ctime: 0
+})
 
-const { tagListData, tagListLoading } = storeToRefs(useTagsStore())
+const debateStore = useDebateStore();
 
-console.log(tagListData.value.difficulty);
-
-
-const joinDebate = () => {
-  console.log("joinDebate", form.value);
+const joinDebate = async () => {
+  form.value.topic = {
+    title: props.item.title,
+    desc: props.item.desc,
+  };
+  if (submitFromLoading.value) {
+    Message.warning('正在提交，请稍后再试');
+    return;
+  }
+  fetchData().then(() => {
+    debateStore.setConversionId(data.value.conversion_id);
+    debateStore.setDebateData(form.value);
+    router.push({
+      name: "debate"
+    })
+  })
 }
 
 const { QRcodeUrl } = useQrcode()
+
+
+
+const debateRule = [
+  {
+    title: "立论陈词",
+    content: "正反方各1.5分钟，仅需提出1个核心论点+1个论据（超时10秒即扣分）。",
+  },
+  {
+    title: "质询对抗",
+    content: "单轮混合质询（共3分钟）： - 反方提问→正方回答（1.5分钟）→立即切换正方提问→反方回答（1.5分钟）。",
+  },
+  {
+    title: "自由辩论",
+    content: "正方先发言，双方交替攻防，每次发言≤1 分钟。共 5分钟",
+  },
+  {
+    title: "总结陈词",
+    content: "反方→正方各2分钟，需融合反驳与立论，禁止新论据。",
+  },
+]
+
 
 </script>
 
@@ -70,7 +127,7 @@ const { QRcodeUrl } = useQrcode()
             {{ item.creator.name }}
           </p>
           <ul>
-            <li v-for="type in item.type" @click="selectType(type)">{{ type.name }}</li>
+            <li v-for="type in item.type" @click="selectType(type)" :key="type.id">{{ type.name }}</li>
             <!-- <li class="difficulty" @click="selectType(item.difficulty, 'difficulty')">{{ item.difficulty.name }}</li> -->
           </ul>
         </div>
@@ -84,16 +141,16 @@ const { QRcodeUrl } = useQrcode()
       <Skeleton v-if="loading" :loading="loading" :animation="true" :rows="6" />
       <div class="bottom">
         <div class="select">
-          <div class="select-item" v-loading="tagListLoading">
+          <div class="select-item">
             <span>难度:</span>
             <a-radio-group type="button" v-model="form.difficulty">
-              <a-radio v-for="item in tagListData.difficulty" :value="item.id" :key="item.id">{{ item.name }}</a-radio>
+              <a-radio v-for="item in difficultyType" :value="item.name" :key="item.id">{{ item.label }}</a-radio>
             </a-radio-group>
           </div>
           <div class="select-item">
             <span>立场:</span>
             <a-radio-group type="button" v-model="form.position">
-              <a-radio v-for="item in positionType" :value="item.id" :key="item.id">{{ item.name }}</a-radio>
+              <a-radio v-for="item in positionType" :value="item.name" :key="item.id">{{ item.label }}</a-radio>
             </a-radio-group>
           </div>
         </div>
@@ -120,6 +177,7 @@ const { QRcodeUrl } = useQrcode()
       </div>
     </div>
     <div class="topic-detail-info">
+      <Skeleton v-if="loading" :loading="loading" :animation="true" :rows="6" />
       <div class="info" v-if="!loading">
         <p>
           <span>
@@ -141,7 +199,15 @@ const { QRcodeUrl } = useQrcode()
       <div class="time" v-if="!loading">
         <p>创建于：{{ formatDay }}</p>
       </div>
-      <Skeleton v-if="loading" :loading="loading" :animation="true" :rows="6" />
+      <div class="rule">
+        <div class="title">规则:</div>
+        <p v-for="rule in debateRule" :key="rule.title">
+          <strong>
+            {{ rule.title }}:
+          </strong>
+          {{ rule.content }}
+        </p>
+      </div>
     </div>
   </div>
 
@@ -277,6 +343,8 @@ const { QRcodeUrl } = useQrcode()
         }
 
       }
+
+
     }
 
   }
@@ -316,6 +384,28 @@ const { QRcodeUrl } = useQrcode()
     p {
       padding-top: 20px;
       font-size: 16px;
+
+    }
+
+
+  }
+
+  .rule {
+    margin-top: 80px;
+
+    .title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    p {
+      line-height: 1.2em;
+      margin-bottom: 8px;
+
+      strong {
+        display: block;
+      }
     }
   }
 

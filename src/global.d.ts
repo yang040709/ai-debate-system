@@ -1,5 +1,4 @@
 // src/global.d.ts
-import { ComponentCustomProperties } from 'vue'
 import type { AppConfig } from '@/config/app.config'
 
 declare module 'vue' {
@@ -15,6 +14,8 @@ declare global {
 export interface axiosMeta {
   isShowMessage?: boolean
   errMessage?: string
+  headerIndex?: number
+  title?: string
 }
 
 declare module 'axios' {

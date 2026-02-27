@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import $bus from '@/eventBus';
 import { onMounted, onUnmounted, ref } from 'vue';
-
+import { IconToTop } from '@arco-design/web-vue/es/icon'
 
 const handleClick = () => {
   $bus.emit("scrollTop");

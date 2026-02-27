@@ -1,7 +1,11 @@
 export interface Ranking {
-  ranking: number
-  name: string
-  winningRate: string
   score: number
+  user_id: string
   avatar?: string
+  nickname: string
+}
+export type RankingList = Ranking[]
+
+export type RankingResponse = {
+  list: RankingList
 }
